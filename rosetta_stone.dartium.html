@@ -1,0 +1,258 @@
+<html>
+  <head>
+    <title>Dart - JavaScript Rosetta Stone</title>
+    <link rel="stylesheet" href="bootstrap.css" />
+    <link rel="stylesheet" href="rosetta_stone.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container">
+          <h3>
+            <a href="#">Dart Rosetta Stone <small>Translations from Javascript</small></a>
+          </h3>
+          <!-- <ul class="nav">
+                      <li class="active"><a href="#">Resume</a></li>
+                      <li><a href="http://p/?s=awheeler">Snippets</a></li>
+                      <li><a href="https://googlewho.appspot.com/awheeler/">Who</a></li>
+                    </ul> -->
+        </div>
+      </div>
+    </div>
+
+    <header class="jumbotron masthead">
+      <div class="inner">
+        <div class="container">
+          <img src="dart-logo.png" alt="Dart" />
+          <h1><span class="hide">Dart</span> via JavaScript</h1>
+        </div>
+      </div>
+    </header>
+
+    <div class="container" id="meat">
+      <section>
+        <div class="page-header">
+          <h1>&nbsp;</h1>
+          <h1>Functions</h1></div>
+
+        <!-- Tix4Talks -->
+
+        <div class="row">
+          <div class="span1">
+            Key-Value pairs
+          </div>
+          <div class="span6">
+            <pre>// This is a JSON object
+var kv = {
+  foo : 'bar',
+  baz : 'quux'
+};</pre>
+          </div>
+          <div class="span6">
+            <pre>// This is a Map object
+Map kv = {
+  'foo' : 'bar',
+  'baz' : 'quux'
+};</pre>
+          </div>
+          <div class="span3">
+            Keys in Dart must be strings.  
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <h3>About Rosetta Stone</h3>
+            <p>Rosetta Stone demonstrates the syntax of Dart through side-by-side
+               comparisons to JavaScript.  It was 
+               <a href="http://who/awheeler">Aaron Wheeler's</a> contribution to the
+               winter 2011 Dart Hackathon.</p>
+            <h3>Technology</h3>
+            <ul>
+              <li><a href="https://docs.google.com/spreadsheet/ccc?key=0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE&hl=en_US#gid=0">
+                Google Spreadsheets</a> hold the code comparison content of the site.</li>
+              <li>The <a href="http://code.google.com/apis/gdata/samples/spreadsheet_sample.html">
+                   Spreadsheet JSON API</a> provides access to the data.</li>
+              <li><a href="http://dartlang.org">Dart</a> running in a VM in Chrome handles the fetching
+                 and displaying of the data.</li>
+            </ul>
+          </div>
+          <div class="span4">
+            <h3>Alternative Pages</h3>
+            <ul>
+              <li><a href="rosetta_stone.html">HTML + JS (currently has errors)</a></li>
+              <li><a href="rosetta_stone.dart.html">HTML + external Dart</a></li>
+            </ul>
+          </div>
+        </div>
+        <!--<p class="pull-right"><a href="#">Back to top</a></p>-->
+      </div>
+    </footer>
+
+  </body>
+  <script type="text/javascript"> 
+    function printStone(s) {
+      window.postMessage( JSON.stringify(s), '*');
+    }
+  </script>
+
+  <script type="application/dart" charset="utf-8">
+    #import('dart:html');
+    #import('dart:json');
+
+    class Section {
+      List rows;
+      String foo;
+      String title = "Title";
+
+      Section() {
+        rows = [];
+      }
+
+      toHTML() {
+        String out = "<section>";
+
+        // add the title
+        out += "<div class=\"page-header\"><h1>${ title }</h1></div>";
+
+        // print the rows
+        rows.forEach((row){
+          out += row.toHTML();
+        });
+
+        out += "</section>";
+        return out;
+      }
+    }
+
+    class Note {
+      String note = "";
+
+      toHTML() {
+        return "<div class=\"span3\">${ note }</div>";
+      }
+    }
+
+    class Kode {
+      String code = "";
+
+      toHTML() {
+        if( code == "" ) {
+          return "<div class=\"span6\"></div>";
+        } else {
+          return "<div class=\"span6\"><pre>${ code }</pre></div>";
+        }
+      }
+    }
+
+    class Row {
+      String title = "&nbsp;";
+
+      Kode dart;
+      Kode js;
+      Note note;
+
+      Row() {
+        dart = new Kode();
+        js   = new Kode();
+        note = new Note();
+      }
+
+      toHTML() {
+        String out = "<div class=\"row\"><div class=\"span1\"><strong>${ title }</strong></div><div class=\"row\">";
+
+        out += js.toHTML() + dart.toHTML() + note.toHTML();
+
+        out += "</div></div>";
+        return out;
+      }
+    }
+
+    class Jsonp { 
+      void run( String url ) { 
+        window.on.message.add(codeReceived, false); 
+        ScriptElement s = new Element.tag('script');
+
+        // // Jsonp call 
+        s.src = url;
+
+        document.nodes.add(s); 
+      }
+
+      void codeReceived(MessageEvent e) {
+        List data = JSON.parse(e.data)["feed"]["entry"];
+
+        List out = [];
+
+        var currentIndex = "0";
+        var currentRow = null;
+        var currentSection = null;
+        var currentPair = [];
+        data.forEach((row) {
+          // Get the row number
+          String i = (new RegExp(@"(\d+)")).firstMatch( row['title']['\$t'] )[0];
+
+          // Get the column
+          String t = row['title']['\$t'];
+          String r = (new RegExp(@"^(\w)")).firstMatch( t )[0];
+
+          String c = row['content']['\$t'];
+
+          if( i != '1' ) {
+            if( r == "A" ) {
+              currentSection = new Section();
+              out.add( currentSection );
+            }
+
+            if( i != currentIndex ) {
+              currentRow = new Row();
+              // print(currentSection.toString());
+              // print(currentSection.rows.toString());
+              currentSection.rows.add( currentRow );
+              currentIndex = i;
+            }
+
+            // fill in the content
+            if( r == "A") {
+              currentSection.title = c;
+            } else if( r == "B" ) {
+              // create a new Row
+              currentRow.title = c;
+            } else if( r == "C" ) {
+              // create a new JS code bit
+              currentRow.js.code = c;
+            } else if( r == "D" ) {
+              // create a new Dart code bit
+              currentRow.dart.code = c;
+            } else {
+              // create a note
+              currentRow.note.note = c;
+            }
+          }
+
+        });
+
+        String innerHTML = "";
+        out.forEach((o){
+          innerHTML += o.toHTML();
+        });
+
+        document.query('#meat').innerHTML = innerHTML;
+      }
+    }
+
+    main() {
+      String key = "0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE";
+      String worksheet = "od6";
+      String feed = "https://spreadsheets.google.com/feeds/cells/${key}/${worksheet}/public/basic?alt=json-in-script&callback=printStone";
+
+      var j = new Jsonp();
+      j.run( feed );
+    }
+  </script>
+</html>

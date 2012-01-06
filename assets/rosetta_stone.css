@@ -1,0 +1,30 @@
+header > div {
+  padding:60px;
+  background-image: -webkit-linear-gradient(bottom, rgb(171,210,237) 0%, rgb(214,232,245) 100%);
+  margin-bottom:2em;
+}
+
+header img {
+  float:left;
+  margin:0 10px 0 70px;
+}
+
+header h1 {
+  vertical-align: bottom;
+  display: table-cell;
+  height: 109px;
+  font-size: 65px;
+  color:Black;
+  text-shadow:1px 1px 3px White;
+}
+
+.span1 strong {
+  width:100px;
+  margin-left:-60px;
+  display:block;
+  text-align:right;
+}
+
+footer {
+  background-image: -webkit-linear-gradient(top, rgb(171,210,237) 0%, rgb(214,232,245) 100%);
+}

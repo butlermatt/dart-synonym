@@ -1,0 +1,13 @@
+TODO Doc:
+https://docs.google.com/a/google.com/document/d/1oBBAioD04m9AJwoJKaDaJz5Jg9YRp8OXlHknrT_zCmE/edit?hl=en_US
+
+Spreadsheet:
+  https://docs.google.com/a/google.com/spreadsheet/ccc?key=0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE&hl=en_US#gid=0
+
+Spreadsheet Json: 
+  https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json-in-script&callback=printStone
+
+Syntax highlighting
+  http://code.google.com/p/google-code-prettify/
+  Java syntax highlighting is used for Dart
+

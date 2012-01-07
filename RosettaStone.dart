@@ -36,33 +36,53 @@ class Note {
 
 class Kode {
   String code = "";
+  String type = "";
 
   toHTML() {
-    if( code == "" ) {
-      return "<div class=\"span6\"></div>";
+    if( code == "" || code == " " ) {
+      return "<div class=\"span8\"></div>";
     } else {
-      return "<div class=\"span6\"><pre>${ code }</pre></div>";
+      return "<div class=\"span8\"><pre class=\"prettyprint ${type}\">${ code }</pre></div>";
     }
   }
 }
 
-class Row {
-  String title = "&nbsp;";
+class JSCode extends Kode {
+  JSCode() {
+    type = "lang-js";
+  }
+  //String type = "lang-js";
+}
 
-  Kode dart;
-  Kode js;
+class DartCode extends Kode {
+  DartCode() {
+    type = "lang-java";
+  }
+  //String type = "lang-java";
+}
+
+class Row {
+  String title = "";
+
+  DartCode dart;
+  JSCode js;
   Note note;
 
   Row() {
-    dart = new Kode();
-    js   = new Kode();
+    dart = new DartCode();
+    js   = new JSCode();
     note = new Note();
   }
 
   toHTML() {
-    String out = "<div class=\"row\"><div class=\"span1\"><strong>${ title }</strong></div><div class=\"row\">";
+    String out = "";
+    if( title != '' ) {
+      print( title );
+      out += "<div class=\"row\"><h2 class=\"section\">${ title }</h2></div>";
+    }
+    out += "<div class=\"row\">";
 
-    out += js.toHTML() + dart.toHTML() + note.toHTML();
+    out += js.toHTML() + dart.toHTML(); // + note.toHTML();
 
     out += "</div></div>";
     return out;
@@ -80,6 +100,36 @@ class Jsonp {
     document.nodes.add(s); 
   }
 
+  // Example JSON row:
+  /*
+  {
+      "id": {
+          "$t": "https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic/R2C1"
+      },
+      "updated": {
+          "$t": "2012-01-03T23:06:59.696Z"
+      },
+      "category": [{
+          "scheme": "http://schemas.google.com/spreadsheets/2006",
+          "term": "http://schemas.google.com/spreadsheets/2006#cell"
+      }],
+      "title": {
+          "type": "text",
+          "$t": "A2"
+      },
+      "content": {
+          "type": "text",
+          "$t": "Getting Started"
+      },
+      "link": [{
+          "rel": "self",
+          "type": "application/atom+xml",
+          "href": "https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic/R2C1"
+      }]
+  }
+  */
+
+  // Parse the JSON that comes back from the spreadsheet
   void codeReceived(MessageEvent e) {
     List data = JSON.parse(e.data);
     data = data["feed"]["entry"];
@@ -94,41 +144,41 @@ class Jsonp {
       // Get the row number
       String i = (new RegExp(@"(\d+)")).firstMatch( row['title']['\$t'] )[0];
 
-      // Get the column
-      String t = row['title']['\$t'];
-      String r = (new RegExp(@"^(\w)")).firstMatch( t )[0];
+      // Get the column info
+      String title = row['title']['\$t'];  // looks like C3
+      String match = (new RegExp(@"^(\w)")).firstMatch( title )[0];
 
-      String c = row['content']['\$t'];
+      String content = row['content']['\$t'];
 
-      if( i != '1' ) {
-        if( r == "A" ) {
+      if( i != '1' ) { // skip the headers
+        if( match == "A" ) {
+          // Whenever a value is in column A, create a new section
           currentSection = new Section();
           out.add( currentSection );
         }
 
         if( i != currentIndex ) {
+          // If the current row has changed, create a new row
           currentRow = new Row();
-          // print(currentSection.toString());
-          // print(currentSection.rows.toString());
           currentSection.rows.add( currentRow );
           currentIndex = i;
         }
 
         // fill in the content
-        if( r == "A") {
-          currentSection.title = c;
-        } else if( r == "B" ) {
+        if( match == "A") {
+          currentSection.title = content;
+        } else if( match == "B" ) {
           // create a new Row
-          currentRow.title = c;
-        } else if( r == "C" ) {
+          currentRow.title = content;
+        } else if( match == "C" ) {
           // create a new JS code bit
-          currentRow.js.code = c;
-        } else if( r == "D" ) {
+          currentRow.js.code = content;
+        } else if( match == "D" ) {
           // create a new Dart code bit
-          currentRow.dart.code = c;
+          currentRow.dart.code = content;
         } else {
           // create a note
-          currentRow.note.note = c;
+          currentRow.note.note = content;
         }
       }
 

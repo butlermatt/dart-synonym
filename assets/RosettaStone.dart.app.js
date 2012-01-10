@@ -75,11 +75,17 @@ Object.prototype.addEventListener$3 = function($0, $1, $2) {
 Object.prototype.appendChild$1 = function($0) {
   return this.noSuchMethod("appendChild", [$0]);
 };
+Object.prototype.end$0 = function() {
+  return this.noSuchMethod("end", []);
+};
 Object.prototype.hasNext$0 = function() {
   return this.noSuchMethod("hasNext", []);
 };
 Object.prototype.hashCode$0 = function() {
   return this.noSuchMethod("hashCode", []);
+};
+Object.prototype.is$RegExp = function() {
+  return false;
 };
 Object.prototype.is$html_html_Element = function() {
   return false;
@@ -101,6 +107,9 @@ Object.prototype.replaceChild$2 = function($0, $1) {
 };
 Object.prototype.run$1 = function($0) {
   return this.noSuchMethod("run", [$0]);
+};
+Object.prototype.start$0 = function() {
+  return this.noSuchMethod("start", []);
 };
 Object.prototype.toHTML$0 = function() {
   return this.noSuchMethod("toHTML", []);
@@ -310,6 +319,7 @@ JSSyntaxRegExp._create$ctor = function(pattern, flags) {
       this.ignoreCase = this.re.ignoreCase;
 }
 JSSyntaxRegExp._create$ctor.prototype = JSSyntaxRegExp.prototype;
+JSSyntaxRegExp.prototype.is$RegExp = function(){return true};
 JSSyntaxRegExp.prototype.firstMatch = function(str) {
   var m = this._exec(str);
   return m == null ? null : new MatchImplementation(this.pattern, str, this._matchStart(m), this.get$_lastIndex(), m);
@@ -323,6 +333,12 @@ JSSyntaxRegExp.prototype._matchStart = function(m) {
 JSSyntaxRegExp.prototype.get$_lastIndex = function() {
   return this.re.lastIndex;
 }
+JSSyntaxRegExp.prototype.allMatches = function(str) {
+  return new _AllMatchesIterable(this, str);
+}
+JSSyntaxRegExp.prototype.get$_global = function() {
+  return new JSSyntaxRegExp._create$ctor(this.pattern, 'g' + (this.multiLine ? 'm' : '') + (this.ignoreCase ? 'i' : ''));
+}
 // ********** Code for MatchImplementation **************
 function MatchImplementation(pattern, str, _start, _end, _groups) {
   this.pattern = pattern;
@@ -332,9 +348,63 @@ function MatchImplementation(pattern, str, _start, _end, _groups) {
   this._groups = _groups;
   // Initializers done
 }
+MatchImplementation.prototype.start = function() {
+  return this._start;
+}
+MatchImplementation.prototype.get$start = function() {
+  return this.start.bind(this);
+}
+MatchImplementation.prototype.end = function() {
+  return this._end;
+}
 MatchImplementation.prototype.$index = function(group) {
   return this._groups.$index(group);
 }
+MatchImplementation.prototype.end$0 = MatchImplementation.prototype.end;
+MatchImplementation.prototype.start$0 = MatchImplementation.prototype.start;
+// ********** Code for _AllMatchesIterable **************
+function _AllMatchesIterable(_re, _str) {
+  this._re = _re;
+  this._str = _str;
+  // Initializers done
+}
+_AllMatchesIterable.prototype.iterator = function() {
+  return new _AllMatchesIterator(this._re, this._str);
+}
+_AllMatchesIterable.prototype.iterator$0 = _AllMatchesIterable.prototype.iterator;
+// ********** Code for _AllMatchesIterator **************
+function _AllMatchesIterator(re, _str) {
+  this._str = _str;
+  this._done = false;
+  this._re = re.get$_global();
+  // Initializers done
+}
+_AllMatchesIterator.prototype.next = function() {
+  if (!this.hasNext()) {
+    $throw(const$3/*const NoMoreElementsException()*/);
+  }
+  var next = this._next;
+  this._next = null;
+  return next;
+}
+_AllMatchesIterator.prototype.hasNext = function() {
+  if (this._done) {
+    return false;
+  }
+  else if (this._next != null) {
+    return true;
+  }
+  this._next = this._re.firstMatch(this._str);
+  if (this._next == null) {
+    this._done = true;
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+_AllMatchesIterator.prototype.hasNext$0 = _AllMatchesIterator.prototype.hasNext;
+_AllMatchesIterator.prototype.next$0 = _AllMatchesIterator.prototype.next;
 // ********** Code for NumImplementation **************
 NumImplementation = Number;
 NumImplementation.prototype.hashCode = function() {
@@ -518,6 +588,29 @@ StringImplementation = String;
 StringImplementation.prototype.get$length = function() { return this.length; };
 StringImplementation.prototype.isEmpty = function() {
   return this.length == 0;
+}
+StringImplementation.prototype._replaceRegExp = function(from, to) {
+  'use strict';return this.replace(from.re, to);
+}
+StringImplementation.prototype._replaceAll = function(from, to) {
+  'use strict';
+  from = new RegExp(from.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'g');
+  to = to.replace(/\$/g, '$$$$'); // Escape sequences are fun!
+  return this.replace(from, to);
+}
+StringImplementation.prototype.replaceAll = function(from, to) {
+  if ((typeof(from) == 'string')) return this._replaceAll(from, to);
+  if (!!(from && from.is$RegExp())) return this._replaceRegExp(from.get$dynamic().get$_global(), to);
+  var buffer = new StringBufferImpl("");
+  var lastMatchEnd = 0;
+  var $$list = from.allMatches(this);
+  for (var $$i = from.allMatches(this).iterator(); $$i.hasNext$0(); ) {
+    var match = $$i.next$0();
+    buffer.add$1(this.substring(lastMatchEnd, match.start$0()));
+    buffer.add$1(to);
+    lastMatchEnd = match.end$0();
+  }
+  buffer.add$1(this.substring(lastMatchEnd));
 }
 StringImplementation.prototype.hashCode = function() {
       'use strict';
@@ -1146,6 +1239,12 @@ HTMLInputElement.prototype.set$src = function(value) { return this.src = value; 
 // ********** Code for dom_HTMLLinkElement **************
 // ********** Code for dom_HTMLMapElement **************
 // ********** Code for dom_HTMLMarqueeElement **************
+$dynamic("get$start").HTMLMarqueeElement = function() {
+  return this.start.bind(this);
+}
+$dynamic("start$0").HTMLMarqueeElement = function() {
+  return this.start();
+};
 // ********** Code for HTMLMediaElement **************
 HTMLMediaElement.prototype.get$src = function() { return this.src; };
 HTMLMediaElement.prototype.set$src = function(value) { return this.src = value; };
@@ -1154,6 +1253,11 @@ HTMLMediaElement.prototype.set$src = function(value) { return this.src = value; 
 // ********** Code for dom_HTMLMeterElement **************
 // ********** Code for dom_HTMLModElement **************
 // ********** Code for dom_HTMLOListElement **************
+$dynamic("get$start").HTMLOListElement = function() { return this.start; };
+$dynamic("set$start").HTMLOListElement = function(value) { return this.start = value; };
+$dynamic("start$0").HTMLOListElement = function() {
+  return this.start();
+};
 // ********** Code for dom_HTMLObjectElement **************
 $dynamic("get$code").HTMLObjectElement = function() { return this.code; };
 $dynamic("set$code").HTMLObjectElement = function(value) { return this.code = value; };
@@ -1343,10 +1447,16 @@ $dynamic("set$dartObjectLocalStorage").MessageChannel = function(value) { return
 $dynamic("get$data").MessageEvent = function() { return this.data; };
 $dynamic("set$data").MessageEvent = function(value) { return this.data = value; };
 // ********** Code for MessagePort **************
+$dynamic("get$start").MessagePort = function() {
+  return this.start.bind(this);
+}
 $dynamic("get$dartObjectLocalStorage").MessagePort = function() { return this.dartObjectLocalStorage; };
 $dynamic("set$dartObjectLocalStorage").MessagePort = function(value) { return this.dartObjectLocalStorage = value; };
 $dynamic("addEventListener$3").MessagePort = function($0, $1, $2) {
   return this.addEventListener($0, $wrap_call$1(to$call$1($1)), $2);
+};
+$dynamic("start$0").MessagePort = function() {
+  return this.start();
 };
 // ********** Code for Metadata **************
 $dynamic("get$dartObjectLocalStorage").Metadata = function() { return this.dartObjectLocalStorage; };
@@ -1861,6 +1971,9 @@ $dynamic("item$1").TextTrackList = function($0) {
 // ********** Code for TimeRanges **************
 $dynamic("get$length").TimeRanges = function() { return this.length; };
 $dynamic("set$length").TimeRanges = function(value) { return this.length = value; };
+$dynamic("get$start").TimeRanges = function() {
+  return this.start.bind(this);
+}
 $dynamic("get$dartObjectLocalStorage").TimeRanges = function() { return this.dartObjectLocalStorage; };
 $dynamic("set$dartObjectLocalStorage").TimeRanges = function(value) { return this.dartObjectLocalStorage = value; };
 // ********** Code for Touch **************
@@ -2504,6 +2617,14 @@ MarqueeElementWrappingImplementation._wrap$ctor = function(ptr) {
 }
 MarqueeElementWrappingImplementation._wrap$ctor.prototype = MarqueeElementWrappingImplementation.prototype;
 MarqueeElementWrappingImplementation.prototype.is$html_html_Element = function(){return true};
+MarqueeElementWrappingImplementation.prototype.start = function() {
+  this._ptr.start$0();
+  return;
+}
+MarqueeElementWrappingImplementation.prototype.get$start = function() {
+  return this.start.bind(this);
+}
+MarqueeElementWrappingImplementation.prototype.start$0 = MarqueeElementWrappingImplementation.prototype.start;
 // ********** Code for MenuElementWrappingImplementation **************
 $inherits(MenuElementWrappingImplementation, ElementWrappingImplementation);
 function MenuElementWrappingImplementation() {}
@@ -2557,6 +2678,12 @@ OListElementWrappingImplementation._wrap$ctor = function(ptr) {
 }
 OListElementWrappingImplementation._wrap$ctor.prototype = OListElementWrappingImplementation.prototype;
 OListElementWrappingImplementation.prototype.is$html_html_Element = function(){return true};
+OListElementWrappingImplementation.prototype.get$start = function() {
+  return this._ptr.get$start();
+}
+OListElementWrappingImplementation.prototype.start$0 = function() {
+  return this.get$start()();
+};
 // ********** Code for OfflineAudioCompletionEventWrappingImplementation **************
 $inherits(OfflineAudioCompletionEventWrappingImplementation, EventWrappingImplementation);
 function OfflineAudioCompletionEventWrappingImplementation() {}
@@ -5735,6 +5862,7 @@ Kode.prototype.toHTML = function() {
     return "<div class=\"span8\"></div>";
   }
   else {
+    this.code = this.code.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
     return ("<div class=\"span8\"><pre class=\"prettyprint " + this.type + "\">" + this.code + "</pre></div>");
   }
 }
@@ -5826,7 +5954,7 @@ Jsonp.prototype.codeReceived = function(e) {
       else if (match == "D") {
         currentRow.get$dart().set$code(content);
       }
-      else {
+      else if (match == "E") {
         currentRow.get$note().set$note(content);
       }
     }
@@ -5851,8 +5979,8 @@ function main() {
   var j = new Jsonp();
   j.run$1(feed);
 }
-// 248 dynamic types.
-// 309 types
+// 250 dynamic types.
+// 311 types
 // 21 !leaf
 (function(){
   var v0/*CSSValueList*/ = 'CSSValueList|WebKitCSSFilterValue|WebKitCSSTransformValue';

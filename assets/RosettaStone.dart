@@ -42,6 +42,7 @@ class Kode {
     if( code == "" || code == " " ) {
       return "<div class=\"span8\"></div>";
     } else {
+      code = code.replaceAll('<','&lt;').replaceAll('>','&gt;');
       return "<div class=\"span8\"><pre class=\"prettyprint ${type}\">${ code }</pre></div>";
     }
   }
@@ -197,6 +198,8 @@ main() {
   String key = "0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE";
   String worksheet = "od6";
   String feed = "https://spreadsheets.google.com/feeds/cells/${key}/${worksheet}/public/basic?alt=json-in-script&callback=printStone";
+
+  // String feed = "/assets/rosetta_stone.json";
 
   var j = new Jsonp();
   j.run( feed );

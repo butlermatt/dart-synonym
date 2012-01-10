@@ -1,14 +1,18 @@
-<html>
+<html itemscope itemtype="http://schema.org/Article">
+
   <head>
     <title>Dart - JavaScript Rosetta Stone</title>
-    <link rel="icon" 
-          type="image/png" 
-          href="http://www.dartlang.org/favicon.ico">
+
+    <meta itemprop="name" content="Dart Rosetta Stone">
+    <meta itemprop="description" content="Learn Dart easily by applying what you already know about Javascript!">
+    <meta itemprop="image" content="http://www.dartlang.org/favicon.ico">
+
+    <link rel="icon" type="image/png" href="http://www.dartlang.org/favicon.ico">
     <link rel="stylesheet" href="assets/bootstrap.css" />
     <link rel="stylesheet" href="assets/rosetta_stone.css" type="text/css" media="screen" title="no title" charset="utf-8">
     <link href="assets/prettify.css" type="text/css" rel="stylesheet" />
-    <script type="text/javascript" src="assets/prettify.js"></script>
 
+    <script type="text/javascript" src="assets/prettify.js"></script>
     <script type="text/javascript">
 
       var _gaq = _gaq || [];
@@ -23,18 +27,16 @@
 
     </script>
   </head>
-  <body onload="prettyPrint()">
+  <body onload="loadPlusOne();">
     <div class="topbar">
       <div class="topbar-inner">
         <div class="container">
           <h3>
             <a href="#">Dart Rosetta Stone <small>Translations from Javascript</small></a>
           </h3>
-          <!-- <ul class="nav">
-                      <li class="active"><a href="#">Resume</a></li>
-                      <li><a href="http://p/?s=awheeler">Snippets</a></li>
-                      <li><a href="https://googlewho.appspot.com/awheeler/">Who</a></li>
-                    </ul> -->
+          <div style="float:right">
+            <div class="g-plusone" data-annotation="inline"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -79,6 +81,15 @@
     }
   </script>
 
-  <script type="text/javascript" charset="utf-8" src="assets/RosettaStone.dart.app.js"></script>
+  <script type="text/javascript" charset="utf-8" src="assets/RosettaStone.dart.js"></script>
+  <!-- <script type="application/dart" charset="utf-8" src="assets/RosettaStone.dart"></script> -->
+
+  <script type="text/javascript">
+    function loadPlusOne() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    };
+  </script>
   <!-- <script type="application/dart" charset="utf-8" src="assets/RosettaStone.dart"></script> -->
 </html>

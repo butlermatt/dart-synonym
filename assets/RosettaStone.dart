@@ -78,7 +78,7 @@ class Row {
   toHTML() {
     String out = "";
     if( title != '' ) {
-      print( title );
+      // print( title );
       out += "<div class=\"row\"><h2 class=\"section\">${ title }</h2></div>";
     }
     out += "<div class=\"row\">";
@@ -195,11 +195,11 @@ class Jsonp {
 }
 
 main() {
-  String key = "0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE";
-  String worksheet = "od6";
-  String feed = "https://spreadsheets.google.com/feeds/cells/${key}/${worksheet}/public/basic?alt=json-in-script&callback=printStone";
+  // String key = "0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE";
+  // String worksheet = "od6";
+  // String feed = "https://spreadsheets.google.com/feeds/cells/${key}/${worksheet}/public/basic?alt=json-in-script&callback=printStone";
 
-  // String feed = "/assets/rosetta_stone.json";
+  String feed = "/assets/rosetta_stone.json";
 
   var j = new Jsonp();
   j.run( feed );

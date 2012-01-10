@@ -197,18 +197,6 @@ Function.prototype.call$1 = function($0) {
 };
 function to$call$1(f) { return f && f.to$call$1(); }
 // ********** Code for top level **************
-function dart_core_print(obj) {
-  return _print(obj);
-}
-function _print(obj) {
-  if (typeof console == 'object') {
-    if (obj) obj = obj.toString();
-    console.log(obj);
-  } else {
-    write(obj);
-    write('\n');
-  }
-}
 function _toDartException(e) {
   function attachStack(dartEx) {
     // TODO(jmesserly): setting the stack property is not a long term solution.
@@ -5900,7 +5888,6 @@ Row.prototype.set$note = function(value) { return this.note = value; };
 Row.prototype.toHTML = function() {
   var out = "";
   if (this.title != '') {
-    dart_core_print(this.title);
     out = out + ("<div class=\"row\"><h2 class=\"section\">" + this.title + "</h2></div>");
   }
   out = out + "<div class=\"row\">";
@@ -5973,9 +5960,7 @@ Jsonp.prototype.get$codeReceived = function() {
 Jsonp.prototype.run$1 = Jsonp.prototype.run;
 // ********** Code for top level **************
 function main() {
-  var key = "0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE";
-  var worksheet = "od6";
-  var feed = ("https://spreadsheets.google.com/feeds/cells/" + key + "/" + worksheet + "/public/basic?alt=json-in-script&callback=printStone");
+  var feed = "/assets/rosetta_stone.json";
   var j = new Jsonp();
   j.run$1(feed);
 }

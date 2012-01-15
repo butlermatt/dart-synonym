@@ -7,6 +7,8 @@ Spreadsheet:
 Spreadsheet Json: 
   https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json-in-script&callback=printStone
 
+rm rosetta_stone.json; curl -O https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json-in-script&callback=printStone > rosetta_stone.json
+
 Syntax highlighting
   http://code.google.com/p/google-code-prettify/
   Java syntax highlighting is used for Dart

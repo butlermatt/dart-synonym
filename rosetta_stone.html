@@ -27,15 +27,19 @@
 
     </script>
   </head>
-  <body onload="loadPlusOne();">
+  <body onload="loadPlusOne(); prettyPrint();">
     <div class="topbar">
       <div class="topbar-inner">
         <div class="container">
-          <h3>
-            <a href="#">Dart Rosetta Stone <small>Translations from Javascript</small></a>
-          </h3>
-          <div style="float:right">
-            <div class="g-plusone" data-annotation="inline"></div>
+          <div class="row">
+            <div class="span12">
+              <h3>
+                <a href="#">Dart Rosetta Stone <small>Translations from Javascript</small></a>
+              </h3>
+            </div>
+            <div class="span4 sharing">
+              <div class="g-plusone" data-annotation="inline"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -102,7 +106,6 @@
 
   <script type="text/javascript">
     function loadPlusOne() {
-      return;
       var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
       po.src = 'https://apis.google.com/js/plusone.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);

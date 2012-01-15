@@ -5804,7 +5804,7 @@ function _jsKeys(obj) {
   }
   return null;
 }
-//  ********** Library RosettaStone **************
+//  ********** Library rosetta_stone **************
 // ********** Code for Section **************
 function Section() {
   this.title = "Title"
@@ -5817,7 +5817,7 @@ Section.prototype.get$title = function() { return this.title; };
 Section.prototype.set$title = function(value) { return this.title = value; };
 Section.prototype.toHTML = function() {
   var out = "<section>";
-  out = out + ("<div class=\"page-header\"><h1>" + this.title + "</h1></div>");
+  out = out + ("<div class=\"row\"><div class=\"span16\"><h1>" + this.title + "</h1></div></div>");
   this.rows.forEach((function (row) {
     out = out + row.toHTML$0();
   })
@@ -5888,7 +5888,7 @@ Row.prototype.set$note = function(value) { return this.note = value; };
 Row.prototype.toHTML = function() {
   var out = "";
   if (this.title != '') {
-    out = out + ("<div class=\"row\"><h2 class=\"section\">" + this.title + "</h2></div>");
+    out = out + ("<div class=\"row\"><div class=\"span16\"><h2 class=\"section\">" + this.title + "</h2></div></div>");
   }
   out = out + "<div class=\"row\">";
   out = out + (this.js.toHTML() + this.dart.toHTML());

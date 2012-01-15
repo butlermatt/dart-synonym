@@ -14,7 +14,7 @@ class Section {
     String out = "<section>";
 
     // add the title
-    out += "<div class=\"page-header\"><h1>${ title }</h1></div>";
+    out += "<div class=\"row\"><div class=\"span16\"><h1>${ title }</h1></div></div>";
 
     // print the rows
     rows.forEach((row){
@@ -79,7 +79,7 @@ class Row {
     String out = "";
     if( title != '' ) {
       // print( title );
-      out += "<div class=\"row\"><h2 class=\"section\">${ title }</h2></div>";
+      out += "<div class=\"row\"><div class=\"span16\"><h2 class=\"section\">${ title }</h2></div></div>";
     }
     out += "<div class=\"row\">";
 

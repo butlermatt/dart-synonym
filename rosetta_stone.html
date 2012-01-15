@@ -1,7 +1,7 @@
-<html itemscope itemtype="http://schema.org/Article">
-
+<!DOCTYPE html>
+<html>
   <head>
-    <title>Dart - JavaScript Rosetta Stone</title>
+    <title>Dart Rosetta Stone</title>
 
     <meta itemprop="name" content="Dart Rosetta Stone">
     <meta itemprop="description" content="Learn Dart easily by applying what you already know about Javascript!">
@@ -39,20 +39,34 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <header class="jumbotron masthead">
-      <div class="inner">
+      <div class="subheader topbar-inner">
         <div class="container">
-          <img src="assets/dart-logo.png" alt="Dart" />
-          <h1><span class="hide">Dart</span> via JavaScript</h1>
+          <div class="row">
+            <div class="span8">
+              <h1>
+                JavaScript
+              </h1>
+            </div>
+            <div class="span8">
+              <h1>
+                <img alt="Dart logo" src="assets/dart-logo-notext.png">
+                Dart
+              </h1>
+            </div>
+          </div>
         </div>
       </div>
-    </header>
+
+    </div>
 
     <div class="container" id="meat">
-      <h2>Loading Javascript -> Dart translations...</h2>
-      <p>Thanks for your patience!</p>
+      <div class='row loading'>
+        <div class='span16'>
+          <h1>Loading&hellip;</h1>
+          <p>Thanks for your patience!</p>
+        </div>
+      </div>
     </div>
 
     <footer class="footer">
@@ -79,13 +93,16 @@
     function printStone(s) {
       window.postMessage( JSON.stringify(s), '*');
     }
+
+    setTimeout(prettify,1000);
   </script>
 
-  <script type="text/javascript" charset="utf-8" src="assets/RosettaStone.dart.js"></script>
+  <script type="text/javascript" charset="utf-8" src="assets/rosetta_stone.dart.js"></script>
   <!-- <script type="application/dart" charset="utf-8" src="assets/RosettaStone.dart"></script> -->
 
   <script type="text/javascript">
     function loadPlusOne() {
+      return;
       var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
       po.src = 'https://apis.google.com/js/plusone.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);

@@ -10,7 +10,7 @@ class MainPage(webapp.RequestHandler):
 
     # only allow Google users to view this site
     if user and user.nickname().endswith("@google.com"):
-      path = os.path.join(os.path.dirname(__file__), 'RosettaStone.html')
+      path = os.path.join(os.path.dirname(__file__), 'rosetta_stone.html')
       self.response.out.write(template.render(path,{}))
     else:
       self.redirect(users.create_login_url(self.request.uri))

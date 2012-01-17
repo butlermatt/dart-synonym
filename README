@@ -1,15 +1,42 @@
-TODO Doc:
-https://docs.google.com/a/google.com/document/d/1oBBAioD04m9AJwoJKaDaJz5Jg9YRp8OXlHknrT_zCmE/edit?hl=en_US
+Dart Rosetta Stone is an AppEngine site that displays one language's code examples and their Dart
+equivalents side by side (e.g. Javascript and equivalent Dart).
+
+Structure
+=========
+
+The site is a single HTML page (rosetta_stone.html).  It has external dependencies on a CSS file
+(assets/rosetta_stone.css) and a JS file (assets/rosetta_stone.js).  The JS file is compiled
+from the dart file (assets/rosetta_stone.dart).  It is compiled with the frog compiler.
+
+Upon loading the single HTML page, the code comparison content is lazy loaded.  The comparison 
+content (assets/rosetta_stone.json) is loaded via JSONp and is served from the same
+AppEngine app.
+
+Maintenance
+===========
+
+The code comparisons are kept in a spreadsheet:
 
 Spreadsheet:
   https://docs.google.com/a/google.com/spreadsheet/ccc?key=0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE&hl=en_US#gid=0
 
+The code comparison JSON file is generated from the JSON API for Google Spreadsheets.  The link
+below has the correct callback for JSONp.
+
 Spreadsheet Json: 
   https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json-in-script&callback=printStone
 
-rm rosetta_stone.json; curl -o https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json-in-script&callback=printStone > rosetta_stone.json
+The app is versioned in Git and hosted at Google Code:
+
+Code Repository:
+  http://code.google.com/a/google.com/p/dart-rosetta-stone/
+
+Misc links
+==========
 
 Syntax highlighting
   http://code.google.com/p/google-code-prettify/
   Java syntax highlighting is used for Dart
 
+TODO Doc:
+https://docs.google.com/a/google.com/document/d/1oBBAioD04m9AJwoJKaDaJz5Jg9YRp8OXlHknrT_zCmE/edit?hl=en_US

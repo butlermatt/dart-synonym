@@ -80,7 +80,7 @@ pre {
   -webkit-transition: background 250ms;
 }
 pre.lang-js::after {
-  content: '»';
+  content: 'Â»';
   position: absolute;
   right: 0;
   top: 1px;
@@ -111,20 +111,14 @@ pre.lang-js::after {
   font-weight: 400;
   position: relative;
 }
-#meat h1::before,
-#meat h1::after {
+#meat h1::before {
   content: '';
   position: absolute;
   width: 3px;
   height: 30px;
   background: rgb(20, 156, 135);
   border-radius: 2px;
-}
-#meat h1::before {
   left: -20px;
-}
-#meat h1::after {
-  right: -20px;
 }
 
 h2.section {
@@ -161,19 +155,69 @@ footer ul {
 
 /* Prettify section */
 
-.pln{color:#000}
+.pln {
+  color: #000;
+}
 
 @media screen{
-  .str{color:#080}
-  .kwd{color:#008}
-  .com{color:#800}
-  .typ{color:#606}
-  .lit{color:#066}
-  .pun,.opn,.clo{color:#660}
-  .tag{color:#008}
-  .atn{color:#606}
-  .atv{color:#080}
-  .dec,.var{color:#606}
-  .fun{color:red}
+  .str, /* string content */
+  .atv { /* a markup attribute value */
+    color: rgb(0, 138, 53); 
+  }  
+  .kwd, /* a keyword */
+  .tag { /* a markup tag name */
+    color: rgb(0, 102, 204);
+  }
+  .com { /* a comment */
+    color: rgb(127, 127, 127); 
+  }  
+  .lit { /* a literal value */
+    color: rgb(127, 0, 0);
+  }  
+  .pun, /* punctuation, lisp open bracket, lisp close bracket */
+  .opn, 
+  .clo { 
+    color: rgb(127, 127, 127); 
+  }
+  .typ, /* a type name */
+  .atn, /* a markup attribute name */ 
+  .dec, 
+  .var { /* a declaration; a variable name */
+    color: rgb(80, 40, 127);
+  }
 }
-@media print,projection{.str{color:#060}.kwd{color:#006;font-weight:bold}.com{color:#600;font-style:italic}.typ{color:#404;font-weight:bold}.lit{color:#044}.pun,.opn,.clo{color:#440}.tag{color:#006;font-weight:bold}.atn{color:#404}.atv{color:#060}}ol.linenums{margin-top:0;margin-bottom:0}li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8{list-style-type:none}li.L1,li.L3,li.L5,li.L7,li.L9{background:#eee}
+@media print,projection {
+  .str { 
+    color: #060;
+  }
+  .kwd {
+    color: #006;
+    font-weight: bold;
+  }
+  .com {
+    color: #600;
+    font-style: italic;
+  }
+  .typ {
+    color: #404;
+    font-weight: bold;
+  }
+  .lit {
+    color: #044;
+  }
+  .pun,
+  .opn,
+  .clo { 
+    color: #440;
+  }
+  .tag {
+    color: #006;
+    font-weight: bold;
+  }
+  .atn {
+    color: #404
+  }
+  .atv {
+    color: #060
+  }
+}

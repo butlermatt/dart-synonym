@@ -25,6 +25,10 @@ below has the correct callback for JSONp.
 
 Spreadsheet Json: 
   https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json-in-script&callback=printStone
+  
+This will work if you have curl:
+
+curl -o rosetta_stone.json "https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json-in-script&callback=printStone"
 
 The app is versioned in Git and hosted at Google Code:
 

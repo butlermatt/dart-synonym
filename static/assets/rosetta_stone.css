@@ -80,7 +80,7 @@ pre {
   -webkit-transition: background 250ms;
 }
 pre.lang-js::after {
-  content: 'Â»';
+  content: '»';
   position: absolute;
   right: 0;
   top: 1px;

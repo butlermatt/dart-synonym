@@ -28,7 +28,7 @@ Spreadsheet Json:
   
 This will work if you have curl:
 
-curl -o rosetta_stone.json "https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json-in-script&callback=printStone"
+curl -o rosetta_stone.json "https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json"
 
 The app is versioned in Git and hosted at Google Code:
 

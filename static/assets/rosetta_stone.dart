@@ -91,14 +91,11 @@ class Row {
 }
 
 class Jsonp { 
-  void run( String url ) { 
-    window.on.message.add(codeReceived, false); 
-    ScriptElement s = new Element.tag('script');
-
-    // // Jsonp call 
-    s.src = url;
-
-    document.nodes.add(s); 
+  void run( String url ) {
+    new XMLHttpRequest.getTEMPNAME(url, (request) {
+      List codeSnippets = JSON.parse(request.responseText);
+      codeReceived(codeSnippets);
+    });
   }
 
   // Example JSON row:
@@ -131,8 +128,7 @@ class Jsonp {
   */
 
   // Parse the JSON that comes back from the spreadsheet
-  void codeReceived(MessageEvent e) {
-    List data = JSON.parse(e.data);
+  void codeReceived(List data) {
     data = data["feed"]["entry"];
 
     List out = [];
@@ -191,12 +187,14 @@ class Jsonp {
     });
 
     document.query('#meat').innerHTML = innerHTML;
+    
+    window.postMessage('code:loaded');
   }
 }
 
 main() {
-  String feed = "/assets/rosetta_stone.json";
+  String feedUrl = "/assets/rosetta_stone.json";
 
   var j = new Jsonp();
-  j.run( feed );
+  j.run( feedUrl );
 }

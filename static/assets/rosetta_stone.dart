@@ -195,10 +195,6 @@ class Jsonp {
 }
 
 main() {
-  // String key = "0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE";
-  // String worksheet = "od6";
-  // String feed = "https://spreadsheets.google.com/feeds/cells/${key}/${worksheet}/public/basic?alt=json-in-script&callback=printStone";
-
   String feed = "/assets/rosetta_stone.json";
 
   var j = new Jsonp();

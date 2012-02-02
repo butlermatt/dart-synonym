@@ -188,7 +188,7 @@ class Jsonp {
 
     document.query('#meat').innerHTML = innerHTML;
     
-    window.postMessage('code:loaded');
+    window.postMessage('code:loaded', '*');
   }
 }
 

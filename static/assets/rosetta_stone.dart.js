@@ -5721,7 +5721,7 @@ _ListWrapper.prototype.iterator = function() {
   return this._list.iterator();
 }
 _ListWrapper.prototype.forEach = function(f) {
-  return this._list.forEach(f);
+  return this._list.forEach$1(f);
 }
 _ListWrapper.prototype.filter = function(f) {
   return this._list.filter$1(f);
@@ -6376,7 +6376,7 @@ Jsonp.prototype.codeReceived = function(data) {
   })
   );
   html_get$document().query("#meat").set$innerHTML(innerHTML);
-  html_get$window().postMessage("code:loaded");
+  html_get$window().postMessage("code:loaded", "*");
 }
 Jsonp.prototype.run$1 = Jsonp.prototype.run;
 // ********** Code for top level **************

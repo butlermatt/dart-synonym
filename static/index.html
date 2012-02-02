@@ -26,7 +26,7 @@
 
     </script>
   </head>
-  <body onload="prettyPrint(); loadPlusOne();">
+  <body onload="prettyPrint();">
     <div class="topbar">
       <div class="topbar-inner">
         <div class="container">
@@ -99,6 +99,7 @@
     </footer>
 
   </body>
+  
   <script type="text/javascript"> 
     function printStone(s) {
       window.postMessage( JSON.stringify(s), '*');
@@ -109,11 +110,10 @@
   <!-- <script type="application/dart" charset="utf-8" src="assets/RosettaStone.dart"></script> -->
 
   <script type="text/javascript">
-    function loadPlusOne() {
+    (function() {
       var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
       po.src = 'https://apis.google.com/js/plusone.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-    };
+    })();
   </script>
-  <!-- <script type="application/dart" charset="utf-8" src="assets/RosettaStone.dart"></script> -->
 </html>

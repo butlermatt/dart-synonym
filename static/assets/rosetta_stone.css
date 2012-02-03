@@ -153,6 +153,10 @@ footer ul {
   display: none;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Prettify section */
 
 .pln {

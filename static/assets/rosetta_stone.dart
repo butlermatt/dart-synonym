@@ -1,43 +1,108 @@
 #import('dart:html');
 #import('dart:json');
 
-class Section {
-  List<Row> rows;
-  String title = "Title";
+slugify(String title) {
+  if (title == null) return '';
+  return title.toLowerCase()
+              .replaceAll(new RegExp(@'[^a-z0-9\s-]'), '')
+              .replaceAll(new RegExp(@'\s'), '-');
+}
 
-  Section() {
-    rows = <Row>[];
+interface HTMLable {
+  String toHTML();
+}
+
+interface Hideable {
+  void hide();
+  void show();
+}
+
+class Article implements HTMLable {
+  List<Section> sections;
+
+  Article(List<Section> this.sections);
+
+  String toHTML() {
+    String innerHTML = "";
+    sections.forEach((Section section){
+      innerHTML += section.toHTML();
+    });
+    return innerHTML;
+  }
+}
+
+class Synonym implements HTMLable, Hideable {
+  String title;
+  String id;
+  List<Row> examples;
+
+  Synonym(this.title) {
+    examples = <Row>[];
+    id = 'syn-${slugify(title)}';
   }
 
-  toHTML() {
-    String out = "<section>";
+  String toHTML() {
+    String html = '';
+    html += '<section class="synonym" id="${id}">';
+    examples.forEach((Row row) {
+      html += row.toHTML();
+    });
+    html += '</section>';
+    return html;
+  }
+
+  void hide() {
+    document.query('#${id}').classes.add('hide');
+  }
+
+  void show() {
+    document.query('#${id}').classes.remove('hide');
+  }
+}
+
+class Section implements HTMLable {
+  List<Synonym> synonyms;
+  String title;
+
+  Section() : synonyms = <Synonym>[];
+
+  String toHTML() {
+    String out = '<section id="sec-${slugify(title)}" class="group">';
 
     // add the title
     out += '<div class="row"><div class="span16"><h1>${ title }</h1></div></div>';
 
-    // print the rows
-    rows.forEach((Row row){
-      out += row.toHTML();
+    // print the synonyms
+    synonyms.forEach((Synonym synonym) {
+      out += synonym.toHTML();
     });
 
     out += "</section>";
     return out;
   }
+
+  void hide() {
+    document.query('#${id}').classes.add('hide');
+  }
+
+  void show() {
+    document.query('#${id}').classes.remove('hide');
+  }
 }
 
-class Note {
+class Note implements HTMLable {
   String note;
 
-  toHTML() {
+  String toHTML() {
     return '<div class="span3">${ note }</div>';
   }
 }
 
-class Kode {
+class Kode implements HTMLable {
   String code;
   String type;
 
-  toHTML() {
+  String toHTML() {
     if( code == null || code.trim().isEmpty() ) {
       return '<div class="span8"></div>';
     } else {
@@ -59,8 +124,9 @@ class DartCode extends Kode {
   }
 }
 
-class Row {
-  String title = "";
+class Row implements HTMLable {
+  String _title;
+  String id;
 
   DartCode dart;
   JSCode js;
@@ -72,11 +138,18 @@ class Row {
     note = new Note();
   }
 
-  toHTML() {
+  String get title() => _title;
+
+  void set title(title) {
+    _title = title;
+    id = slugify(title);
+  }
+
+  String toHTML() {
     String out = "";
-    if( title != '' ) {
-      // print( title );
-      out += '<div class="row"><div class="span16"><h2 class="section">${ title }</h2></div></div>';
+    if( title != null ) {
+      out += '<div class="row"><div class="span16"><h2 id="${id}" ';
+      out += ' class="section">${ title }</h2></div></div>';
     }
     out += '<div class="row">';
 
@@ -88,11 +161,15 @@ class Row {
 }
 
 class Jsonp { 
-  void run( String url ) {
+  Future run( String url ) {
+    Completer completer = new Completer();
+    Future future = completer.future;
     new XMLHttpRequest.getTEMPNAME(url, (request) {
       List codeSnippets = JSON.parse(request.responseText);
-      codeReceived(codeSnippets);
+      List<Section> sections = codeReceived(codeSnippets);
+      completer.complete(sections);
     });
+    return future;
   }
 
   // Example JSON row:
@@ -125,7 +202,7 @@ class Jsonp {
   */
 
   // Parse the JSON that comes back from the spreadsheet
-  void codeReceived(List jsonObjects) {
+  List<Section> codeReceived(List jsonObjects) {
     List data = jsonObjects["feed"]["entry"];
 
     List<Section> sections = <Section>[];
@@ -133,6 +210,7 @@ class Jsonp {
     var currentIndex = "0";
     var currentRow;
     var currentSection;
+    var currentSynonym;
     var currentPair = [];
 
     data.forEach((row) {
@@ -152,10 +230,18 @@ class Jsonp {
           sections.add( currentSection );
         }
 
+        if( match == 'B' ) {
+          // Whenever a value is in column B, create a new Synonym
+          currentSynonym = new Synonym(content);
+          currentSection.synonyms.add(currentSynonym);
+        }
+
         if( i != currentIndex ) {
           // If the current row has changed, create a new row
           currentRow = new Row();
-          currentSection.rows.add( currentRow );
+          if (currentSynonym != null) {
+            currentSynonym.examples.add( currentRow );
+          }
           currentIndex = i;
         }
 
@@ -163,7 +249,6 @@ class Jsonp {
         if( match == "A") {
           currentSection.title = content;
         } else if( match == "B" ) {
-          // create a new Row
           currentRow.title = content;
         } else if( match == "C" ) {
           // create a new JS code bit
@@ -179,21 +264,23 @@ class Jsonp {
 
     });
 
-    String innerHTML = "";
-    sections.forEach((section){
-      innerHTML += section.toHTML();
-    });
-
-    document.query('#meat').innerHTML = innerHTML;
-    
-    // signal to the main page to start syntax highlighting
-    window.postMessage('code:loaded', '*');
+    return sections;
   }
-}
+ 
+} 
 
 main() {
   String feedUrl = "/assets/rosetta_stone.json";
 
   var j = new Jsonp();
-  j.run( feedUrl );
+  j.run( feedUrl ).then((sections) {
+    var article = new Article(sections);
+    var html = article.toHTML();
+
+    document.query('#meat').innerHTML = html;
+    
+    // signal to the main page to start syntax highlighting
+    window.postMessage('code:loaded', '*');
+  });
+ 
 }

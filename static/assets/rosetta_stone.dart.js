@@ -79,6 +79,13 @@ function $eq(x, y) {
 $defProp(Object.prototype, '$eq', function(other) {
   return this === other;
 });
+function $ne(x, y) {
+  if (x == null) return y != null;
+  return (typeof(x) == 'number' && typeof(y) == 'number') ||
+         (typeof(x) == 'boolean' && typeof(y) == 'boolean') ||
+         (typeof(x) == 'string' && typeof(y) == 'string')
+    ? x != y : !x.$eq(y);
+}
 function $truncdiv(x, y) {
   if (typeof(x) == 'number' && typeof(y) == 'number') {
     if (y == 0) $throw(new IntegerDivisionByZeroException());
@@ -471,6 +478,95 @@ NumImplementation = Number;
 NumImplementation.prototype.hashCode = function() {
   'use strict'; return this & 0x1FFFFFFF;
 }
+// ********** Code for FutureNotCompleteException **************
+function FutureNotCompleteException() {
+
+}
+FutureNotCompleteException.prototype.toString = function() {
+  return "Exception: future has not been completed";
+}
+// ********** Code for FutureAlreadyCompleteException **************
+function FutureAlreadyCompleteException() {
+
+}
+FutureAlreadyCompleteException.prototype.toString = function() {
+  return "Exception: future already completed";
+}
+// ********** Code for FutureImpl **************
+function FutureImpl() {
+  this._listeners = new Array();
+  this._exceptionHandlers = new Array();
+  this._isComplete = false;
+  this._exceptionHandled = false;
+}
+FutureImpl.prototype.get$value = function() {
+  if (!this.get$isComplete()) {
+    $throw(new FutureNotCompleteException());
+  }
+  if (null != this._exception) {
+    $throw(this._exception);
+  }
+  return this._value;
+}
+FutureImpl.prototype.get$isComplete = function() {
+  return this._isComplete;
+}
+FutureImpl.prototype.get$hasValue = function() {
+  return this.get$isComplete() && null == this._exception;
+}
+FutureImpl.prototype.then = function(onComplete) {
+  if (this.get$hasValue()) {
+    onComplete(this.get$value());
+  }
+  else if (!this.get$isComplete()) {
+    this._listeners.add(onComplete);
+  }
+  else if (!this._exceptionHandled) {
+    $throw(this._exception);
+  }
+}
+FutureImpl.prototype._complete = function() {
+  this._isComplete = true;
+  if (null != this._exception) {
+    var $$list = this._exceptionHandlers;
+    for (var $$i = $$list.iterator(); $$i.hasNext(); ) {
+      var handler = $$i.next();
+      if (handler.call$1(this._exception)) {
+        this._exceptionHandled = true;
+        break;
+      }
+    }
+  }
+  if (this.get$hasValue()) {
+    var $$list = this._listeners;
+    for (var $$i = $$list.iterator(); $$i.hasNext(); ) {
+      var listener = $$i.next();
+      listener.call$1(this.get$value());
+    }
+  }
+  else {
+    if (!this._exceptionHandled && this._listeners.get$length() > (0)) {
+      $throw(this._exception);
+    }
+  }
+}
+FutureImpl.prototype._setValue = function(value) {
+  if (this._isComplete) {
+    $throw(new FutureAlreadyCompleteException());
+  }
+  this._value = value;
+  this._complete();
+}
+// ********** Code for CompleterImpl **************
+function CompleterImpl() {
+  this._futureImpl = new FutureImpl();
+}
+CompleterImpl.prototype.get$future = function() {
+  return this._futureImpl;
+}
+CompleterImpl.prototype.complete = function(value) {
+  this._futureImpl._setValue(value);
+}
 // ********** Code for HashMapImplementation **************
 function HashMapImplementation() {
   this._numberOfEntries = (0);
@@ -719,7 +815,7 @@ function _DoubleLinkedQueueEntrySentinel() {
   this._link(this, this);
 }
 _DoubleLinkedQueueEntrySentinel.prototype.get$element = function() {
-  $throw(const$0003);
+  $throw(const$0002);
 }
 // ********** Code for DoubleLinkedQueue **************
 function DoubleLinkedQueue() {
@@ -1483,9 +1579,6 @@ $dynamic("get$length").HTMLFormElement = function() {
 }
 // ********** Code for _HTMLFrameElementJs **************
 // ********** Code for _HTMLFrameSetElementJs **************
-$dynamic("get$rows").HTMLFrameSetElement = function() {
-  return this.rows;
-}
 // ********** Code for _HTMLHRElementJs **************
 // ********** Code for _HTMLHeadElementJs **************
 // ********** Code for _HTMLHeadingElementJs **************
@@ -1538,18 +1631,9 @@ $dynamic("get$length").HTMLSelectElement = function() {
 // ********** Code for _HTMLTableCellElementJs **************
 // ********** Code for _HTMLTableColElementJs **************
 // ********** Code for _HTMLTableElementJs **************
-$dynamic("get$rows").HTMLTableElement = function() {
-  return this.rows;
-}
 // ********** Code for _HTMLTableRowElementJs **************
 // ********** Code for _HTMLTableSectionElementJs **************
-$dynamic("get$rows").HTMLTableSectionElement = function() {
-  return this.rows;
-}
 // ********** Code for _HTMLTextAreaElementJs **************
-$dynamic("get$rows").HTMLTextAreaElement = function() {
-  return this.rows;
-}
 // ********** Code for _HTMLTitleElementJs **************
 // ********** Code for _HTMLTrackElementJs **************
 $dynamic("get$readyState").HTMLTrackElement = function() {
@@ -1874,9 +1958,6 @@ $dynamic("addEventListener$3").Notification = function($0, $1, $2) {
 // ********** Code for _SQLErrorJs **************
 // ********** Code for _SQLExceptionJs **************
 // ********** Code for _SQLResultSetJs **************
-$dynamic("get$rows").SQLResultSet = function() {
-  return this.rows;
-}
 // ********** Code for _SQLResultSetRowListJs **************
 $dynamic("get$length").SQLResultSetRowList = function() {
   return this.length;
@@ -3857,9 +3938,6 @@ TableElementWrappingImplementation._wrap$ctor = function(ptr) {
 TableElementWrappingImplementation._wrap$ctor.prototype = TableElementWrappingImplementation.prototype;
 function TableElementWrappingImplementation() {}
 TableElementWrappingImplementation.prototype.is$html_Element = function(){return true};
-TableElementWrappingImplementation.prototype.get$rows = function() {
-  return LevelDom.wrapElementList(this._ptr.get$rows());
-}
 // ********** Code for TableRowElementWrappingImplementation **************
 $inherits(TableRowElementWrappingImplementation, ElementWrappingImplementation);
 TableRowElementWrappingImplementation._wrap$ctor = function(ptr) {
@@ -3876,9 +3954,6 @@ TableSectionElementWrappingImplementation._wrap$ctor = function(ptr) {
 TableSectionElementWrappingImplementation._wrap$ctor.prototype = TableSectionElementWrappingImplementation.prototype;
 function TableSectionElementWrappingImplementation() {}
 TableSectionElementWrappingImplementation.prototype.is$html_Element = function(){return true};
-TableSectionElementWrappingImplementation.prototype.get$rows = function() {
-  return LevelDom.wrapElementList(this._ptr.get$rows());
-}
 // ********** Code for TextAreaElementWrappingImplementation **************
 $inherits(TextAreaElementWrappingImplementation, ElementWrappingImplementation);
 TextAreaElementWrappingImplementation._wrap$ctor = function(ptr) {
@@ -3887,9 +3962,6 @@ TextAreaElementWrappingImplementation._wrap$ctor = function(ptr) {
 TextAreaElementWrappingImplementation._wrap$ctor.prototype = TextAreaElementWrappingImplementation.prototype;
 function TextAreaElementWrappingImplementation() {}
 TextAreaElementWrappingImplementation.prototype.is$html_Element = function(){return true};
-TextAreaElementWrappingImplementation.prototype.get$rows = function() {
-  return this._ptr.get$rows();
-}
 // ********** Code for TitleElementWrappingImplementation **************
 $inherits(TitleElementWrappingImplementation, ElementWrappingImplementation);
 TitleElementWrappingImplementation._wrap$ctor = function(ptr) {
@@ -4562,9 +4634,6 @@ LevelDom.wrapElement = function(raw) {
       $throw(new UnsupportedOperationException($add("Unknown type:", raw.toString())));
 
   }
-}
-LevelDom.wrapElementList = function(raw) {
-  return null == raw ? null : new FrozenElementList._wrap$ctor(raw);
 }
 LevelDom.wrapEvent = function(raw) {
   if (null == raw) {
@@ -5648,73 +5717,6 @@ _ChildrenElementList.prototype.filter$1 = function($0) {
 _ChildrenElementList.prototype.forEach$1 = function($0) {
   return this.forEach(to$call$1($0));
 };
-// ********** Code for FrozenElementList **************
-FrozenElementList._wrap$ctor = function(_ptr) {
-  this._ptr = _ptr;
-}
-FrozenElementList._wrap$ctor.prototype = FrozenElementList.prototype;
-function FrozenElementList() {}
-FrozenElementList.prototype.get$_ptr = function() { return this._ptr; };
-FrozenElementList.prototype.get$first = function() {
-  return this.$index((0));
-}
-FrozenElementList.prototype.forEach = function(f) {
-  for (var $$i = this.iterator(); $$i.hasNext(); ) {
-    var el = $$i.next();
-    f(el);
-  }
-}
-FrozenElementList.prototype.filter = function(f) {
-  var out = new _ElementList([]);
-  for (var $$i = this.iterator(); $$i.hasNext(); ) {
-    var el = $$i.next();
-    if (f(el)) out.add$1(el);
-  }
-  return out;
-}
-FrozenElementList.prototype.get$length = function() {
-  return this._ptr.get$length();
-}
-FrozenElementList.prototype.$index = function(index) {
-  return LevelDom.wrapElement(this._ptr.$index(index));
-}
-FrozenElementList.prototype.$setindex = function(index, value) {
-  $throw(const$0002);
-}
-FrozenElementList.prototype.add = function(value) {
-  $throw(const$0002);
-}
-FrozenElementList.prototype.iterator = function() {
-  return new FrozenElementListIterator(this);
-}
-FrozenElementList.prototype.addAll = function(collection) {
-  $throw(const$0002);
-}
-FrozenElementList.prototype.clear = function() {
-  $throw(const$0002);
-}
-FrozenElementList.prototype.add$1 = FrozenElementList.prototype.add;
-FrozenElementList.prototype.clear$0 = FrozenElementList.prototype.clear;
-FrozenElementList.prototype.filter$1 = function($0) {
-  return this.filter(to$call$1($0));
-};
-FrozenElementList.prototype.forEach$1 = function($0) {
-  return this.forEach(to$call$1($0));
-};
-// ********** Code for FrozenElementListIterator **************
-function FrozenElementListIterator(_list) {
-  this._list = _list;
-  this._htmlimpl_index = (0);
-}
-FrozenElementListIterator.prototype.next = function() {
-  if (!this.hasNext()) {
-    $throw(const$0001);
-  }
-  return this._list.$index(this._htmlimpl_index++);
-}
-FrozenElementListIterator.prototype.hasNext = function() {
-  return this._htmlimpl_index < this._list.get$length();
-}
 // ********** Code for _ListWrapper **************
 function _ListWrapper() {}
 _ListWrapper.prototype.iterator = function() {
@@ -6239,20 +6241,51 @@ function _jsKeys(obj) {
   return null;
 }
 //  ********** Library rosetta_stone **************
+// ********** Code for Article **************
+function Article(sections) {
+  this.sections = sections;
+}
+Article.prototype.toHTML = function() {
+  var innerHTML = "";
+  this.sections.forEach$1((function (section) {
+    innerHTML = $add(innerHTML, section.toHTML());
+  })
+  );
+  return innerHTML;
+}
+// ********** Code for Synonym **************
+function Synonym(title) {
+  this.title = title;
+  this.examples = [];
+  this.id = ("syn-" + slugify(this.title));
+}
+Synonym.prototype.get$title = function() { return this.title; };
+Synonym.prototype.set$title = function(value) { return this.title = value; };
+Synonym.prototype.get$examples = function() { return this.examples; };
+Synonym.prototype.set$examples = function(value) { return this.examples = value; };
+Synonym.prototype.toHTML = function() {
+  var html = "";
+  html = $add(html, ("<section class=\"synonym\" id=\"" + this.id + "\">"));
+  this.examples.forEach$1((function (row) {
+    html = $add(html, row.toHTML());
+  })
+  );
+  html = $add(html, "</section>");
+  return html;
+}
 // ********** Code for Section **************
 function Section() {
-  this.title = "Title";
-  this.rows = [];
+  this.synonyms = [];
 }
-Section.prototype.get$rows = function() { return this.rows; };
-Section.prototype.set$rows = function(value) { return this.rows = value; };
+Section.prototype.get$synonyms = function() { return this.synonyms; };
+Section.prototype.set$synonyms = function(value) { return this.synonyms = value; };
 Section.prototype.get$title = function() { return this.title; };
 Section.prototype.set$title = function(value) { return this.title = value; };
 Section.prototype.toHTML = function() {
-  var out = "<section>";
+  var out = ("<section id=\"sec-" + slugify(this.title) + "\" class=\"group\">");
   out = $add(out, ("<div class=\"row\"><div class=\"span16\"><h1>" + this.title + "</h1></div></div>"));
-  this.rows.forEach$1((function (row) {
-    out = $add(out, row.toHTML());
+  this.synonyms.forEach$1((function (synonym) {
+    out = $add(out, synonym.toHTML());
   })
   );
   out = $add(out, "</section>");
@@ -6294,23 +6327,28 @@ function DartCode() {
 }
 // ********** Code for Row **************
 function Row() {
-  this.title = "";
   this.dart = new DartCode();
   this.js = new JSCode();
   this.note = new Note();
 }
-Row.prototype.get$title = function() { return this.title; };
-Row.prototype.set$title = function(value) { return this.title = value; };
 Row.prototype.get$dart = function() { return this.dart; };
 Row.prototype.set$dart = function(value) { return this.dart = value; };
 Row.prototype.get$js = function() { return this.js; };
 Row.prototype.set$js = function(value) { return this.js = value; };
 Row.prototype.get$note = function() { return this.note; };
 Row.prototype.set$note = function(value) { return this.note = value; };
+Row.prototype.get$title = function() {
+  return this._title;
+}
+Row.prototype.set$title = function(title) {
+  this._title = title;
+  this.id = slugify(title);
+}
 Row.prototype.toHTML = function() {
   var out = "";
-  if (this.title != "") {
-    out = $add(out, ("<div class=\"row\"><div class=\"span16\"><h2 class=\"section\">" + this.title + "</h2></div></div>"));
+  if (this.get$title() != null) {
+    out = $add(out, ("<div class=\"row\"><div class=\"span16\"><h2 id=\"" + this.id + "\" "));
+    out = $add(out, (" class=\"section\">" + this.get$title() + "</h2></div></div>"));
   }
   out = $add(out, "<div class=\"row\">");
   out = $add(out, ($add(this.js.toHTML(), this.dart.toHTML())));
@@ -6323,11 +6361,15 @@ function Jsonp() {
 }
 Jsonp.prototype.run = function(url) {
   var $this = this; // closure support
+  var completer = new CompleterImpl();
+  var future = completer.get$future();
   XMLHttpRequestWrappingImplementation.XMLHttpRequestWrappingImplementation$getTEMPNAME$factory(url, (function (request) {
     var codeSnippets = json_JSON.parse(request.get$responseText());
-    $this.codeReceived(codeSnippets);
+    var sections = $this.codeReceived(codeSnippets);
+    completer.complete(sections);
   })
   );
+  return future;
 }
 Jsonp.prototype.codeReceived = function(jsonObjects) {
   var data = jsonObjects.$index("feed").$index("entry");
@@ -6335,6 +6377,7 @@ Jsonp.prototype.codeReceived = function(jsonObjects) {
   var currentIndex = "0";
   var currentRow;
   var currentSection;
+  var currentSynonym;
   var currentPair = [];
   data.forEach$1((function (row) {
     var i = (new JSSyntaxRegExp("(\\d+)")).firstMatch(row.$index("title").$index("$t")).$index((0));
@@ -6346,9 +6389,15 @@ Jsonp.prototype.codeReceived = function(jsonObjects) {
         currentSection = new Section();
         sections.add(currentSection);
       }
+      if (match == "B") {
+        currentSynonym = new Synonym(content);
+        currentSection.get$synonyms().add(currentSynonym);
+      }
       if (i != currentIndex) {
         currentRow = new Row();
-        currentSection.get$rows().add$1(currentRow);
+        if ($ne(currentSynonym)) {
+          currentSynonym.get$examples().add(currentRow);
+        }
         currentIndex = i;
       }
       if (match == "A") {
@@ -6369,22 +6418,26 @@ Jsonp.prototype.codeReceived = function(jsonObjects) {
     }
   })
   );
-  var innerHTML = "";
-  sections.forEach$1((function (section) {
-    innerHTML = $add(innerHTML, section.toHTML());
-  })
-  );
-  html_get$document().query("#meat").set$innerHTML(innerHTML);
-  html_get$window().postMessage("code:loaded", "*");
+  return sections;
 }
 Jsonp.prototype.run$1 = Jsonp.prototype.run;
 // ********** Code for top level **************
+function slugify(title) {
+  if (title == null) return "";
+  return title.toLowerCase().replaceAll(new JSSyntaxRegExp("[^a-z0-9\\s-]"), "").replaceAll(new JSSyntaxRegExp("\\s"), "-");
+}
 function main() {
   var feedUrl = "/assets/rosetta_stone.json";
   var j = new Jsonp();
-  j.run$1(feedUrl);
+  j.run$1(feedUrl).then((function (sections) {
+    var article = new Article(sections);
+    var html = article.toHTML();
+    html_get$document().query("#meat").set$innerHTML(html);
+    html_get$window().postMessage("code:loaded", "*");
+  })
+  );
 }
-// 94 dynamic types.
+// 89 dynamic types.
 // 506 types
 // 42 !leaf
 (function(){
@@ -6425,8 +6478,7 @@ function $static_init(){
 }
 var const$0000 = Object.create(_DeletedKeySentinel.prototype, {});
 var const$0001 = Object.create(NoMoreElementsException.prototype, {});
-var const$0002 = Object.create(UnsupportedOperationException.prototype, {_message: {"value": "", writeable: false}});
-var const$0003 = Object.create(EmptyQueueException.prototype, {});
+var const$0002 = Object.create(EmptyQueueException.prototype, {});
 var $globals = {};
 $static_init();
 main();

@@ -24,7 +24,7 @@ The code comparison JSON file is generated from the JSON API for Google Spreadsh
 below has the correct callback for JSONp.
 
 Spreadsheet Json: 
-  https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json-in-script&callback=printStone
+  https://spreadsheets.google.com/feeds/cells/0AnmjtuFxqXtydG5VaDFya0FXVFhCTVRZdVdtS2lwbUE/od6/public/basic?alt=json
   
 This will work if you have curl:
 

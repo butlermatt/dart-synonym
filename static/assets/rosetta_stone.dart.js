@@ -197,12 +197,12 @@ ObjectNotClosureException.prototype.toString = function() {
   return "Object is not closure";
 }
 // ********** Code for IllegalArgumentException **************
-function IllegalArgumentException(args) {
-  this._args = args;
+function IllegalArgumentException(arg) {
+  this._arg = arg;
 }
 IllegalArgumentException.prototype.is$IllegalArgumentException = function(){return true};
 IllegalArgumentException.prototype.toString = function() {
-  return ("Illegal argument(s): " + this._args);
+  return ("Illegal argument(s): " + this._arg);
 }
 // ********** Code for StackOverflowException **************
 function StackOverflowException() {
@@ -6260,7 +6260,7 @@ Section.prototype.toHTML = function() {
 }
 // ********** Code for Note **************
 function Note() {
-  this.note = "";
+
 }
 Note.prototype.get$note = function() { return this.note; };
 Note.prototype.set$note = function(value) { return this.note = value; };
@@ -6269,11 +6269,10 @@ Note.prototype.toHTML = function() {
 }
 // ********** Code for Kode **************
 function Kode() {
-  this.code = "";
-  this.type = "";
+
 }
 Kode.prototype.toHTML = function() {
-  if (this.code == "" || this.code == " ") {
+  if (this.code == null || this.code.trim().isEmpty()) {
     return "<div class=\"span8\"></div>";
   }
   else {
@@ -6330,12 +6329,12 @@ Jsonp.prototype.run = function(url) {
   })
   );
 }
-Jsonp.prototype.codeReceived = function(data) {
-  data = data.$index("feed").$index("entry");
-  var out = [];
+Jsonp.prototype.codeReceived = function(jsonObjects) {
+  var data = jsonObjects.$index("feed").$index("entry");
+  var sections = [];
   var currentIndex = "0";
-  var currentRow = null;
-  var currentSection = null;
+  var currentRow;
+  var currentSection;
   var currentPair = [];
   data.forEach$1((function (row) {
     var i = (new JSSyntaxRegExp("(\\d+)")).firstMatch(row.$index("title").$index("$t")).$index((0));
@@ -6345,7 +6344,7 @@ Jsonp.prototype.codeReceived = function(data) {
     if (i != "1") {
       if (match == "A") {
         currentSection = new Section();
-        out.add(currentSection);
+        sections.add(currentSection);
       }
       if (i != currentIndex) {
         currentRow = new Row();
@@ -6371,8 +6370,8 @@ Jsonp.prototype.codeReceived = function(data) {
   })
   );
   var innerHTML = "";
-  out.forEach$1((function (o) {
-    innerHTML = $add(innerHTML, o.toHTML());
+  sections.forEach$1((function (section) {
+    innerHTML = $add(innerHTML, section.toHTML());
   })
   );
   html_get$document().query("#meat").set$innerHTML(innerHTML);

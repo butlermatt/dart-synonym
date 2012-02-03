@@ -2,22 +2,21 @@
 #import('dart:json');
 
 class Section {
-  List rows;
-  String foo;
+  List<Row> rows;
   String title = "Title";
 
   Section() {
-    rows = [];
+    rows = <Row>[];
   }
 
   toHTML() {
     String out = "<section>";
 
     // add the title
-    out += "<div class=\"row\"><div class=\"span16\"><h1>${ title }</h1></div></div>";
+    out += '<div class="row"><div class="span16"><h1>${ title }</h1></div></div>';
 
     // print the rows
-    rows.forEach((row){
+    rows.forEach((Row row){
       out += row.toHTML();
     });
 
@@ -27,23 +26,23 @@ class Section {
 }
 
 class Note {
-  String note = "";
+  String note;
 
   toHTML() {
-    return "<div class=\"span3\">${ note }</div>";
+    return '<div class="span3">${ note }</div>';
   }
 }
 
 class Kode {
-  String code = "";
-  String type = "";
+  String code;
+  String type;
 
   toHTML() {
-    if( code == "" || code == " " ) {
-      return "<div class=\"span8\"></div>";
+    if( code == null || code.trim().isEmpty() ) {
+      return '<div class="span8"></div>';
     } else {
       code = code.replaceAll('<','&lt;').replaceAll('>','&gt;');
-      return "<div class=\"span8\"><pre class=\"prettyprint ${type}\">${ code }</pre></div>";
+      return '<div class="span8"><pre class="prettyprint ${type}">${ code }</pre></div>';
     }
   }
 }
@@ -52,14 +51,12 @@ class JSCode extends Kode {
   JSCode() {
     type = "lang-js";
   }
-  //String type = "lang-js";
 }
 
 class DartCode extends Kode {
   DartCode() {
     type = "lang-java";
   }
-  //String type = "lang-java";
 }
 
 class Row {
@@ -79,9 +76,9 @@ class Row {
     String out = "";
     if( title != '' ) {
       // print( title );
-      out += "<div class=\"row\"><div class=\"span16\"><h2 class=\"section\">${ title }</h2></div></div>";
+      out += '<div class="row"><div class="span16"><h2 class="section">${ title }</h2></div></div>';
     }
-    out += "<div class=\"row\">";
+    out += '<div class="row">';
 
     out += js.toHTML() + dart.toHTML(); // + note.toHTML();
 
@@ -128,15 +125,16 @@ class Jsonp {
   */
 
   // Parse the JSON that comes back from the spreadsheet
-  void codeReceived(List data) {
-    data = data["feed"]["entry"];
+  void codeReceived(List jsonObjects) {
+    List data = jsonObjects["feed"]["entry"];
 
-    List out = [];
+    List<Section> sections = <Section>[];
 
     var currentIndex = "0";
-    var currentRow = null;
-    var currentSection = null;
+    var currentRow;
+    var currentSection;
     var currentPair = [];
+
     data.forEach((row) {
       // Get the row number
       String i = (new RegExp(@"(\d+)")).firstMatch( row['title']['\$t'] )[0];
@@ -151,7 +149,7 @@ class Jsonp {
         if( match == "A" ) {
           // Whenever a value is in column A, create a new section
           currentSection = new Section();
-          out.add( currentSection );
+          sections.add( currentSection );
         }
 
         if( i != currentIndex ) {
@@ -182,12 +180,13 @@ class Jsonp {
     });
 
     String innerHTML = "";
-    out.forEach((o){
-      innerHTML += o.toHTML();
+    sections.forEach((section){
+      innerHTML += section.toHTML();
     });
 
     document.query('#meat').innerHTML = innerHTML;
     
+    // signal to the main page to start syntax highlighting
     window.postMessage('code:loaded', '*');
   }
 }

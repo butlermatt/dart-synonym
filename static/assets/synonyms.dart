@@ -34,7 +34,6 @@ main() {
     document.query('#meat').nodes.add(result);
     window.postMessage('code:loaded', '*');
   }
-/*
 
   new XMLHttpRequest.getTEMPNAME(synonymsUrl, (request) {
     xmlContents = request.responseXML; 
@@ -45,5 +44,4 @@ main() {
     xsltContents = request.responseXML; 
     processXML();
   });
-*/ 
 }

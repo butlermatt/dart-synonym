@@ -66,14 +66,6 @@ class Synonym implements HTMLable, Hideable {
     html += '</section>';
     return html;
   }
-
-  void hide() {
-    document.query('#${id}').classes.add('hide');
-  }
-
-  void show() {
-    document.query('#${id}').classes.remove('hide');
-  }
 }
 
 class Section implements HTMLable {
@@ -95,14 +87,6 @@ class Section implements HTMLable {
 
     out += "</section>";
     return out;
-  }
-
-  void hide() {
-    document.query('#${id}').classes.add('hide');
-  }
-
-  void show() {
-    document.query('#${id}').classes.remove('hide');
   }
 }
 

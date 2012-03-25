@@ -14,9 +14,18 @@
    limitations under the License.
 */
 
-#import('dart:html');
-#import('dart:dom', prefix:'dom');
+#import('dart:dom');
 
+getUrl(String url, Function onSuccess) {
+  var get = new XMLHttpRequest();
+  get.open('GET', url);
+  get.addEventListener('readystatechange', (event) {
+    if (get.readyState == 4 && get.status == 200) {
+      onSuccess(get);
+    }
+  });
+  get.send();
+}
 
 main() {
   var synonymsUrl = "/assets/synonyms.xml";
@@ -28,20 +37,24 @@ main() {
   processXML() {
     if (xmlContents == null || xsltContents == null) return;
 
-    var processor = new dom.XSLTProcessor();
+    var processor = new XSLTProcessor();
     processor.importStylesheet(xsltContents);
     var result = processor.transformToDocument(xmlContents);
-    document.query('#meat').nodes.add(result);
+    var destination = document.getElementById('meat');
+    destination.innerHTML = '';
+    while (result.documentElement.firstChild != null) {
+      destination.appendChild(result.documentElement.firstChild);
+    }
     window.postMessage('code:loaded', '*');
   }
 
-  new XMLHttpRequest.getTEMPNAME(synonymsUrl, (request) {
-    xmlContents = request.responseXML; 
+  getUrl(synonymsUrl, (xhr) {
+    xmlContents = xhr.responseXML; 
     processXML();
   });
 
-  new XMLHttpRequest.getTEMPNAME(transformUrl, (request) {
-    xsltContents = request.responseXML; 
+  getUrl(transformUrl, (xhr) {
+    xsltContents = xhr.responseXML; 
     processXML();
   });
 }

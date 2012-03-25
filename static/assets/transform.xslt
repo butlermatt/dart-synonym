@@ -4,15 +4,15 @@
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:template match="/synonyms">
-  <article>
-    <xsl:apply-templates/>
-  </article>
+  <div>
+    <xsl:apply-templates select="theme"/>
+  </div>
 </xsl:template>
 
 <xsl:template match="theme">
-  <section class="theme" id="{@id}">
+  <section class="theme group" id="{@id}">
     <div class="row"><div class="span16"><h1><xsl:value-of select="title" /></h1></div></div>
-    <xsl:apply-templates/>
+    <xsl:apply-templates select="synonym" />
   </section>
 </xsl:template>
 
@@ -22,7 +22,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
       <div class="span16"><h2 class="section"><xsl:value-of select="title"/></h2></div>
     </div>
     <div class="row">
-      <xsl:apply-templates/>
+      <xsl:apply-templates select="code"/>
     </div>
   </section>
 </xsl:template>

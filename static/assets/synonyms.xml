@@ -598,7 +598,7 @@ number5 === char5 // == false
  * In Dart, == will check the following, in order:
  * 1) if x === y then return true (=== is identity). Otherwise
  * 2) if either x or y is null, return false. Otherwise
- * 3) return the result of x.equals(y) (pending: might become eq())
+ * 3) return the result of x.equals(y)
  */
 
 /*
@@ -741,7 +741,7 @@ send(msg, [rate='First Class']) {
   return '${msg} was sent via ${rate}';
 }
 
-// you can used named parameters if the argument is optional
+// you can use named parameters if the argument is optional
 send("I'm cheap", rate:'4th class'); // == "I'm cheap was sent via 4th class"
 ]]></code>
   </synonym>

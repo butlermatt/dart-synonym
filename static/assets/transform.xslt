@@ -28,7 +28,17 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 </xsl:template>
 
 <xsl:template match="code">
-  <div class="span8"><pre class="prettyprint {@language}"><xsl:value-of select="." /></pre></div>
+  <div class="span8">
+    <pre>
+      <xsl:if test="@language='javascript'">
+        <xsl:attribute name="class">prettyprint lang-js</xsl:attribute>
+      </xsl:if>
+      <xsl:if test="@language='dart'">
+        <xsl:attribute name="class">prettyprint lang-java</xsl:attribute>
+      </xsl:if>
+      <xsl:value-of select="." />
+    </pre>
+  </div>
 </xsl:template>
 
 </xsl:stylesheet>

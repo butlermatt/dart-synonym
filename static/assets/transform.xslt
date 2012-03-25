@@ -28,8 +28,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 </xsl:template>
 
 <xsl:template match="code">
-  <div class="span8"></div>
-  <div class="span8"><pre class="prettyprint {@language}"><code><xsl:value-of select="." /></code></pre></div>
+  <div class="span8"><pre class="prettyprint {@language}"><xsl:value-of select="." /></pre></div>
 </xsl:template>
 
 </xsl:stylesheet>

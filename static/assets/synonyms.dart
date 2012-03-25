@@ -39,12 +39,10 @@ main() {
 
     var processor = new XSLTProcessor();
     processor.importStylesheet(xsltContents);
-    var result = processor.transformToDocument(xmlContents);
+    var result = processor.transformToFragment(xmlContents, document);
     var destination = document.getElementById('meat');
     destination.innerHTML = '';
-    while (result.documentElement.firstChild != null) {
-      destination.appendChild(result.documentElement.firstChild);
-    }
+    destination.appendChild(result);
     window.postMessage('code:loaded', '*');
   }
 

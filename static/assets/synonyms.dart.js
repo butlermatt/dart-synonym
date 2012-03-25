@@ -696,7 +696,6 @@ $dynamic("addEventListener$2").DeprecatedPeerConnection = function($0, $1) {
 // ********** Code for _DirectoryReaderJs **************
 // ********** Code for _DirectoryReaderSyncJs **************
 // ********** Code for _DocumentJs **************
-$dynamic("get$documentElement").Document = function() { return this.documentElement; };
 $dynamic("get$readyState").Document = function() { return this.readyState; };
 // ********** Code for _DocumentFragmentJs **************
 // ********** Code for _DocumentTypeJs **************
@@ -1574,12 +1573,10 @@ function main() {
     if ($eq$(xmlContents) || $eq$(xsltContents)) return;
     var processor = _XSLTProcessorFactoryProvider.XSLTProcessor$factory();
     processor.importStylesheet(xsltContents);
-    var result = processor.transformToDocument(xmlContents);
+    var result = processor.transformToFragment(xmlContents, get$$document());
     var destination = get$$document().getElementById("meat");
     destination.set$innerHTML("");
-    while (result.get$documentElement().firstChild != null) {
-      destination.appendChild(result.get$documentElement().firstChild);
-    }
+    destination.appendChild(result);
     get$$window().postMessage$2("code:loaded", "*");
   }
   getUrl(synonymsUrl, (function (xhr) {

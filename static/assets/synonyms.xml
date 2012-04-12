@@ -1401,13 +1401,9 @@ $(document).ready(function(){
 });
 ]]></code>
     <code language="dart"><![CDATA[
-window.on.contentLoaded.add(
-  (e) => print('Content is loaded');
-);
+window.on.contentLoaded.add((e) => print('Content is loaded'));
 
 // However, main() will normally run after DOMContentLoaded
-// in Dartium, and soon Frog. See bug
-// http://code.google.com/p/dart/issues/detail?id=1161
 ]]></code>
   </synonym>
   <synonym id="syn-node-lookup">

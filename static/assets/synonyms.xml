@@ -73,7 +73,7 @@ print('Level completed.');
 alert('Clicked on the button.');
 ]]></code>
     <code language="dart"><![CDATA[
-#import('dart:html');
+import 'dart:html';
 
 window.alert('Clicked on the button.');
 ]]></code>
@@ -89,7 +89,7 @@ window.alert('Clicked on the button.');
 ]]></code>
     <code language="dart"><![CDATA[
 // declares the following is in the animals library
-#library('animals');
+library 'animals';
 
 class Dog {
   noise() => 'BARK!';
@@ -103,11 +103,11 @@ class Dog {
 // consider require.js and AMD
 ]]></code>
     <code language="dart"><![CDATA[
-#import('animals');
+import 'animals';
 var fido = new Dog();
 
 // prefixes are supported to avoid namespace collisions
-#import('animals', prefix: 'pets');
+import 'animals' as 'pets';
 var fido = new pets.Dog();
 ]]></code>
   </synonym>
@@ -349,10 +349,6 @@ print(queue.length); // 1
 var escapedString = 'A tab looks like \\t';
 ]]></code>
     <code language="dart"><![CDATA[
-var rawString = @'The following is not expanded to a tab \t';
-// Note: The @ notation for declaring a raw
-// string will be replace with r in the near
-// future. For example:
 var rawString = r'The following is not expanded to a tab \t';
 
 var escapedString = 'The following is not expanded to a tab \\t';
@@ -721,7 +717,7 @@ send('hello') // == 'hello was sent via First Class'
 send("I'm cheap", '4th class') // == "I'm cheap was sent via 4th class
 ]]></code>
     <code language="dart"><![CDATA[
-send(msg, [rate='First Class']) {
+String send(msg, [rate='First Class']) {
   return '${msg} was sent via ${rate}';
 }
 
@@ -735,7 +731,7 @@ send("I'm cheap", '4th class'); // == "I'm cheap was sent via 4th class"
 // JavaScript does not have native support for named parameters
 ]]></code>
     <code language="dart"><![CDATA[
-send(msg, [rate='First Class']) {
+String send(msg, [rate='First Class']) {
   return '${msg} was sent via ${rate}';
 }
 
@@ -778,9 +774,7 @@ for (var i = 0; i < colors.length; i++) {
 }
 
 // Alternatively, the forEach loop is a method on a List in Dart.
-colors.forEach((color) {
-  print(color);
-});
+colors.forEach((color) => print(color));
 ]]></code>
   </synonym>
   <synonym id="syn-for-in-loops">
@@ -883,9 +877,9 @@ Person.prototype.greet = function() {
 ]]></code>
     <code language="dart"><![CDATA[
 class Person {
-  var name;
+  String name;
 
-  greet() => 'Hello, $name';
+  String greet() => 'Hello, $name';
 }
 ]]></code>
   </synonym>
@@ -898,16 +892,16 @@ function Person(name) {
 ]]></code>
     <code language="dart"><![CDATA[
 class Person {
-  var name;
+  String name;
 
-  Person(name) {
+  Person(String name) {
     this.name = name;
   }
 }
 
 // Shorter alternative
 class Person {
-  var name;
+  String name;
 
   // parameters prefixed by 'this.' will assign to
   // instance variables automatically
@@ -978,19 +972,19 @@ Employee.prototype.grantRaise = function(percent) {
 ]]></code>
     <code language="dart"><![CDATA[
 class Person {
-  var name;
+  String name;
 
   Person(this.name);
 
-  greet() => 'Hello, $name';
+  String greet() => 'Hello, $name';
 }
 
 class Employee extends Person {
-  var salary;
+  num salary;
 
-  Employee(name, this.salary) : super(name);
+  Employee(String name, this.salary) : super(name);
   
-  grantRaise(percent) {
+  void grantRaise(num percent) {
     percent /= 100;
     salary += (salary * percent).toInt();
   }
@@ -1004,12 +998,12 @@ class Employee extends Person {
 ]]></code>
     <code language="dart"><![CDATA[
 class Point {
-  var x, y;
+  num x, y;
   Point(this.x, this.y);
   
-  operator + (Point p) => new Point(x + p.x, y + p.y);
+  Point operator +(Point p) => new Point(x + p.x, y + p.y);
   
-  toString() => 'x:$x, y:$y';
+  String toString() => 'x:$x, y:$y';
 }
 
 main() {
@@ -1031,7 +1025,7 @@ document.getElementById('main');
 document.querySelector('#main');
 ]]></code>
     <code language="dart"><![CDATA[
-document.query('#main');
+query('#main');
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-class">
@@ -1042,7 +1036,7 @@ document.getElementsByClassName('visible')[0];
 document.querySelector('.visible');
 ]]></code>
     <code language="dart"><![CDATA[
-document.query('.visible');
+query('.visible');
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-class">
@@ -1053,7 +1047,7 @@ document.getElementsByClassName('visible');
 document.querySelectorAll('.visible');
 ]]></code>
     <code language="dart"><![CDATA[
-document.queryAll('.visible');
+queryAll('.visible');
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-tag">
@@ -1064,7 +1058,7 @@ document.getElementsByTagName('div')[0];
 document.querySelector('div');
 ]]></code>
     <code language="dart"><![CDATA[
-document.query('div');
+query('div');
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-tag">
@@ -1075,7 +1069,7 @@ document.getElementsByTagName('div');
 document.querySelectorAll('div');
 ]]></code>
     <code language="dart"><![CDATA[
-document.queryAll('div');
+queryAll('div');
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-name">
@@ -1086,7 +1080,7 @@ document.getElementsByName('form')[0];
 document.querySelector('[name="form"]');
 ]]></code>
     <code language="dart"><![CDATA[
-document.query('[name="form"]');
+query('[name="form"]');
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-name">
@@ -1097,7 +1091,7 @@ document.getElementsByName('form');
 document.querySelectorAll('[name="form"]');
 ]]></code>
     <code language="dart"><![CDATA[
-document.queryAll('[name="form"]');
+queryAll('[name="form"]');
 ]]></code>
   </synonym>
   <synonym id="syn-find-elements-by-combination-of-above">
@@ -1108,9 +1102,9 @@ document.getElementById('main').getElementsByTagName('div')[0].getElementsByClas
 document.querySelectorAll('#main div:first-of-type .visible');
 ]]></code>
     <code language="dart"><![CDATA[
-document.query('#main').query('div').queryAll('.visible');
+query('#main').query('div').queryAll('.visible');
 
-document.queryAll('#main div:first-of-type .visible');
+queryAll('#main div:first-of-type .visible');
 ]]></code>
   </synonym>
   <synonym id="syn-iterate-over-a-list-of-elements">
@@ -1157,7 +1151,7 @@ elem.hasChildNodes();
 var element = document.createElement('div');
 ]]></code>
     <code language="dart"><![CDATA[
-#import('dart:html');
+import 'dart:html';
 
 var element = new Element.tag('div');
 
@@ -1205,7 +1199,7 @@ email.match(/@/);
 ]]></code>
     <code language="dart"><![CDATA[
 var email = 'test@example.com';
-(new RegExp(@'@')).firstMatch(email);
+(new RegExp(r'@')).firstMatch(email);
 // == Match Object
 ]]></code>
   </synonym>
@@ -1217,7 +1211,7 @@ invalidEmail.match(/@/g)
 ]]></code>
     <code language="dart"><![CDATA[
 var invalidEmail = 'f@il@example.com';
-(new RegExp(@'@')).allMatches(invalidEmail)
+(new RegExp(r'@')).allMatches(invalidEmail)
 // == Iterable Match Object
 ]]></code>
   </synonym>
@@ -1251,7 +1245,7 @@ try {
 }
 ]]></code>
     <code language="dart"><![CDATA[
-#import('dart:math');
+import 'dart:math';
 main() {    
 try {
     parseInt("three");
@@ -1295,11 +1289,7 @@ element.on.click.remove(handleOnClick);
 setTimeout(function() { … }, 500);
 ]]></code>
     <code language="dart"><![CDATA[
-window.setTimeout(() { … }, 500);
-
-// Alternatively the following syntax will
-// work in both client and server side code.
-#import('dart:isolate');
+import 'dart:isolate';
 var timer = new Timer(500, () { … });
 ]]></code>
   </synonym>
@@ -1313,7 +1303,7 @@ function measure(fn) {
 }
 ]]></code>
     <code language="dart"><![CDATA[
-measure(fn) {
+int measure(fn) {
   Stopwatch watch = new Stopwatch.start();
   fn();
   return watch.elapsedInMs();
@@ -1432,7 +1422,7 @@ window.on.contentLoaded.add((e) => print('Content is loaded'));
 var els = jQuery('div');
 ]]></code>
     <code language="dart"><![CDATA[
-List els = document.queryAll('div');
+var els = queryAll('div');
 ]]></code>
   </synonym>
   <synonym id="syn-node-creation">
@@ -1458,10 +1448,8 @@ pic.attributes['src'] = 'myPic.jpg';
 var pic = new ImageElement('myPic.jpg');
 pic.classes..add('avatar')
     ..toggle('main');
-// Cascades (..) allow you to make
-// multiple method calls on an object
-// returning the object not the return
-// value of the method.
+// Cascades (..) allow you to chain
+// multiple method calls on an object.
 
 document.body.nodes.add(pic);
 ]]></code>
@@ -1474,12 +1462,12 @@ $('a.person').click(function(e){
 })
 ]]></code>
     <code language="dart"><![CDATA[
-document.queryAll('a.person').forEach((el) {
+queryAll('a.person').forEach((el) {
   el.on.click.add((e) => print('Person clicked'));
 });
 
 // coming soon!!
-document.queryAll('a.person').on.click.add((e) => print('Person clicked'));
+queryAll('a.person').on.click.add((e) => print('Person clicked'));
 ]]></code>
   </synonym>
   <synonym id="syn-relative-nodes">
@@ -1492,7 +1480,7 @@ var parent = myNode.parent();
 var next = myNode.next();
 ]]></code>
     <code language="dart"><![CDATA[
-var myNode = document.query('div');
+var myNode = query('div');
 
 var parent = myNode.parent;
 
@@ -1511,7 +1499,7 @@ if (!myNode.is(':empty')) {
 
 ]]></code>
     <code language="dart"><![CDATA[
-var myNode = document.query('div');
+var myNode = query('div');
 
 if (!myNode.nodes.isEmpty()) {
   myNode.nodes.clear();
@@ -1524,7 +1512,7 @@ if (!myNode.nodes.isEmpty()) {
 var clonedElement = $('#about').clone();
 ]]></code>
     <code language="dart"><![CDATA[
-var clonedElement = document.query('#about').clone(true);
+var clonedElement = query('#about').clone(true);
 ]]></code>
   </synonym>
 </theme>
@@ -1566,7 +1554,7 @@ Math.floor(4.89) // == 4
 Math.random()
 ]]></code>
     <code language="dart"><![CDATA[
-#import('dart:math');
+import 'dart:math';
 var rand = new Random();
 // Returns a random double greater than or equal to 0.0
 // and less than 1.0
@@ -1585,10 +1573,9 @@ Math.sin(Math.PI/2) // == 1
 Math.cos(Math.PI) // == -1
 ]]></code>
     <code language="dart"><![CDATA[
-#import('dart:math');
-// The PI constant comes from the math library.
-sin(PI/2) // == 1.0
-cos(PI) // == -1.0
+import 'dart:math' as 'Math';
+sin(Math.PI/2) // == 1.0
+cos(Math.PI) // == -1.0
 ]]></code>
   </synonym>
   <synonym id="syn-convert-a-string-to-a-number">
@@ -1601,7 +1588,7 @@ parseFloat('3.14') // == 3.14
 parseInt('three') // NaN
 ]]></code>
     <code language="dart"><![CDATA[
-#import('dart:math');
+import 'dart:math';
 parseInt('3') // == 3
 
 parseDouble('3.14') // == 3.14

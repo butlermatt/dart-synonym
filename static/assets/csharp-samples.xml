@@ -1,0 +1,1416 @@
+<?xml version="1.0"?>
+<synonyms>
+<theme id="theme-getting-started">
+  <title>Getting started</title>
+  <synonym id="syn-code-embedding">
+    <title>Code embedding</title>
+    <code language="csharp"><![CDATA[
+// Not supported directly.
+// Embedding is possible via Silverlight plug-in.
+]]></code>
+  </synonym>
+  <synonym id="syn-entry-point">
+    <title>Entry point</title>
+    <code language="csharp"><![CDATA[
+class Program
+{
+  static void Main(string[] args)
+  {
+     // This is the entry point to a console program.
+  }
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-detect-language-unavailability">
+    <title>Detect language unavailability</title>
+    <code language="csharp"><![CDATA[
+<!-- 
+For C# apps running in Silverlight, it is possible to use 
+fallback content inside the object tag. 
+-->
+<object data="data:application/x-silverlight," type="application/x-silverlight">
+  <param name="source" value="csharpApp.xap">
+  <div>
+    Silverlight not installed, or browser does not support.
+  </div>
+</object>
+]]></code>
+  </synonym>
+  <synonym id="syn-printing-to-the-console">
+    <title>Printing to the console</title>
+    <code language="csharp"><![CDATA[
+Console.WriteLine("Level Completed");
+]]></code>
+  </synonym>
+  <synonym id="syn-modal-alerts">
+    <title>Modal alerts</title>
+    <code language="csharp"><![CDATA[
+using System.Windows;
+
+MessageBox.Show("Clicked on the button.");
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-code-modularity">
+  <title>Code modularity</title>
+  <synonym id="syn-define-a-library">
+    <title>Define a library</title>
+    <code language="csharp"><![CDATA[
+// Libraries are compiled into DLL files and access by other projects at runtime.
+namespace Animals
+{
+  public class Dog
+  {
+    public string noise() 
+	{ 
+	  return "BARK!";
+	}
+  }	
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-use-a-library">
+    <title>Use a library</title>
+    <code language="csharp"><![CDATA[
+// Reference the library in the project (usually via Visual Studio),
+// then expose a namespace from the library.
+using Animals;
+
+class Pound
+{
+  Dog Fido = new Dog();
+}
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-variables">
+  <title>Variables</title>
+  <synonym id="syn-create--assign-value">
+    <title>Create + assign value</title>
+    <code language="csharp"><![CDATA[
+// C# variables must be typed, except when declared in methods.
+
+class Foo
+{
+   Bar Something = new Bar();
+   
+   void DoSomething()
+   {
+      var myBar = new Bar();
+   }
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-default-value">
+    <title>Default value</title>
+    <code language="csharp"><![CDATA[
+// C# types may have different default values depending on the type.
+
+class Foo
+{
+  Foo isNull;
+  bool isFalse;
+  
+  void PrintIt()
+  {
+    Console.WriteLine(String.Format("{0},{1}", foo == null, hasIt == false));
+  }
+}
+
+// Output: "True,True"
+]]></code>
+  </synonym>
+  <synonym id="syn-hoisting">
+    <title>Hoisting</title>
+    <code language="csharp"><![CDATA[
+// C# does not hoist variables.  The following
+// method will issue a compile time error:  "Cannot use
+// local variable name before it is declared".
+void Hoisting()
+  {
+    // compilation error here
+    Console.WriteLine(String.Format("Hello, {0}", name));
+    
+	var name = "Bob";
+  }
+]]></code>
+  </synonym>
+  <synonym id="syn-final-variables">
+    <title>Final variables</title>
+    <code language="csharp"><![CDATA[
+// C# allows this at the field level with the 'readonly' keyword.
+// Use of 'readonly' is not supported in methods.
+class Foo
+{
+  readonly Foo bar = new Foo();
+}
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-collections">
+  <title>Collections</title>
+  <synonym id="syn-arrays--lists">
+    <title>Arrays / Lists</title>
+    <code language="csharp"><![CDATA[
+var a = new int[5]; // intializes to 5
+var b = new int[]{5, 6, 7}; 
+var c = new List<int>();
+]]></code>
+    <code language="csharp"><![CDATA[
+var c = new List<string>() { "apple", "banana", "cherry" };
+c.Add("donut");
+
+var count = c.Count;
+
+var last = c.Last();
+]]></code>
+  </synonym>
+  <synonym id="syn-custom-sort">
+    <title>Custom sort</title>
+    <code language="csharp"><![CDATA[
+var numbers = new List<double>{42, 2.1, 5, 1, 391};
+numbers.OrderBy(n => n);
+// == [0.1, 2.1, 5, 42, 391];
+]]></code>
+  </synonym>
+  <synonym id="syn-key-value-pairs">
+    <title>Key-value pairs</title>
+    <code language="csharp"><![CDATA[
+// C# uses the Dictionary class for simple key-value pairs.
+var periodic = new Dictionary<string, string>();
+]]></code>
+  </synonym>
+  <synonym id="syn-appropriate-keys">
+    <title>Appropriate keys</title>
+    <code language="csharp"><![CDATA[
+// C# Dictionary supports keys and values of any Type.
+var x = new Dictionary<string, string>() 
+  {
+    {"gold", "AU"},
+    {"silver", "AG"}
+  };
+
+var y = new Dictionary<MyClass, YourClass>()
+  {
+    {new MyClass(), new YourClass()},
+    {new MyClass(), new YourClass()}
+  };
+]]></code>
+  </synonym>
+  <synonym id="syn-accessing-values">
+    <title>Accessing values</title>
+    <code language="csharp"><![CDATA[
+// Accessing with a string key.
+periodic["gold"] // == 'AU'
+
+// Accessing with reference-type key.
+var someObject = new SomeObject();
+myDict[someObject] = new SomeOtherObject();
+var someOtherObject = myDict[someObject];
+]]></code>
+  </synonym>
+  <synonym id="syn-sets-collections-of-unique-items">
+    <title>Sets (collections of unique items)</title>
+    <code language="csharp"><![CDATA[
+var fruits = new HashSet<String>();
+fruits.Add("Oranges");
+fruits.Add("Apples");
+Console.WriteLine(String.Format("{0}", fruits.Count)); // == 2
+
+fruits.Add("Oranges");
+Console.WriteLine(String.Format("{0}", fruits.Count)); // == 2
+]]></code>
+  </synonym>
+  <synonym id="syn-queues-fifo">
+    <title>Queues (FIFO)</title>
+    <code language="csharp"><![CDATA[
+var queue = new Queue<String>();
+queue.Enqueue("event:32342");
+queue.Enqueue("event:49309");
+
+Console.WriteLine(String.Format("{0}", queue.Count)); // 2
+
+var eventId = queue.Dequeue();
+
+Console.WriteLine(String.Format("{0}", eventId == "event:32342")); // true
+Console.WriteLine(String.Format("{0}", queue.Count)); // 1
+]]></code>
+    <code language="csharp"><![CDATA[
+// C# also supports FILO Stack
+var stack = new Stack<String>();
+stack.Push("event:32342");
+stack.Push("event:49309");
+
+Console.WriteLine(String.Format("{0}", stack.Count)); // 2
+
+var eventId = stack.Pop();
+
+Console.WriteLine(String.Format("{0}", eventId == "event:49309")); // true
+Console.WriteLine(String.Format("{0}", stack.Count)); // 1
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-strings">
+  <title>Strings</title>
+  <synonym id="syn-raw-strings">
+    <title>Raw strings</title>
+    <code language="csharp"><![CDATA[
+var rawString = @"The following is not expanded to a tab \t";
+var escapedString = "The following is not expanded to a tab \\t";
+
+Console.WriteLine(String.Format("{0}", rawString == escapedString)); // True
+]]></code>
+  </synonym>
+  <synonym id="syn-interpolation">
+    <title>Interpolation</title>
+    <code language="csharp"><![CDATA[
+// C# uses methods such as String.Format() to interpolate expressions with strings.
+
+var name = "Aaron";
+var greeting = String.Format("My name is {0}.", name);
+
+var greetingPolish = String.Format("My Polish name would be {0}ski.", name);
+
+var someProperty = String.Format("{0}px", top + 20);
+]]></code>
+  </synonym>
+  <synonym id="syn-substring">
+    <title>Substring</title>
+    <code language="csharp"><![CDATA[
+// second arguement is a length value.
+Console.WriteLine(String.Format("{0}", "doghouses".Substring(3, 6))); // houses
+
+// single arguement means return the remainder of the string from that position.
+Console.WriteLine(String.Format("{0}", "doghouses".Substring(3))); // houses
+]]></code>
+  </synonym>
+  <synonym id="syn-replace-all-occurences">
+    <title>Replace all occurences</title>
+    <code language="csharp"><![CDATA[
+var weirdHouse = "doghouses".Replace('s', 'z'); // == 'doghouzez'
+]]></code>
+  </synonym>
+  <synonym id="syn-replace-one-occurence">
+    <title>Replace one occurence</title>
+    <code language="csharp"><![CDATA[
+var regex = new Regex("r");
+var newText = regex.Replace("racecar", "sp", 1);
+]]></code>
+  </synonym>
+  <synonym id="syn-multi-line-strings">
+    <title>Multi-line strings</title>
+    <code language="csharp"><![CDATA[
+// C# allows multi-line literal strings.
+// Both the first and last new-line are recognized.
+var myString = @"
+This is a string that spans
+many lines.
+";
+]]></code>
+  </synonym>
+  <synonym id="syn-split-into-an-array">
+    <title>Split into an array</title>
+    <code language="csharp"><![CDATA[
+var animals = "dogs, cats, gophers, zebras";
+var individualAnimals = animals.Split(new []{", "}, StringSplitOptions.None);
+// == ['dogs', 'cats', 'gophers', 'zebras']
+]]></code>
+  </synonym>
+  <synonym id="syn-test-whether-a-string-starts-with-a-substring">
+    <title>Test whether a string starts with a substring</title>
+    <code language="csharp"><![CDATA[
+var result1 = "racecar".StartsWith("race"); // == True
+var result2 = "racecar".StartsWith("pace"); // == False
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-booleans">
+  <title>Booleans</title>
+  <synonym id="syn-if-statements">
+    <title>If statements</title>
+    <code language="csharp"><![CDATA[
+var bugNumbers = new[] {3234, 4542, 944, 124};
+if (bugNumbers.Length > 0)
+{
+    Console.WriteLine("Not ready for release.");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-ternary-statements">
+    <title>Ternary statements</title>
+    <code language="csharp"><![CDATA[
+var bugNumbers = new[] { 3234, 4542, 944, 124 };
+var status = bugNumbers.Length > 0 ? "RED" : "GREEN";
+Console.WriteLine(String.Format("The build is {0}", status));
+]]></code>
+  </synonym>
+  <synonym id="syn-checking-for-empty-string">
+    <title>Checking for empty string</title>
+    <code language="csharp"><![CDATA[
+var emptyString = "";
+
+if (emptyString == String.Empty)
+{
+    Console.WriteLine("Use String.Empty for empty string test.");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-checking-for-zero">
+    <title>Checking for zero</title>
+    <code language="csharp"><![CDATA[
+var zero = 0;
+
+if (zero == 0)
+{
+    Console.WriteLine("C# uses '== 0' to check zero.");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-checking-for-null">
+    <title>Checking for null</title>
+    <code language="csharp"><![CDATA[
+MyClass myNull = null;
+
+// This is correct in C# for reference types, but...
+if (myNull == null)
+{
+    Console.WriteLine("It's null.");
+}
+
+// In C#, this is often a better approach
+if (myNull == default(MyClass))
+{
+    Console.WriteLine("It's null, because the default value for the type is null.");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-checking-for-nan">
+    <title>Checking for NaN</title>
+    <code language="csharp"><![CDATA[
+var nan = double.NaN;
+
+if (double.IsNaN(nan))
+{
+	Console.WriteLine("It's NaN.");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-checking-for-undefined">
+    <title>Checking for undefined</title>
+    <code language="csharp"><![CDATA[
+// C# does not have a concept of undefined.
+]]></code>
+  </synonym>
+  <synonym id="syn-value-and-identity-equality">
+    <title>Value and identity equality</title>
+    <code language="csharp"><![CDATA[
+// C# handles equality differently for reference types and value types
+
+// Reference Types
+var c1 = new MyClass(5);
+var c2 = new MyClass(5);
+
+c1 == c2 // False, even if identical internally.
+
+c1 = c2;
+c1 == c2; // True
+
+// Value Types
+var v1 = 5;
+var v2 = 5;
+
+v1 == v2; // True
+
+v1 = v2;
+v1 == v2; // True
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-functions">
+  <title>Functions</title>
+  <synonym id="syn-function-definition">
+    <title>Function definition</title>
+    <code language="csharp"><![CDATA[
+// Return type of methods must be specified in C#, or void if no return.
+bool Fn()
+{
+  return True;
+}
+
+void VoidFn()
+{
+  // no return
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-return-value">
+    <title>Return value</title>
+    <code language="csharp"><![CDATA[
+// Return Type must match method signature
+bool IsTrue()
+{
+  return "hi"; // error
+}
+
+MyClass MakeMyClass()
+{
+  return new MyClass(); // correct.
+}
+
+// void methods in C# do not return a value.
+void doNothing(){} // return to caller, but without a value.
+
+]]></code>
+  </synonym>
+  <synonym id="syn-assign-a-function-to-a-variable">
+    <title>Assign a function to a variable</title>
+    <code language="csharp"><![CDATA[
+// Declare a delegate first at the class or namespace level.
+delegate string LoudifyDelegate(string s);
+
+void DemoAnonFunc()
+{
+  // Use of 'var' not allowed in this case.
+  // The variable must be strongly-typed.
+  LoudifyDelegate loudify = delegate(string msg) {
+	return msg.ToUpper();
+  };
+
+  loudify("not gonna take it anymore");
+  // NOT GONNA TAKE IT ANYMORE 
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-optional-parameters">
+    <title>Optional parameters</title>
+    <code language="csharp"><![CDATA[
+int Fn(int a, int b, int c)
+{
+  return c;
+}
+
+Fn(1) // Compile-time error: No overload for method 'Fn' takes 1 arguments
+
+// C# supports method overloading to allow optional parameters.
+
+int Fn(int a)
+{
+  return a;
+}
+
+int Fn(int a, int b)
+{
+  return b;
+}
+
+// C# also supports a params[] argument to take an arbitrary array of additional arguments,
+// but still enforces same-Type on all elements.
+void WithParams(int i, params string[] extra)
+{
+  var l = extra.Length; // 2 when called from below
+}
+
+WithParams(5, new []{"You", "Me"});
+
+]]></code>
+    <code language="dart"><![CDATA[
+fn(a, b, c) => c;
+
+fn(1); // ERROR: NoSuchMethodException
+fn(1, 2, 3); // == 3
+
+// Dart specifies optional parameters with square braces
+fn(a, [b, c]) => c;
+fn('a'); // == null
+]]></code>
+  </synonym>
+  <synonym id="syn-default-parameters">
+    <title>Default parameters</title>
+    <code language="csharp"><![CDATA[
+function send(msg, rate) {
+  rate = rate || 'First Class';
+  return msg + " was sent via " + rate;
+}
+
+send('hello') // == 'hello was sent via First Class'
+send("I'm cheap", '4th class') // == "I'm cheap was sent via 4th class
+]]></code>
+    <code language="dart"><![CDATA[
+send(msg, [rate='First Class']) {
+  return '${msg} was sent via ${rate}';
+}
+
+send('hello'); // == 'hello was sent via First Class'
+send("I'm cheap", '4th class'); // == "I'm cheap was sent via 4th class"
+]]></code>
+  </synonym>
+  <synonym id="syn-named-parameters">
+    <title>Named parameters</title>
+    <code language="csharp"><![CDATA[
+// JavaScript does not have native support for named parameters
+]]></code>
+    <code language="dart"><![CDATA[
+send(msg, [rate='First Class']) {
+  return '${msg} was sent via ${rate}';
+}
+
+// you can use named parameters if the argument is optional
+send("I'm cheap", rate:'4th class'); // == "I'm cheap was sent via 4th class"
+]]></code>
+  </synonym>
+  <synonym id="syn-variable-number-of-arguments">
+    <title>Variable number of arguments</title>
+    <code language="csharp"><![CDATA[
+function superHeros() {
+  for (var i = 0; i < arguments.length; i++) {
+    console.log("There's no stopping " + arguments[i]);
+  }
+}
+
+superHeros('UberMan', 'Exceptional Woman', 'The Hunk');
+]]></code>
+    <code language="dart"><![CDATA[
+// Dart does not support variable numbers of arguments
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-iterators">
+  <title>Iterators</title>
+  <synonym id="syn-for-loops-for-lists">
+    <title>For loops for lists</title>
+    <code language="csharp"><![CDATA[
+var colors = ['red', 'orange', 'green'];
+
+for (var i = 0; i < colors.length; i++) {
+  console.log(colors[i]);
+}
+]]></code>
+    <code language="dart"><![CDATA[
+var colors = ['red', 'orange', 'green'];
+
+for (var i = 0; i < colors.length; i++) {
+  print(colors[i]);
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-for-in-loops">
+    <title>For-in loops</title>
+    <code language="csharp"><![CDATA[
+var fruits = ['orange', 'apple', 'banana'];
+
+// 'in' notation in JavaScript returns the
+// indices of the array, not the values
+
+for (var i in fruits) {
+  console.log(fruits[i]);
+}
+]]></code>
+    <code language="dart"><![CDATA[
+var fruits = ['orange', 'apple', 'banana'];
+
+// 'in' notation in Dart returns the element
+// of the list, not the index
+
+for (var fruit in fruits) {
+  print(fruit);
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-for-loops-for-objectsmaps">
+    <title>For loops for objects/maps</title>
+    <code language="csharp"><![CDATA[
+var data = { … };
+
+for (var key in data) {
+  console.log('key', key);
+  console.log('value', data[key]);
+}
+]]></code>
+    <code language="dart"><![CDATA[
+var data = { … };
+
+for (var key in data.getKeys()) {
+  print('$key, ${data[key]}');
+}
+
+// Alternatively, the forEach loop is a method on a Map in Dart.
+
+data.forEach((key, value){
+  print('${key}, ${value}');
+});
+]]></code>
+  </synonym>
+  <synonym id="syn-closures-and-counters-in-loops">
+    <title>Closures and counters in loops</title>
+    <code language="csharp"><![CDATA[
+var callbacks = [];
+
+// A closure must be used to preserve the return for
+// each function at each step of the loop.  Otherwise
+// every entry in callbacks will return 2;
+for (var i = 0; i < 2; i++) {
+  (function(_i) {
+    callbacks.push(function() {
+      return _i;
+    });
+  })(i);
+}
+
+// Without the internal closure, the result is 2
+callbacks[0]() // == 0
+
+// ECMAScript 6 can support this with the use of blocks
+let callbacks = [];
+for (let i = 0; i < 10; i++) {
+  let j = i;
+  callbacks.push(function() { print(j) });
+}
+]]></code>
+    <code language="dart"><![CDATA[
+// Dart doesn't reuse and close over the same
+// loop variable in each iteration
+var callbacks = [];
+for (var i = 0; i < 2; i++) {
+  callbacks.add(() => print(i));
+}
+
+callbacks[0]() // == 0
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-classes">
+  <title>Classes</title>
+  <synonym id="syn-define">
+    <title>Define</title>
+    <code language="csharp"><![CDATA[
+function Person() {
+  this.name = null;
+};
+
+Person.prototype.greet = function() {
+  return 'Hello, ' + this.name;
+}
+]]></code>
+    <code language="dart"><![CDATA[
+class Person {
+  var name;
+
+  greet() => 'Hello, $name';
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-constructor-with-parameter">
+    <title>Constructor with parameter</title>
+    <code language="csharp"><![CDATA[
+function Person(name) {
+  this.name = name;
+};
+]]></code>
+    <code language="dart"><![CDATA[
+class Person {
+  var name;
+
+  Person(name) {
+    this.name = name;
+  }
+}
+
+// shorter alternative
+
+class Person {
+  var name;
+
+  // parameters prefixed by 'this.' will assign to
+  // instance variables automatically
+  Person(this.name);
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-instantiate">
+    <title>Instantiate</title>
+    <code language="csharp"><![CDATA[
+var person = new Person();
+]]></code>
+    <code language="dart"><![CDATA[
+var person = new Person();
+]]></code>
+  </synonym>
+  <synonym id="syn-reflection">
+    <title>Reflection</title>
+    <code language="csharp"><![CDATA[
+var name = 'Bob';
+typeof name // == 'String'
+]]></code>
+    <code language="dart"><![CDATA[
+// There currently is no way to get the class of an
+// object. Reflection support coming soon.
+]]></code>
+  </synonym>
+  <synonym id="syn-check-the-type">
+    <title>Check the type</title>
+    <code language="csharp"><![CDATA[
+var name = 'Bob';
+
+name instanceof String // == true
+
+(!(name instanceof int)) // == true
+]]></code>
+    <code language="dart"><![CDATA[
+var name = 'Bob';
+
+name is String // == true
+
+name is! int // == true
+]]></code>
+  </synonym>
+  <synonym id="syn-subclass">
+    <title>Subclass</title>
+    <code language="csharp"><![CDATA[
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.greet = function() {
+  return 'Hello, ' + this.name;
+}
+    
+function Employee(name, salary) {   
+  Person.call(this, name);
+  this.salary = salary;
+}
+
+Employee.prototype = new Person();
+Employee.prototype.constructor = Employee;
+
+Employee.prototype.grantRaise = function(percent) {
+  this.salary = (this.salary * percent).toInt();
+}
+]]></code>
+    <code language="dart"><![CDATA[
+class Person {
+  var name;
+
+  Person(this.name);
+
+  greet() => 'Hello, $name';
+}
+
+class Employee extends Person {
+  var salary;
+
+  Employee(name, this.salary) : super(name);
+  
+  grantRaise(percent) {
+    salary = (salary * percent).toInt();
+  }
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-operator-overloading">
+    <title>Operator &quot;overloading&quot;</title>
+    <code language="csharp"><![CDATA[
+// not supported
+]]></code>
+    <code language="dart"><![CDATA[
+class Point {
+  var x, y;
+  Point(this.x, this.y);
+  
+  operator + (Point p) => new Point(x + p.x, y + p.y);
+  
+  toString() => 'x:$x, y:$y';
+}
+
+main() {
+  var p1 = new Point(1, 1);
+  var p2 = new Point(2, 2);
+  var p3 = p1 + p2;
+  print(p3);
+}
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-finding-elements-in-dom">
+  <title>Finding elements in DOM</title>
+  <synonym id="syn-find-one-element-by-id">
+    <title>Find one element by id</title>
+    <code language="csharp"><![CDATA[
+document.getElementById('main')
+
+document.querySelector('#main')
+]]></code>
+    <code language="dart"><![CDATA[
+document.query('#main')
+]]></code>
+  </synonym>
+  <synonym id="syn-find-one-element-by-class">
+    <title>Find one element by class</title>
+    <code language="csharp"><![CDATA[
+document.getElementsByClassName('visible')[0]
+
+document.querySelector('.visible')
+]]></code>
+    <code language="dart"><![CDATA[
+document.query('.visible')
+]]></code>
+  </synonym>
+  <synonym id="syn-find-many-elements-by-class">
+    <title>Find many elements by class</title>
+    <code language="csharp"><![CDATA[
+document.getElementsByClassName('visible')
+
+document.querySelectorAll('.visible')
+]]></code>
+    <code language="dart"><![CDATA[
+document.queryAll('.visible')
+]]></code>
+  </synonym>
+  <synonym id="syn-find-one-element-by-tag">
+    <title>Find one element by tag</title>
+    <code language="csharp"><![CDATA[
+document.getElementsByTagName('div')[0]
+
+document.querySelector('div')
+]]></code>
+    <code language="dart"><![CDATA[
+document.query('div')
+]]></code>
+  </synonym>
+  <synonym id="syn-find-many-elements-by-tag">
+    <title>Find many elements by tag</title>
+    <code language="csharp"><![CDATA[
+document.getElementsByTagName('div')
+
+document.querySelectorAll('div')
+]]></code>
+    <code language="dart"><![CDATA[
+document.queryAll('div')
+]]></code>
+  </synonym>
+  <synonym id="syn-find-one-element-by-name">
+    <title>Find one element by name</title>
+    <code language="csharp"><![CDATA[
+document.getElementsByName('form')[0]
+
+document.querySelector('[name="form"]')
+]]></code>
+    <code language="dart"><![CDATA[
+document.query('[name="form"]')
+]]></code>
+  </synonym>
+  <synonym id="syn-find-many-elements-by-name">
+    <title>Find many elements by name</title>
+    <code language="csharp"><![CDATA[
+document.getElementsByName('form')
+
+document.querySelectorAll('[name="form"]')
+]]></code>
+    <code language="dart"><![CDATA[
+document.queryAll('[name="form"]')
+]]></code>
+  </synonym>
+  <synonym id="syn-find-elements-by-combination-of-above">
+    <title>Find elements by combination of above</title>
+    <code language="csharp"><![CDATA[
+document.getElementById('main').getElementsByTagName('div')[0].getElementsByClassName('visible')
+
+document.querySelectorAll('#main div:first-of-type .visible')
+]]></code>
+    <code language="dart"><![CDATA[
+document.queryAll('#main div:first-of-type .visible')
+]]></code>
+  </synonym>
+  <synonym id="syn-iterate-over-a-list-of-elements">
+    <title>Iterate over a list of elements</title>
+    <code language="csharp"><![CDATA[
+for (var i = 0, el; el = els[i]; i++) {
+  doSomethingWithEl(el);
+}
+]]></code>
+    <code language="dart"><![CDATA[
+for (var el in els) {
+  doSomethingWithEl(el);
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-access-the-first-child">
+    <title>Access the first child</title>
+    <code language="csharp"><![CDATA[
+elem.firstChild()
+]]></code>
+    <code language="dart"><![CDATA[
+elem.nodes[0]
+]]></code>
+  </synonym>
+  <synonym id="syn-find-out-whether-an-element-has-children-elements">
+    <title>Find out whether an element has children elements</title>
+    <code language="csharp"><![CDATA[
+elem.hasChildNodes()
+]]></code>
+    <code language="dart"><![CDATA[
+!elem.nodes.isEmpty()
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-manipulating-dom">
+  <title>Manipulating DOM</title>
+  <synonym id="syn-create-an-element">
+    <title>Create an element</title>
+    <code language="csharp"><![CDATA[
+var element = document.createElement('div');
+]]></code>
+    <code language="dart"><![CDATA[
+#import('dart:html');
+
+var element = new Element.tag('div');
+]]></code>
+  </synonym>
+  <synonym id="syn-create-an-element-and-set-its-contents">
+    <title>Create an element and set its contents</title>
+    <code language="csharp"><![CDATA[
+var element = document.createElement('p');
+
+element.innerHTML = 'A quick brown <em>fox</em>.';
+]]></code>
+    <code language="dart"><![CDATA[
+var element = new Element.html('<p>A quick brown <em>fox</em>.</p>');
+]]></code>
+  </synonym>
+  <synonym id="syn-add-an-element-to-a-parent">
+    <title>Add an element to a parent</title>
+    <code language="csharp"><![CDATA[
+element.appendChild(newElement);
+]]></code>
+    <code language="dart"><![CDATA[
+element.nodes.add(newElement);
+]]></code>
+  </synonym>
+  <synonym id="syn-remove-an-element-from-its-parent">
+    <title>Remove an element from its parent</title>
+    <code language="csharp"><![CDATA[
+element.parentNode.removeChild(element);
+]]></code>
+    <code language="dart"><![CDATA[
+element.remove();
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-regular-expressions">
+  <title>Regular expressions</title>
+  <synonym>
+    <code language="csharp"><![CDATA[
+var email = 'test@example.com';
+email.match(/@/)
+// == ['@']
+]]></code>
+    <code language="dart"><![CDATA[
+var email = 'test@example.com';
+(new RegExp(@'o')).firstMatch(email)
+// == Match Object
+]]></code>
+  </synonym>
+  <synonym>
+    <code language="csharp"><![CDATA[
+var invalidEmail = 'f@il@example.com';
+invalidEmail.match(/@/g)
+// == ['@', '@']
+]]></code>
+    <code language="dart"><![CDATA[
+var invalidEmail = 'f@il@example.com';
+(new RegExp(@'o')).allMatches(invalidEmail)
+// == Iterable Match Object
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-exceptions">
+  <title>Exceptions</title>
+  <synonym id="syn-throw-an-exception">
+    <title>Throw an exception</title>
+    <code language="csharp"><![CDATA[
+throw new Error("Intruder Alert!!");
+
+// or...
+
+throw "Intruder Alert!!";
+]]></code>
+    <code language="dart"><![CDATA[
+throw new Exception("Intruder Alert!!");
+]]></code>
+  </synonym>
+  <synonym id="syn-catch-an-exception">
+    <title>Catch an exception</title>
+    <code language="csharp"><![CDATA[
+try {
+  undefinedFunction();
+} catch(e) {
+  if (e instanceof ReferenceError) {
+    console.log('You called a function that does not exist');
+  }
+} finally {
+  console.log('This runs even if an exception is thrown');
+}
+]]></code>
+    <code language="dart"><![CDATA[
+try {
+  Math.parseInt("three");
+} catch(BadNumberFormatException bnfe) {
+  print("Ouch! Detected: $bnfe");
+} catch(var e) {
+  print("If some other type of exception");
+} finally {
+  print("This runs even if an exception is thrown");
+}
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-event-handling">
+  <title>Event handling</title>
+  <synonym id="syn-attach-an-event-handler">
+    <title>Attach an event handler</title>
+    <code language="csharp"><![CDATA[
+element.addEventListener('click', handleOnClick, false);
+]]></code>
+    <code language="dart"><![CDATA[
+element.on.click.add(handleOnClick);
+]]></code>
+  </synonym>
+  <synonym id="syn-remove-an-event-handler">
+    <title>Remove an event handler</title>
+    <code language="csharp"><![CDATA[
+element.removeEventListener('click', handleOnClick, false);
+]]></code>
+    <code language="dart"><![CDATA[
+element.on.click.remove(handleOnClick);
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-timing">
+  <title>Timing</title>
+  <synonym id="syn-schedule-a-future-event">
+    <title>Schedule a future event</title>
+    <code language="csharp"><![CDATA[
+setTimeout(function() { … }, 500);
+]]></code>
+    <code language="dart"><![CDATA[
+window.setTimeout(() { … }, 500);
+]]></code>
+  </synonym>
+  <synonym id="syn-measure-the-execution-time-of-a-function">
+    <title>Measure the execution time of a function</title>
+    <code language="csharp"><![CDATA[
+function measure(fn) {
+  var start = Date.now();
+  fn();
+  return Date.now() - start;
+}
+]]></code>
+    <code language="dart"><![CDATA[
+measure(fn) {
+  Stopwatch watch = new Stopwatch.start();
+  fn();
+  return watch.elapsedInMs();
+}
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-html-attributes">
+  <title>HTML attributes</title>
+  <synonym id="syn-get-html-attribute">
+    <title>Get HTML attribute</title>
+    <code language="csharp"><![CDATA[
+element.getAttribute('href')
+]]></code>
+    <code language="dart"><![CDATA[
+element.attributes['href']
+]]></code>
+  </synonym>
+  <synonym id="syn-set-html-attribute">
+    <title>Set HTML attribute</title>
+    <code language="csharp"><![CDATA[
+element.setAttribute('playable', true);
+]]></code>
+    <code language="dart"><![CDATA[
+element.attributes['playable'] = true;
+]]></code>
+  </synonym>
+  <synonym id="syn-remove-html-attribute">
+    <title>Remove HTML attribute</title>
+    <code language="csharp"><![CDATA[
+element.removeAttribute('playable');
+]]></code>
+    <code language="dart"><![CDATA[
+element.attributes.remove('playable');
+]]></code>
+  </synonym>
+  <synonym id="syn-check-if-html-attribute-exists">
+    <title>Check if HTML attribute exists</title>
+    <code language="csharp"><![CDATA[
+element.hasAttribute('href')
+]]></code>
+    <code language="dart"><![CDATA[
+element.attributes.contains('href')
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-css-classes">
+  <title>CSS classes</title>
+  <synonym id="syn-add-css-class">
+    <title>Add CSS class</title>
+    <code language="csharp"><![CDATA[
+element.className += ' new-class';
+
+element.classList.add('new-class');
+]]></code>
+    <code language="dart"><![CDATA[
+element.classes.add('new-class');
+]]></code>
+  </synonym>
+  <synonym id="syn-remove-css-class">
+    <title>Remove CSS class</title>
+    <code language="csharp"><![CDATA[
+element.className = element.className.replace(/ new-class/, '');
+
+element.classList.remove('new-class');
+]]></code>
+    <code language="dart"><![CDATA[
+element.classes.remove('new-class');
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-ajax">
+  <title>Ajax</title>
+  <synonym id="syn-request-data-via-xmlhttprequest">
+    <title>Request data via XMLHttpRequest</title>
+    <code language="csharp"><![CDATA[
+var client = new XMLHttpRequest;
+  
+client.onreadystatechange = function() {  
+  if (this.readyState == 4) {  
+    processData(this);
+  }
+}
+client.open('GET', 'data.json');
+client.send();
+
+function processData(request) {
+  console.log('The contents of your data: ' + request.responseText);
+}
+]]></code>
+    <code language="dart"><![CDATA[
+// The getTEMPNAME method name will be changed.
+var xhr = new XMLHttpRequest.getTEMPNAME("/data.json", (req) {
+  print("The contents of your data: ${req.responseText}");
+});
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-jquery">
+  <title>jQuery</title>
+  <synonym id="syn-react-to-document-finishing-loading">
+    <title>React to document finishing loading</title>
+    <code language="csharp"><![CDATA[
+$(document).ready(function(){
+  console.log('Content is loaded');
+});
+]]></code>
+    <code language="dart"><![CDATA[
+window.on.contentLoaded.add((e) => print('Content is loaded'));
+
+// However, main() will normally run after DOMContentLoaded
+]]></code>
+  </synonym>
+  <synonym id="syn-node-lookup">
+    <title>Node lookup</title>
+    <code language="csharp"><![CDATA[
+var els = jQuery('div');
+]]></code>
+    <code language="dart"><![CDATA[
+List els = document.query('div');
+]]></code>
+  </synonym>
+  <synonym id="syn-node-creation">
+    <title>Node creation</title>
+    <code language="csharp"><![CDATA[
+var pic = $('<img/>');
+
+pic.addClass('avatar');
+pic.toggleClass('main');
+
+pic.attr('src', 'myPic.jpg');
+
+$('body').append(pic);
+]]></code>
+    <code language="dart"><![CDATA[
+var pic = new Element.tag('img');
+
+pic.classes.add('avatar');
+pic.classes.toggle('main');
+
+pic.attributes['src'] = 'myPic.jpg';
+
+document.body.nodes.add(pic);
+]]></code>
+  </synonym>
+  <synonym id="syn-event-handling">
+    <title>Event handling</title>
+    <code language="csharp"><![CDATA[
+$('a.person').click(function(e){
+  console.log('Person clicked');
+})
+]]></code>
+    <code language="dart"><![CDATA[
+document.queryAll('a.person').forEach((el) {
+  el.on.click.add((e) => print('Person clicked'));
+});
+
+// coming soon!!
+document.queryAll('a.person').on.click.add((e) => print('Person clicked'));
+]]></code>
+  </synonym>
+  <synonym id="syn-relative-nodes">
+    <title>Relative nodes</title>
+    <code language="csharp"><![CDATA[
+var myNode = $('div:first');
+
+var parent = myNode.parent();
+
+var next = myNode.next();
+]]></code>
+    <code language="dart"><![CDATA[
+var myNode = document.query('div');
+
+var parent = myNode.parent;
+
+var next = myNode.nextNode;
+]]></code>
+  </synonym>
+  <synonym id="syn-children">
+    <title>Children</title>
+    <code language="csharp"><![CDATA[
+var myNode = $('div:first');
+
+// If there are children, remove them
+if (!myNode.is(':empty')) {
+  myNode.empty();
+}
+
+]]></code>
+    <code language="dart"><![CDATA[
+var myNode = document.query('div');
+
+if (!myNode.nodes.isEmpty()) {
+  myNode.nodes.clear();
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-clone">
+    <title>Clone</title>
+    <code language="csharp"><![CDATA[
+var clonedElement = $('#about').clone();
+]]></code>
+    <code language="dart"><![CDATA[
+var clonedElement = document.query('#about').clone(true);
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-math">
+  <title>Math</title>
+  <synonym id="syn-absolute-value">
+    <title>Absolute value</title>
+    <code language="csharp"><![CDATA[
+Math.abs(-4) // == 4
+]]></code>
+    <code language="dart"><![CDATA[
+-4.abs() // == 4
+]]></code>
+  </synonym>
+  <synonym id="syn-ceiling">
+    <title>Ceiling</title>
+    <code language="csharp"><![CDATA[
+Math.ceil(4.89) // == 5
+]]></code>
+    <code language="dart"><![CDATA[
+4.89.ceil() // == 5
+]]></code>
+  </synonym>
+  <synonym id="syn-floor">
+    <title>Floor</title>
+    <code language="csharp"><![CDATA[
+Math.floor(4.89) // == 4
+]]></code>
+    <code language="dart"><![CDATA[
+4.89.floor() // == 4
+]]></code>
+  </synonym>
+  <synonym id="syn-random">
+    <title>Random</title>
+    <code language="csharp"><![CDATA[
+// Returns a random float greater than or equal to 0.0
+// and less than 1.0
+
+Math.random()
+]]></code>
+    <code language="dart"><![CDATA[
+// Returns a random double greater than or equal to 0.0
+// and less than 1.0
+
+Math.random()
+
+// random in the VM has a bug: http://dartbug.com/499
+]]></code>
+  </synonym>
+  <synonym id="syn-sine-and-cosine">
+    <title>Sine and Cosine</title>
+    <code language="csharp"><![CDATA[
+Math.sin(Math.PI/2) // == 1
+Math.cos(Math.PI) // == -1
+]]></code>
+    <code language="dart"><![CDATA[
+Math.sin(Math.PI/2) // == 1
+Math.cos(Math.PI) // == -1
+]]></code>
+  </synonym>
+  <synonym id="syn-convert-a-string-to-a-number">
+    <title>Convert a String to a number</title>
+    <code language="csharp"><![CDATA[
+parseInt('3') // == 3
+
+parseFloat('3.14') // == 3.14
+
+parseInt('three') // NaN
+]]></code>
+    <code language="dart"><![CDATA[
+Math.parseInt('3') // == 3
+
+Math.parseDouble('3.14') // == 3.14
+
+Math.parseInt('three') // ERROR: throws BadNumberFormatException 
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-run-time-program-manipulation">
+  <title>Run time program manipulation</title>
+  <synonym id="syn-eval">
+    <title>Eval</title>
+    <code language="csharp"><![CDATA[
+eval('alert("hello from eval")');
+]]></code>
+    <code language="dart"><![CDATA[
+// Dart doesn't support eval(). This is not a bug.
+]]></code>
+  </synonym>
+  <synonym id="syn-adding-a-method-to-a-class">
+    <title>Adding a method to a class</title>
+    <code language="csharp"><![CDATA[
+String.prototype.startsWith = function(beginning) {
+  var head = this.substr(0, beginning.length);
+  return head == beginning;
+}
+]]></code>
+    <code language="dart"><![CDATA[
+// Dart doesn't support changing a class after
+// the program has been compiled
+]]></code>
+  </synonym>
+</theme>
+</synonyms>

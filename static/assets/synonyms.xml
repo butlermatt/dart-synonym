@@ -12,11 +12,10 @@
 // Chromium with Dart VM)
 <script type='application/dart' src='program.dart'></script>
 
-// Also, you'll need this to kickstart the Dart engine.
-<script type='text/javascript'>
-  if (navigator.webkitStartDart) {
-    navigator.webkitStartDart();
-  }
+// The following will kickstart the Dart engine and 
+// try to automatically load the javascript version
+// of your app for non-Dartium browsers.
+<script src="http://dart.googlecode.com/svn/branches/bleeding_edge/dart/client/dart.js">
 </script>
 ]]></code>
   </synonym>
@@ -351,6 +350,11 @@ var escapedString = 'A tab looks like \\t';
 ]]></code>
     <code language="dart"><![CDATA[
 var rawString = @'The following is not expanded to a tab \t';
+// Note: The @ notation for declaring a raw
+// string will be replace with r in the near
+// future. For example:
+var rawString = r'The following is not expanded to a tab \t';
+
 var escapedString = 'The following is not expanded to a tab \\t';
 
 rawString == escapedString // == true
@@ -380,11 +384,11 @@ element.style.top = '${top + 20}px';
   <synonym id="syn-substring">
     <title>Substring</title>
     <code language="javascript"><![CDATA[
-'doghouses'.substring(3, 8) // == 'houses'
-'doghouses'.substr(3, 5) // == 'houses'
+'doghouses'.substring(3, 8) // == 'house'
+'doghouses'.substr(3, 5) // == 'house'
 ]]></code>
     <code language="dart"><![CDATA[
-'doghouses'.substring(3, 8); // == 'houses'
+'doghouses'.substring(3, 8); // == 'house'
 ]]></code>
   </synonym>
   <synonym id="syn-replace-all-occurences">
@@ -546,7 +550,7 @@ if (!myNaN) {
 }
 ]]></code>
     <code language="dart"><![CDATA[
-var myNan = 0/0;
+var myNaN = 0/0;
 
 if (myNaN.isNaN()) {
   print('use isNaN to check if a number is NaN');
@@ -581,19 +585,13 @@ var number5 = 5;
 var char5 = '5';
 
 // This comparison triggers type conversion
-number1 == char1 // == true
+number5 == char5 // == true
 
 // 'triple equals' checks type and value
 letterA === charA // == true
 number5 === char5 // == false
 ]]></code>
     <code language="dart"><![CDATA[
-// NOTE: the follow is BRAND NEW and implementations
-// do not yet match the below semantics. The below is
-// how it will work.
-// for more info, please see
-// http://www.dartlang.org/news/2012/01/26/revisiting-equality.html
-
 /*
  * In Dart, == will check the following, in order:
  * 1) if x === y then return true (=== is identity). Otherwise
@@ -625,7 +623,7 @@ letterA == charA // == true
 var number5 = 5;
 var char5 = '5';
 
-number1 != char1 // == true, because of different types
+number5 != char5 // == true, because of different types
 ]]></code>
   </synonym>
 </theme>
@@ -778,6 +776,11 @@ var colors = ['red', 'orange', 'green'];
 for (var i = 0; i < colors.length; i++) {
   print(colors[i]);
 }
+
+// Alternatively, the forEach loop is a method on a List in Dart.
+colors.forEach((color) {
+  print(color);
+});
 ]]></code>
   </synonym>
   <synonym id="syn-for-in-loops">
@@ -902,8 +905,7 @@ class Person {
   }
 }
 
-// shorter alternative
-
+// Shorter alternative
 class Person {
   var name;
 
@@ -970,7 +972,8 @@ Employee.prototype = new Person();
 Employee.prototype.constructor = Employee;
 
 Employee.prototype.grantRaise = function(percent) {
-  this.salary = (this.salary * percent).toInt();
+  percent /= 100;
+  this.salary += (this.salary * percent).toInt();
 }
 ]]></code>
     <code language="dart"><![CDATA[
@@ -988,7 +991,8 @@ class Employee extends Person {
   Employee(name, this.salary) : super(name);
   
   grantRaise(percent) {
-    salary = (salary * percent).toInt();
+    percent /= 100;
+    salary += (salary * percent).toInt();
   }
 }
 ]]></code>
@@ -1022,89 +1026,91 @@ main() {
   <synonym id="syn-find-one-element-by-id">
     <title>Find one element by id</title>
     <code language="javascript"><![CDATA[
-document.getElementById('main')
+document.getElementById('main');
 
-document.querySelector('#main')
+document.querySelector('#main');
 ]]></code>
     <code language="dart"><![CDATA[
-document.query('#main')
+document.query('#main');
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-class">
     <title>Find one element by class</title>
     <code language="javascript"><![CDATA[
-document.getElementsByClassName('visible')[0]
+document.getElementsByClassName('visible')[0];
 
-document.querySelector('.visible')
+document.querySelector('.visible');
 ]]></code>
     <code language="dart"><![CDATA[
-document.query('.visible')
+document.query('.visible');
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-class">
     <title>Find many elements by class</title>
     <code language="javascript"><![CDATA[
-document.getElementsByClassName('visible')
+document.getElementsByClassName('visible');
 
-document.querySelectorAll('.visible')
+document.querySelectorAll('.visible');
 ]]></code>
     <code language="dart"><![CDATA[
-document.queryAll('.visible')
+document.queryAll('.visible');
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-tag">
     <title>Find one element by tag</title>
     <code language="javascript"><![CDATA[
-document.getElementsByTagName('div')[0]
+document.getElementsByTagName('div')[0];
 
-document.querySelector('div')
+document.querySelector('div');
 ]]></code>
     <code language="dart"><![CDATA[
-document.query('div')
+document.query('div');
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-tag">
     <title>Find many elements by tag</title>
     <code language="javascript"><![CDATA[
-document.getElementsByTagName('div')
+document.getElementsByTagName('div');
 
-document.querySelectorAll('div')
+document.querySelectorAll('div');
 ]]></code>
     <code language="dart"><![CDATA[
-document.queryAll('div')
+document.queryAll('div');
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-name">
     <title>Find one element by name</title>
     <code language="javascript"><![CDATA[
-document.getElementsByName('form')[0]
+document.getElementsByName('form')[0];
 
-document.querySelector('[name="form"]')
+document.querySelector('[name="form"]');
 ]]></code>
     <code language="dart"><![CDATA[
-document.query('[name="form"]')
+document.query('[name="form"]');
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-name">
     <title>Find many elements by name</title>
     <code language="javascript"><![CDATA[
-document.getElementsByName('form')
+document.getElementsByName('form');
 
-document.querySelectorAll('[name="form"]')
+document.querySelectorAll('[name="form"]');
 ]]></code>
     <code language="dart"><![CDATA[
-document.queryAll('[name="form"]')
+document.queryAll('[name="form"]');
 ]]></code>
   </synonym>
   <synonym id="syn-find-elements-by-combination-of-above">
     <title>Find elements by combination of above</title>
     <code language="javascript"><![CDATA[
-document.getElementById('main').getElementsByTagName('div')[0].getElementsByClassName('visible')
+document.getElementById('main').getElementsByTagName('div')[0].getElementsByClassName('visible');
 
-document.querySelectorAll('#main div:first-of-type .visible')
+document.querySelectorAll('#main div:first-of-type .visible');
 ]]></code>
     <code language="dart"><![CDATA[
-document.queryAll('#main div:first-of-type .visible')
+document.query('#main').query('div').queryAll('.visible');
+
+document.queryAll('#main div:first-of-type .visible');
 ]]></code>
   </synonym>
   <synonym id="syn-iterate-over-a-list-of-elements">
@@ -1123,19 +1129,23 @@ for (var el in els) {
   <synonym id="syn-access-the-first-child">
     <title>Access the first child</title>
     <code language="javascript"><![CDATA[
-elem.firstChild()
+elem.firstChild();
 ]]></code>
     <code language="dart"><![CDATA[
-elem.nodes[0]
+elem.nodes.first;
+
+elem.nodes[0];
 ]]></code>
   </synonym>
   <synonym id="syn-find-out-whether-an-element-has-children-elements">
     <title>Find out whether an element has children elements</title>
     <code language="javascript"><![CDATA[
-elem.hasChildNodes()
+elem.hasChildNodes();
 ]]></code>
     <code language="dart"><![CDATA[
-!elem.nodes.isEmpty()
+elem.hasChildNodes();
+
+!elem.nodes.isEmpty();
 ]]></code>
   </synonym>
 </theme>
@@ -1150,6 +1160,9 @@ var element = document.createElement('div');
 #import('dart:html');
 
 var element = new Element.tag('div');
+
+// Many elements have their own constructors.
+var element = new DivElement();
 ]]></code>
   </synonym>
   <synonym id="syn-create-an-element-and-set-its-contents">
@@ -1187,12 +1200,12 @@ element.remove();
   <synonym>
     <code language="javascript"><![CDATA[
 var email = 'test@example.com';
-email.match(/@/)
+email.match(/@/);
 // == ['@']
 ]]></code>
     <code language="dart"><![CDATA[
 var email = 'test@example.com';
-(new RegExp(@'o')).firstMatch(email)
+(new RegExp(@'@')).firstMatch(email);
 // == Match Object
 ]]></code>
   </synonym>
@@ -1204,7 +1217,7 @@ invalidEmail.match(/@/g)
 ]]></code>
     <code language="dart"><![CDATA[
 var invalidEmail = 'f@il@example.com';
-(new RegExp(@'o')).allMatches(invalidEmail)
+(new RegExp(@'@')).allMatches(invalidEmail)
 // == Iterable Match Object
 ]]></code>
   </synonym>
@@ -1238,14 +1251,17 @@ try {
 }
 ]]></code>
     <code language="dart"><![CDATA[
+#import('dart:math');
+main() {    
 try {
-  Math.parseInt("three");
-} catch(BadNumberFormatException bnfe) {
-  print("Ouch! Detected: $bnfe");
-} catch(var e) {
-  print("If some other type of exception");
-} finally {
-  print("This runs even if an exception is thrown");
+    parseInt("three");
+  } on FormatException catch(fe) {
+    print("Ouch! Detected: $fe");
+  } catch(e) {
+    print("If some other type of exception");
+  } finally {
+    print("This runs even if an exception is thrown");
+  }
 }
 ]]></code>
   </synonym>
@@ -1280,6 +1296,11 @@ setTimeout(function() { … }, 500);
 ]]></code>
     <code language="dart"><![CDATA[
 window.setTimeout(() { … }, 500);
+
+// Alternatively the following syntax will
+// work in both client and server side code.
+#import('dart:isolate');
+var timer = new Timer(500, () { … });
 ]]></code>
   </synonym>
   <synonym id="syn-measure-the-execution-time-of-a-function">
@@ -1305,10 +1326,10 @@ measure(fn) {
   <synonym id="syn-get-html-attribute">
     <title>Get HTML attribute</title>
     <code language="javascript"><![CDATA[
-element.getAttribute('href')
+element.getAttribute('href');
 ]]></code>
     <code language="dart"><![CDATA[
-element.attributes['href']
+element.attributes['href'];
 ]]></code>
   </synonym>
   <synonym id="syn-set-html-attribute">
@@ -1332,10 +1353,10 @@ element.attributes.remove('playable');
   <synonym id="syn-check-if-html-attribute-exists">
     <title>Check if HTML attribute exists</title>
     <code language="javascript"><![CDATA[
-element.hasAttribute('href')
+element.hasAttribute('href');
 ]]></code>
     <code language="dart"><![CDATA[
-element.attributes.contains('href')
+element.attributes.containsKey('href');
 ]]></code>
   </synonym>
 </theme>
@@ -1384,8 +1405,7 @@ function processData(request) {
 }
 ]]></code>
     <code language="dart"><![CDATA[
-// The getTEMPNAME method name will be changed.
-var xhr = new XMLHttpRequest.getTEMPNAME("/data.json", (req) {
+var hr = new HttpRequest.get("/data.json", (req) {
   print("The contents of your data: ${req.responseText}");
 });
 ]]></code>
@@ -1412,7 +1432,7 @@ window.on.contentLoaded.add((e) => print('Content is loaded'));
 var els = jQuery('div');
 ]]></code>
     <code language="dart"><![CDATA[
-List els = document.query('div');
+List els = document.queryAll('div');
 ]]></code>
   </synonym>
   <synonym id="syn-node-creation">
@@ -1434,6 +1454,14 @@ pic.classes.add('avatar');
 pic.classes.toggle('main');
 
 pic.attributes['src'] = 'myPic.jpg';
+// Or:
+var pic = new ImageElement('myPic.jpg');
+pic.classes..add('avatar')
+    ..toggle('main');
+// Cascades (..) allow you to make
+// multiple method calls on an object
+// returning the object not the return
+// value of the method.
 
 document.body.nodes.add(pic);
 ]]></code>
@@ -1538,12 +1566,16 @@ Math.floor(4.89) // == 4
 Math.random()
 ]]></code>
     <code language="dart"><![CDATA[
+#import('dart:math');
+var rand = new Random();
 // Returns a random double greater than or equal to 0.0
 // and less than 1.0
-
-Math.random()
-
-// random in the VM has a bug: http://dartbug.com/499
+rand.nextDouble();
+// Returns a random boolean value.
+rand.nextBool();
+// Returns a positive random integer greater or equal
+// to 0 and less than 10
+rand.nextInt(10);
 ]]></code>
   </synonym>
   <synonym id="syn-sine-and-cosine">
@@ -1553,8 +1585,10 @@ Math.sin(Math.PI/2) // == 1
 Math.cos(Math.PI) // == -1
 ]]></code>
     <code language="dart"><![CDATA[
-Math.sin(Math.PI/2) // == 1
-Math.cos(Math.PI) // == -1
+#import('dart:math');
+// The PI constant comes from the math library.
+sin(PI/2) // == 1.0
+cos(PI) // == -1.0
 ]]></code>
   </synonym>
   <synonym id="syn-convert-a-string-to-a-number">
@@ -1567,11 +1601,12 @@ parseFloat('3.14') // == 3.14
 parseInt('three') // NaN
 ]]></code>
     <code language="dart"><![CDATA[
-Math.parseInt('3') // == 3
+#import('dart:math');
+parseInt('3') // == 3
 
-Math.parseDouble('3.14') // == 3.14
+parseDouble('3.14') // == 3.14
 
-Math.parseInt('three') // ERROR: throws BadNumberFormatException 
+parseInt('three') // ERROR: throws FormatException 
 ]]></code>
   </synonym>
 </theme>

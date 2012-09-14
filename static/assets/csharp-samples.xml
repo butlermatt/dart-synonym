@@ -484,93 +484,54 @@ void DemoAnonFunc()
   <synonym id="syn-optional-parameters">
     <title>Optional parameters</title>
     <code language="csharp"><![CDATA[
-int Fn(int a, int b, int c)
+// b and c are optional by assigning a default value
+int Fn(int a, int b = 0, string c = "Hello")
 {
-  return c;
+  return b; // == 0
 }
 
-Fn(1) // Compile-time error: No overload for method 'Fn' takes 1 arguments
+// must be called in order
+Fn(0, 5, "foo");
 
-// C# supports method overloading to allow optional parameters.
-
-int Fn(int a)
-{
-  return a;
-}
-
-int Fn(int a, int b)
-{
-  return b;
-}
-
-// C# also supports a params[] argument to take an arbitrary array of additional arguments,
-// but still enforces same-Type on all elements.
-void WithParams(int i, params string[] extra)
-{
-  var l = extra.Length; // 2 when called from below
-}
-
-WithParams(5, new []{"You", "Me"});
-
-]]></code>
-    <code language="dart"><![CDATA[
-fn(a, b, c) => c;
-
-fn(1); // ERROR: NoSuchMethodException
-fn(1, 2, 3); // == 3
-
-// Dart specifies optional parameters with square braces
-fn(a, [b, c]) => c;
-fn('a'); // == null
+// or use named arguements, to skip some optional arguments.
+Fn(0, c: "bar");
 ]]></code>
   </synonym>
   <synonym id="syn-default-parameters">
     <title>Default parameters</title>
     <code language="csharp"><![CDATA[
-function send(msg, rate) {
-  rate = rate || 'First Class';
-  return msg + " was sent via " + rate;
+string send(string msg, string rate = "First Class")
+{
+  return String.Format("{0} was sent via {1}", msg, rate);
 }
 
-send('hello') // == 'hello was sent via First Class'
-send("I'm cheap", '4th class') // == "I'm cheap was sent via 4th class
+send("hello"); // == "hello was sent via First Class"
+send("I'm cheap", "4th class"); // == "I'm cheap was sent via 4th class"
 ]]></code>
-    <code language="dart"><![CDATA[
-send(msg, [rate='First Class']) {
-  return '${msg} was sent via ${rate}';
-}
 
-send('hello'); // == 'hello was sent via First Class'
-send("I'm cheap", '4th class'); // == "I'm cheap was sent via 4th class"
-]]></code>
   </synonym>
   <synonym id="syn-named-parameters">
     <title>Named parameters</title>
     <code language="csharp"><![CDATA[
-// JavaScript does not have native support for named parameters
-]]></code>
-    <code language="dart"><![CDATA[
-send(msg, [rate='First Class']) {
-  return '${msg} was sent via ${rate}';
+string send(string msg, string rate = "First Class")
+{
+  return String.Format("{0} was sent via {1}", msg, rate);
 }
 
-// you can use named parameters if the argument is optional
-send("I'm cheap", rate:'4th class'); // == "I'm cheap was sent via 4th class"
+send("hello"); // == "hello was sent via First Class"
+send("I'm cheap", "4th class"); // == "I'm cheap was sent via 4th class"
 ]]></code>
   </synonym>
   <synonym id="syn-variable-number-of-arguments">
     <title>Variable number of arguments</title>
     <code language="csharp"><![CDATA[
-function superHeros() {
-  for (var i = 0; i < arguments.length; i++) {
-    console.log("There's no stopping " + arguments[i]);
-  }
+// Supports a params[] argument to take an arbitrary array of additional arguments.
+void WithParams(int i, params object[] extra)
+{
+  var l = extra.Length; // 4 when called from below
 }
 
-superHeros('UberMan', 'Exceptional Woman', 'The Hunk');
-]]></code>
-    <code language="dart"><![CDATA[
-// Dart does not support variable numbers of arguments
+WithParams(5, "hi", -4, "you", true);
 ]]></code>
   </synonym>
 </theme>
@@ -579,102 +540,75 @@ superHeros('UberMan', 'Exceptional Woman', 'The Hunk');
   <synonym id="syn-for-loops-for-lists">
     <title>For loops for lists</title>
     <code language="csharp"><![CDATA[
-var colors = ['red', 'orange', 'green'];
+var colors = new List<string> { "red", "orange", "green" };
 
-for (var i = 0; i < colors.length; i++) {
-  console.log(colors[i]);
-}
-]]></code>
-    <code language="dart"><![CDATA[
-var colors = ['red', 'orange', 'green'];
-
-for (var i = 0; i < colors.length; i++) {
-  print(colors[i]);
+for (var i = 0; i < colors.Count; i++)
+{
+    Console.WriteLine(colors[i]);
 }
 ]]></code>
   </synonym>
   <synonym id="syn-for-in-loops">
     <title>For-in loops</title>
     <code language="csharp"><![CDATA[
-var fruits = ['orange', 'apple', 'banana'];
+var colors = new List<string> { "red", "orange", "green" };
 
-// 'in' notation in JavaScript returns the
-// indices of the array, not the values
-
-for (var i in fruits) {
-  console.log(fruits[i]);
-}
-]]></code>
-    <code language="dart"><![CDATA[
-var fruits = ['orange', 'apple', 'banana'];
-
-// 'in' notation in Dart returns the element
-// of the list, not the index
-
-for (var fruit in fruits) {
-  print(fruit);
+// C# uses the 'foreach' keyword for this kind of iteration.
+foreach (var color in colors)
+{
+    Console.WriteLine(color);
 }
 ]]></code>
   </synonym>
   <synonym id="syn-for-loops-for-objectsmaps">
     <title>For loops for objects/maps</title>
     <code language="csharp"><![CDATA[
-var data = { … };
+var dict = new Dictionary<string, string>();
 
-for (var key in data) {
-  console.log('key', key);
-  console.log('value', data[key]);
-}
-]]></code>
-    <code language="dart"><![CDATA[
-var data = { … };
-
-for (var key in data.getKeys()) {
-  print('$key, ${data[key]}');
+foreach (var key in dict.Keys)
+{
+    Console.WriteLine(key);
 }
 
-// Alternatively, the forEach loop is a method on a Map in Dart.
+// C# allows iteration via Linq extension methods...
+var data = new Dictionary<string, string>() {{"hi", "there"}, {"you", "there"}};
 
-data.forEach((key, value){
-  print('${key}, ${value}');
-});
+data.ToList()
+    .ForEach(o => Console.WriteLine(String.Formate("{0}, {1}", o.Key, o.Value)));
 ]]></code>
   </synonym>
   <synonym id="syn-closures-and-counters-in-loops">
     <title>Closures and counters in loops</title>
     <code language="csharp"><![CDATA[
-var callbacks = [];
+// C# requires assignment to locally scoped variable.
+delegate void SimpleCallback();
+void ClosuresInLoop()
+{
+    var callbacks = new List<SimpleCallback>();
 
-// A closure must be used to preserve the return for
-// each function at each step of the loop.  Otherwise
-// every entry in callbacks will return 2;
-for (var i = 0; i < 2; i++) {
-  (function(_i) {
-    callbacks.push(function() {
-      return _i;
-    });
-  })(i);
+    for (var i = 0; i < 2; i++)
+    {
+        var x = i;
+        callbacks.Add(() => Console.WriteLine(x));
+    }
+
+    callbacks[0](); // == 0
+    callbacks[1](); // == 1
 }
 
-// Without the internal closure, the result is 2
-callbacks[0]() // == 0
+// Without the local assignment...
+void ClosuresInLoop()
+{
+    var callbacks = new List<SimpleCallback>();
 
-// ECMAScript 6 can support this with the use of blocks
-let callbacks = [];
-for (let i = 0; i < 10; i++) {
-  let j = i;
-  callbacks.push(function() { print(j) });
-}
-]]></code>
-    <code language="dart"><![CDATA[
-// Dart doesn't reuse and close over the same
-// loop variable in each iteration
-var callbacks = [];
-for (var i = 0; i < 2; i++) {
-  callbacks.add(() => print(i));
-}
+    for (var i = 0; i < 2; i++)
+    {
+        callbacks.Add(() => Console.WriteLine(i));
+    }
 
-callbacks[0]() // == 0
+    callbacks[0](); // == 2
+    callbacks[1](); // == 2
+}
 ]]></code>
   </synonym>
 </theme>
@@ -683,46 +617,28 @@ callbacks[0]() // == 0
   <synonym id="syn-define">
     <title>Define</title>
     <code language="csharp"><![CDATA[
-function Person() {
-  this.name = null;
-};
-
-Person.prototype.greet = function() {
-  return 'Hello, ' + this.name;
-}
-]]></code>
-    <code language="dart"><![CDATA[
-class Person {
-  var name;
-
-  greet() => 'Hello, $name';
+class Person
+{
+  string name;
+  
+  void Greet() 
+  {
+    return String.Format("Hello, {0}", name);
+  }
 }
 ]]></code>
   </synonym>
   <synonym id="syn-constructor-with-parameter">
     <title>Constructor with parameter</title>
     <code language="csharp"><![CDATA[
-function Person(name) {
-  this.name = name;
-};
-]]></code>
-    <code language="dart"><![CDATA[
-class Person {
-  var name;
-
-  Person(name) {
+class Person
+{
+  string name;
+  
+  Person(string name)
+  {
     this.name = name;
   }
-}
-
-// shorter alternative
-
-class Person {
-  var name;
-
-  // parameters prefixed by 'this.' will assign to
-  // instance variables automatically
-  Person(this.name);
 }
 ]]></code>
   </synonym>
@@ -731,77 +647,55 @@ class Person {
     <code language="csharp"><![CDATA[
 var person = new Person();
 ]]></code>
-    <code language="dart"><![CDATA[
-var person = new Person();
-]]></code>
   </synonym>
   <synonym id="syn-reflection">
     <title>Reflection</title>
     <code language="csharp"><![CDATA[
-var name = 'Bob';
-typeof name // == 'String'
-]]></code>
-    <code language="dart"><![CDATA[
-// There currently is no way to get the class of an
-// object. Reflection support coming soon.
+            var test = "Bob";
+
+            Console.WriteLine(test.GetType()); // == System.String
 ]]></code>
   </synonym>
   <synonym id="syn-check-the-type">
     <title>Check the type</title>
     <code language="csharp"><![CDATA[
-var name = 'Bob';
+var test = "Bob";
 
-name instanceof String // == true
+Console.WriteLine(test is string); // == True
 
-(!(name instanceof int)) // == true
-]]></code>
-    <code language="dart"><![CDATA[
-var name = 'Bob';
-
-name is String // == true
-
-name is! int // == true
+Console.WriteLine(!(test is int)); // == True
 ]]></code>
   </synonym>
   <synonym id="syn-subclass">
     <title>Subclass</title>
     <code language="csharp"><![CDATA[
-function Person(name) {
-  this.name = name;
-}
-
-Person.prototype.greet = function() {
-  return 'Hello, ' + this.name;
-}
-    
-function Employee(name, salary) {   
-  Person.call(this, name);
-  this.salary = salary;
-}
-
-Employee.prototype = new Person();
-Employee.prototype.constructor = Employee;
-
-Employee.prototype.grantRaise = function(percent) {
-  this.salary = (this.salary * percent).toInt();
-}
-]]></code>
-    <code language="dart"><![CDATA[
-class Person {
-  var name;
-
-  Person(this.name);
-
-  greet() => 'Hello, $name';
-}
-
-class Employee extends Person {
-  var salary;
-
-  Employee(name, this.salary) : super(name);
+class Person
+{
+  string name;
   
-  grantRaise(percent) {
-    salary = (salary * percent).toInt();
+  public Person(string name)
+  {
+    this.name = name;
+  }
+  
+  string Greet()
+  {
+    return String.Format("Hello, {0}", name);
+  }
+}
+
+class Employee : Person
+{
+  double salary;
+  
+  Employee(string name, double salary) : base(name)
+  {
+    this.salary = salary;
+  }
+  
+  void GrantRaise(double percent)
+  {
+    salary += salary * percent;
   }
 }
 ]]></code>
@@ -809,23 +703,34 @@ class Employee extends Person {
   <synonym id="syn-operator-overloading">
     <title>Operator &quot;overloading&quot;</title>
     <code language="csharp"><![CDATA[
-// not supported
-]]></code>
-    <code language="dart"><![CDATA[
-class Point {
-  var x, y;
-  Point(this.x, this.y);
-  
-  operator + (Point p) => new Point(x + p.x, y + p.y);
-  
-  toString() => 'x:$x, y:$y';
+public struct Point
+{
+	public readonly int x;
+	public readonly int y;
+
+	public Point(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+
+	public static Point operator +(Point p1, Point p2)
+	{
+		return new Point(p1.x + p2.x, p1.y + p2.y);
+	}
+
+	public override string ToString()
+	{
+		return String.Format("x:{0}, y:{1}", x, y);
+	}
 }
 
-main() {
-  var p1 = new Point(1, 1);
-  var p2 = new Point(2, 2);
-  var p3 = p1 + p2;
-  print(p3);
+void OperatorOverload()
+{
+    var p1 = new Point(1, 1);
+    var p2 = new Point(2, 2);
+    var p3 = p1 + p2;
+    Console.WriteLine(p3); // == "x:3, y:3"
 }
 ]]></code>
   </synonym>
@@ -835,120 +740,87 @@ main() {
   <synonym id="syn-find-one-element-by-id">
     <title>Find one element by id</title>
     <code language="csharp"><![CDATA[
-document.getElementById('main')
+// via Silverlight plug-in.
+var doc = HtmlPage.Document;
+var div = doc.GetElementById('main');
 
-document.querySelector('#main')
-]]></code>
-    <code language="dart"><![CDATA[
-document.query('#main')
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-class">
     <title>Find one element by class</title>
     <code language="csharp"><![CDATA[
-document.getElementsByClassName('visible')[0]
-
-document.querySelector('.visible')
-]]></code>
-    <code language="dart"><![CDATA[
-document.query('.visible')
+// via Silverlight plug-in
+// No direct API. Requires interop with Javascript functions.
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-class">
     <title>Find many elements by class</title>
     <code language="csharp"><![CDATA[
-document.getElementsByClassName('visible')
-
-document.querySelectorAll('.visible')
-]]></code>
-    <code language="dart"><![CDATA[
-document.queryAll('.visible')
+// via Silverlight plug-in
+// No direct API. Requires interop with Javascript functions.
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-tag">
     <title>Find one element by tag</title>
     <code language="csharp"><![CDATA[
-document.getElementsByTagName('div')[0]
-
-document.querySelector('div')
-]]></code>
-    <code language="dart"><![CDATA[
-document.query('div')
+// via Silverlight plug-in.
+// Only supports finding collection of tags.
+var doc = HtmlPage.Document;
+var div = doc.GetElementsByTagName('div').item[0];
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-tag">
     <title>Find many elements by tag</title>
     <code language="csharp"><![CDATA[
-document.getElementsByTagName('div')
-
-document.querySelectorAll('div')
-]]></code>
-    <code language="dart"><![CDATA[
-document.queryAll('div')
+// via Silverlight plug-in.
+var doc = HtmlPage.Document;
+var divs = doc.GetElementsByTagName('div');
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-name">
     <title>Find one element by name</title>
     <code language="csharp"><![CDATA[
-document.getElementsByName('form')[0]
-
-document.querySelector('[name="form"]')
-]]></code>
-    <code language="dart"><![CDATA[
-document.query('[name="form"]')
+// via Silverlight plug-in
+// No direct API. Requires interop with Javascript functions.
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-name">
     <title>Find many elements by name</title>
     <code language="csharp"><![CDATA[
-document.getElementsByName('form')
-
-document.querySelectorAll('[name="form"]')
-]]></code>
-    <code language="dart"><![CDATA[
-document.queryAll('[name="form"]')
+// via Silverlight plug-in
+// No direct API. Requires interop with Javascript functions.
 ]]></code>
   </synonym>
   <synonym id="syn-find-elements-by-combination-of-above">
     <title>Find elements by combination of above</title>
     <code language="csharp"><![CDATA[
-document.getElementById('main').getElementsByTagName('div')[0].getElementsByClassName('visible')
-
-document.querySelectorAll('#main div:first-of-type .visible')
-]]></code>
-    <code language="dart"><![CDATA[
-document.queryAll('#main div:first-of-type .visible')
+// via Silverlight plug-in
+// No direct API. Requires interop with Javascript functions.
 ]]></code>
   </synonym>
   <synonym id="syn-iterate-over-a-list-of-elements">
     <title>Iterate over a list of elements</title>
     <code language="csharp"><![CDATA[
-for (var i = 0, el; el = els[i]; i++) {
-  doSomethingWithEl(el);
-}
-]]></code>
-    <code language="dart"><![CDATA[
-for (var el in els) {
-  doSomethingWithEl(el);
+// via Silverlight plug-in
+// from collection of ScriptObject
+foreach (var el in els) 
+{
+  DoSomethingWithEl(el);
 }
 ]]></code>
   </synonym>
   <synonym id="syn-access-the-first-child">
     <title>Access the first child</title>
     <code language="csharp"><![CDATA[
-elem.firstChild()
-]]></code>
-    <code language="dart"><![CDATA[
-elem.nodes[0]
+// via Silverlight plug-in
+(elem as HtmlElement).Children.Item[0]
 ]]></code>
   </synonym>
   <synonym id="syn-find-out-whether-an-element-has-children-elements">
     <title>Find out whether an element has children elements</title>
     <code language="csharp"><![CDATA[
-elem.hasChildNodes()
-]]></code>
-    <code language="dart"><![CDATA[
-!elem.nodes.isEmpty()
+// via Silverlight plug-in
+(elem as HtmlElement).Children.Count() > 0
 ]]></code>
   </synonym>
 </theme>
@@ -957,12 +829,9 @@ elem.hasChildNodes()
   <synonym id="syn-create-an-element">
     <title>Create an element</title>
     <code language="csharp"><![CDATA[
-var element = document.createElement('div');
-]]></code>
-    <code language="dart"><![CDATA[
-#import('dart:html');
-
-var element = new Element.tag('div');
+// via Silverlight plug-in
+var doc = HtmlPage.Document;
+var div = doc.CreateElement('div');
 ]]></code>
   </synonym>
   <synonym id="syn-create-an-element-and-set-its-contents">
@@ -1393,19 +1262,13 @@ Math.parseInt('three') // ERROR: throws BadNumberFormatException
   <synonym id="syn-eval">
     <title>Eval</title>
     <code language="csharp"><![CDATA[
-eval('alert("hello from eval")');
-]]></code>
-    <code language="dart"><![CDATA[
-// Dart doesn't support eval(). This is not a bug.
+// via .net reflection API (restricted in Silverlight)
 ]]></code>
   </synonym>
   <synonym id="syn-adding-a-method-to-a-class">
     <title>Adding a method to a class</title>
     <code language="csharp"><![CDATA[
-String.prototype.startsWith = function(beginning) {
-  var head = this.substr(0, beginning.length);
-  return head == beginning;
-}
+// via .net reflection API (restricted in Silverlight)
 ]]></code>
     <code language="dart"><![CDATA[
 // Dart doesn't support changing a class after

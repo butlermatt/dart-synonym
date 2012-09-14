@@ -592,14 +592,14 @@ number5 === char5 // == false
  * In Dart, == will check the following, in order:
  * 1) if x === y then return true (=== is identity). Otherwise
  * 2) if either x or y is null, return false. Otherwise
- * 3) return the result of x.equals(y)
+ * 3) return the result of x.==(y)
  */
 
 /*
  * This means:
  * a) use x == null instead of x === null
  * b) there's almost no reason to every use === or !==
- * c) when implementing equals() you don't have to worry about
+ * c) when implementing ==() you don't have to worry about
  *    manually checking for null arg
  * d) you can't define your own type that considers itself
  *    equal to null

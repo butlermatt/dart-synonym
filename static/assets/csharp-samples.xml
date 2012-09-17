@@ -56,7 +56,7 @@ MessageBox.Show("Clicked on the button.");
   <synonym id="syn-define-a-library">
     <title>Define a library</title>
     <code language="csharp"><![CDATA[
-// Libraries are compiled into DLL files and access by other projects at runtime.
+// Libraries are compiled into DLL files and accessed at runtime.
 namespace Animals
 {
   public class Dog
@@ -740,87 +740,78 @@ void OperatorOverload()
   <synonym id="syn-find-one-element-by-id">
     <title>Find one element by id</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in.
-var doc = HtmlPage.Document;
-var div = doc.GetElementById('main');
-
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-class">
     <title>Find one element by class</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in
-// No direct API. Requires interop with Javascript functions.
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-class">
     <title>Find many elements by class</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in
-// No direct API. Requires interop with Javascript functions.
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-tag">
     <title>Find one element by tag</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in.
-// Only supports finding collection of tags.
-var doc = HtmlPage.Document;
-var div = doc.GetElementsByTagName('div').item[0];
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-tag">
     <title>Find many elements by tag</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in.
-var doc = HtmlPage.Document;
-var divs = doc.GetElementsByTagName('div');
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-name">
     <title>Find one element by name</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in
-// No direct API. Requires interop with Javascript functions.
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-name">
     <title>Find many elements by name</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in
-// No direct API. Requires interop with Javascript functions.
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-find-elements-by-combination-of-above">
     <title>Find elements by combination of above</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in
-// No direct API. Requires interop with Javascript functions.
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-iterate-over-a-list-of-elements">
     <title>Iterate over a list of elements</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in
-// from collection of ScriptObject
-foreach (var el in els) 
-{
-  DoSomethingWithEl(el);
-}
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-access-the-first-child">
     <title>Access the first child</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in
-(elem as HtmlElement).Children.Item[0]
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-find-out-whether-an-element-has-children-elements">
     <title>Find out whether an element has children elements</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in
-(elem as HtmlElement).Children.Count() > 0
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
 </theme>
@@ -829,9 +820,8 @@ foreach (var el in els)
   <synonym id="syn-create-an-element">
     <title>Create an element</title>
     <code language="csharp"><![CDATA[
-// via Silverlight plug-in
-var doc = HtmlPage.Document;
-var div = doc.CreateElement('div');
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-create-an-element-and-set-its-contents">
@@ -848,19 +838,23 @@ var element = new Element.html('<p>A quick brown <em>fox</em>.</p>');
   <synonym id="syn-add-an-element-to-a-parent">
     <title>Add an element to a parent</title>
     <code language="csharp"><![CDATA[
-element.appendChild(newElement);
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
     <code language="dart"><![CDATA[
-element.nodes.add(newElement);
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-remove-an-element-from-its-parent">
     <title>Remove an element from its parent</title>
     <code language="csharp"><![CDATA[
-element.parentNode.removeChild(element);
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
     <code language="dart"><![CDATA[
-element.remove();
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
 </theme>
@@ -868,14 +862,10 @@ element.remove();
   <title>Regular expressions</title>
   <synonym>
     <code language="csharp"><![CDATA[
-var email = 'test@example.com';
-email.match(/@/)
-// == ['@']
-]]></code>
-    <code language="dart"><![CDATA[
-var email = 'test@example.com';
-(new RegExp(@'o')).firstMatch(email)
-// == Match Object
+String email = "test@example.com";
+Regex r = new Regex(@"o", RegexOptions.IgnoreCase);
+Match match = r.Match(email); // == Match Object
+
 ]]></code>
   </synonym>
   <synonym>
@@ -896,13 +886,6 @@ var invalidEmail = 'f@il@example.com';
   <synonym id="syn-throw-an-exception">
     <title>Throw an exception</title>
     <code language="csharp"><![CDATA[
-throw new Error("Intruder Alert!!");
-
-// or...
-
-throw "Intruder Alert!!";
-]]></code>
-    <code language="dart"><![CDATA[
 throw new Exception("Intruder Alert!!");
 ]]></code>
   </synonym>
@@ -910,24 +893,13 @@ throw new Exception("Intruder Alert!!");
     <title>Catch an exception</title>
     <code language="csharp"><![CDATA[
 try {
-  undefinedFunction();
-} catch(e) {
-  if (e instanceof ReferenceError) {
-    console.log('You called a function that does not exist');
+  throw new Exception("fail!");
+} catch(Exception e) {
+  if (e is Exception) {
+    Console.WriteLine("You did something wrong.");
   }
 } finally {
-  console.log('This runs even if an exception is thrown');
-}
-]]></code>
-    <code language="dart"><![CDATA[
-try {
-  Math.parseInt("three");
-} catch(BadNumberFormatException bnfe) {
-  print("Ouch! Detected: $bnfe");
-} catch(var e) {
-  print("If some other type of exception");
-} finally {
-  print("This runs even if an exception is thrown");
+  Console.WriteLine("This runs even if an exception is thrown");
 }
 ]]></code>
   </synonym>
@@ -937,10 +909,26 @@ try {
   <synonym id="syn-attach-an-event-handler">
     <title>Attach an event handler</title>
     <code language="csharp"><![CDATA[
-element.addEventListener('click', handleOnClick, false);
-]]></code>
-    <code language="dart"><![CDATA[
-element.on.click.add(handleOnClick);
+// For DOM events:
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
+
+// For general-purpose events:
+
+// Declare event (at class level)
+public event EventHandler<EventArgs> myEvent;
+
+void Events()
+{
+    // subscribe to event
+    myEvent += (Object sender, EventArgs args) => {
+        Console.WriteLine("My event fired!");
+    };
+
+    // fire the event
+    myEvent.Invoke(this, new EventArgs());
+}
+
 ]]></code>
   </synonym>
   <synonym id="syn-remove-an-event-handler">
@@ -958,27 +946,17 @@ element.on.click.remove(handleOnClick);
   <synonym id="syn-schedule-a-future-event">
     <title>Schedule a future event</title>
     <code language="csharp"><![CDATA[
-setTimeout(function() { … }, 500);
-]]></code>
-    <code language="dart"><![CDATA[
-window.setTimeout(() { … }, 500);
+// There are many ways to do this in C#.  This is one simple example:
+new Timer((Object state) => Console.WriteLine("Timer Fired!"), null, 500, 0);
 ]]></code>
   </synonym>
   <synonym id="syn-measure-the-execution-time-of-a-function">
     <title>Measure the execution time of a function</title>
     <code language="csharp"><![CDATA[
-function measure(fn) {
-  var start = Date.now();
-  fn();
-  return Date.now() - start;
-}
-]]></code>
-    <code language="dart"><![CDATA[
-measure(fn) {
-  Stopwatch watch = new Stopwatch.start();
-  fn();
-  return watch.elapsedInMs();
-}
+var sw = Stopwatch.StartNew();
+Thread.Sleep(1000);
+sw.Stop();
+Console.WriteLine(String.Format("Ellapsed Time: {0}", sw.Elapsed));
 ]]></code>
   </synonym>
 </theme>
@@ -987,37 +965,29 @@ measure(fn) {
   <synonym id="syn-get-html-attribute">
     <title>Get HTML attribute</title>
     <code language="csharp"><![CDATA[
-element.getAttribute('href')
-]]></code>
-    <code language="dart"><![CDATA[
-element.attributes['href']
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-set-html-attribute">
     <title>Set HTML attribute</title>
     <code language="csharp"><![CDATA[
-element.setAttribute('playable', true);
-]]></code>
-    <code language="dart"><![CDATA[
-element.attributes['playable'] = true;
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-remove-html-attribute">
     <title>Remove HTML attribute</title>
     <code language="csharp"><![CDATA[
-element.removeAttribute('playable');
-]]></code>
-    <code language="dart"><![CDATA[
-element.attributes.remove('playable');
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-check-if-html-attribute-exists">
     <title>Check if HTML attribute exists</title>
     <code language="csharp"><![CDATA[
-element.hasAttribute('href')
-]]></code>
-    <code language="dart"><![CDATA[
-element.attributes.contains('href')
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
 </theme>
@@ -1026,23 +996,15 @@ element.attributes.contains('href')
   <synonym id="syn-add-css-class">
     <title>Add CSS class</title>
     <code language="csharp"><![CDATA[
-element.className += ' new-class';
-
-element.classList.add('new-class');
-]]></code>
-    <code language="dart"><![CDATA[
-element.classes.add('new-class');
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-remove-css-class">
     <title>Remove CSS class</title>
     <code language="csharp"><![CDATA[
-element.className = element.className.replace(/ new-class/, '');
-
-element.classList.remove('new-class');
-]]></code>
-    <code language="dart"><![CDATA[
-element.classes.remove('new-class');
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
 </theme>
@@ -1051,25 +1013,9 @@ element.classes.remove('new-class');
   <synonym id="syn-request-data-via-xmlhttprequest">
     <title>Request data via XMLHttpRequest</title>
     <code language="csharp"><![CDATA[
-var client = new XMLHttpRequest;
-  
-client.onreadystatechange = function() {  
-  if (this.readyState == 4) {  
-    processData(this);
-  }
-}
-client.open('GET', 'data.json');
-client.send();
-
-function processData(request) {
-  console.log('The contents of your data: ' + request.responseText);
-}
-]]></code>
-    <code language="dart"><![CDATA[
-// The getTEMPNAME method name will be changed.
-var xhr = new XMLHttpRequest.getTEMPNAME("/data.json", (req) {
-  print("The contents of your data: ${req.responseText}");
-});
+// Apps (C#, VB, etc) running in Silverlight plug-in typically use the WCF RIA Services API
+// which is quite extensive.  ASP.net apps typically use Ajax helpers, though this is within
+// the framework an not necessarily specific to the C# language.
 ]]></code>
   </synonym>
 </theme>
@@ -1078,107 +1024,50 @@ var xhr = new XMLHttpRequest.getTEMPNAME("/data.json", (req) {
   <synonym id="syn-react-to-document-finishing-loading">
     <title>React to document finishing loading</title>
     <code language="csharp"><![CDATA[
-$(document).ready(function(){
-  console.log('Content is loaded');
-});
-]]></code>
-    <code language="dart"><![CDATA[
-window.on.contentLoaded.add((e) => print('Content is loaded'));
-
-// However, main() will normally run after DOMContentLoaded
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-node-lookup">
     <title>Node lookup</title>
     <code language="csharp"><![CDATA[
-var els = jQuery('div');
-]]></code>
-    <code language="dart"><![CDATA[
-List els = document.query('div');
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-node-creation">
     <title>Node creation</title>
     <code language="csharp"><![CDATA[
-var pic = $('<img/>');
-
-pic.addClass('avatar');
-pic.toggleClass('main');
-
-pic.attr('src', 'myPic.jpg');
-
-$('body').append(pic);
-]]></code>
-    <code language="dart"><![CDATA[
-var pic = new Element.tag('img');
-
-pic.classes.add('avatar');
-pic.classes.toggle('main');
-
-pic.attributes['src'] = 'myPic.jpg';
-
-document.body.nodes.add(pic);
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-event-handling">
     <title>Event handling</title>
     <code language="csharp"><![CDATA[
-$('a.person').click(function(e){
-  console.log('Person clicked');
-})
-]]></code>
-    <code language="dart"><![CDATA[
-document.queryAll('a.person').forEach((el) {
-  el.on.click.add((e) => print('Person clicked'));
-});
-
-// coming soon!!
-document.queryAll('a.person').on.click.add((e) => print('Person clicked'));
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-relative-nodes">
     <title>Relative nodes</title>
     <code language="csharp"><![CDATA[
-var myNode = $('div:first');
-
-var parent = myNode.parent();
-
-var next = myNode.next();
-]]></code>
-    <code language="dart"><![CDATA[
-var myNode = document.query('div');
-
-var parent = myNode.parent;
-
-var next = myNode.nextNode;
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-children">
     <title>Children</title>
     <code language="csharp"><![CDATA[
-var myNode = $('div:first');
-
-// If there are children, remove them
-if (!myNode.is(':empty')) {
-  myNode.empty();
-}
-
-]]></code>
-    <code language="dart"><![CDATA[
-var myNode = document.query('div');
-
-if (!myNode.nodes.isEmpty()) {
-  myNode.nodes.clear();
-}
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
   <synonym id="syn-clone">
     <title>Clone</title>
     <code language="csharp"><![CDATA[
-var clonedElement = $('#about').clone();
-]]></code>
-    <code language="dart"><![CDATA[
-var clonedElement = document.query('#about').clone(true);
+// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
+// There are certain restrictions in place when interacting with DOM and Javascript.
 ]]></code>
   </synonym>
 </theme>
@@ -1187,73 +1076,44 @@ var clonedElement = document.query('#about').clone(true);
   <synonym id="syn-absolute-value">
     <title>Absolute value</title>
     <code language="csharp"><![CDATA[
-Math.abs(-4) // == 4
-]]></code>
-    <code language="dart"><![CDATA[
--4.abs() // == 4
+Math.Abs(-4); // == 4
 ]]></code>
   </synonym>
   <synonym id="syn-ceiling">
     <title>Ceiling</title>
     <code language="csharp"><![CDATA[
-Math.ceil(4.89) // == 5
-]]></code>
-    <code language="dart"><![CDATA[
-4.89.ceil() // == 5
+Math.Ceiling(4.89); // == 5
 ]]></code>
   </synonym>
   <synonym id="syn-floor">
     <title>Floor</title>
     <code language="csharp"><![CDATA[
-Math.floor(4.89) // == 4
-]]></code>
-    <code language="dart"><![CDATA[
-4.89.floor() // == 4
+Math.Floor(4.89); // == 4
 ]]></code>
   </synonym>
   <synonym id="syn-random">
     <title>Random</title>
     <code language="csharp"><![CDATA[
-// Returns a random float greater than or equal to 0.0
-// and less than 1.0
-
-Math.random()
-]]></code>
-    <code language="dart"><![CDATA[
-// Returns a random double greater than or equal to 0.0
-// and less than 1.0
-
-Math.random()
-
-// random in the VM has a bug: http://dartbug.com/499
+var r = new Random();
+r.Next(); // == random integer
+r.NextBytes(new byte[]{1,2,3,4,5}); // == randome byte from list
+r.NextDouble(); // == between 0.0 an 1.0
 ]]></code>
   </synonym>
   <synonym id="syn-sine-and-cosine">
     <title>Sine and Cosine</title>
     <code language="csharp"><![CDATA[
-Math.sin(Math.PI/2) // == 1
-Math.cos(Math.PI) // == -1
-]]></code>
-    <code language="dart"><![CDATA[
-Math.sin(Math.PI/2) // == 1
-Math.cos(Math.PI) // == -1
+Math.Sin(Math.PI / 2); // == 1
+Math.Cos(Math.PI); // == -1
 ]]></code>
   </synonym>
   <synonym id="syn-convert-a-string-to-a-number">
     <title>Convert a String to a number</title>
     <code language="csharp"><![CDATA[
-parseInt('3') // == 3
+int.Parse("3"); // == 3
+double.Parse("3.14"); // == 3.14
 
-parseFloat('3.14') // == 3.14
-
-parseInt('three') // NaN
-]]></code>
-    <code language="dart"><![CDATA[
-Math.parseInt('3') // == 3
-
-Math.parseDouble('3.14') // == 3.14
-
-Math.parseInt('three') // ERROR: throws BadNumberFormatException 
+int.Parse("three"); // ERROR: throws FormatException
 ]]></code>
   </synonym>
 </theme>
@@ -1262,17 +1122,15 @@ Math.parseInt('three') // ERROR: throws BadNumberFormatException
   <synonym id="syn-eval">
     <title>Eval</title>
     <code language="csharp"><![CDATA[
-// via .net reflection API (restricted in Silverlight)
+// via .net reflection API (restrictions in Silverlight)
+// Not specific to C#
 ]]></code>
   </synonym>
   <synonym id="syn-adding-a-method-to-a-class">
     <title>Adding a method to a class</title>
     <code language="csharp"><![CDATA[
-// via .net reflection API (restricted in Silverlight)
-]]></code>
-    <code language="dart"><![CDATA[
-// Dart doesn't support changing a class after
-// the program has been compiled
+// via .net reflection API (restrictions in Silverlight)
+// Not specific to C#
 ]]></code>
   </synonym>
 </theme>

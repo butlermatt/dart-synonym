@@ -782,8 +782,10 @@ colors.forEach((color) => print(color));
     <code language="javascript"><![CDATA[
 var fruits = ['orange', 'apple', 'banana'];
 
-// 'in' notation in JavaScript returns the
-// indices of the array, not the values
+// 'in' notation in JavaScript iterates through
+// the properties, not values, of an object. 
+// Thus it returns the indices of the array
+// and any items add to the Array prototype.
 
 for (var i in fruits) {
   console.log(fruits[i]);
@@ -934,9 +936,13 @@ typeof name // == 'String'
     <code language="javascript"><![CDATA[
 var name = 'Bob';
 
-name instanceof String // == true
+// Because of javascript's type system we
+// need to check both instanceof and typeof
+name instanceof String || typeof name === 'string'; 
+// == true
 
-(!(name instanceof int)) // == true
+(!(name instanceof Number || typeof name === 'number'));
+// == true
 ]]></code>
     <code language="dart"><![CDATA[
 var name = 'Bob';

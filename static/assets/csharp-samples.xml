@@ -465,16 +465,12 @@ void doNothing(){} // return to caller, but without a value.
   <synonym id="syn-assign-a-function-to-a-variable">
     <title>Assign a function to a variable</title>
     <code language="csharp"><![CDATA[
-// Declare a delegate first at the class or namespace level.
-delegate string LoudifyDelegate(string s);
 
 void DemoAnonFunc()
 {
   // Use of 'var' not allowed in this case.
   // The variable must be strongly-typed.
-  LoudifyDelegate loudify = delegate(string msg) {
-	return msg.ToUpper();
-  };
+  Func<string, string> loudify = (msg) => msg.ToUpper();
 
   loudify("not gonna take it anymore");
   // NOT GONNA TAKE IT ANYMORE 
@@ -485,12 +481,12 @@ void DemoAnonFunc()
     <title>Optional parameters</title>
     <code language="csharp"><![CDATA[
 // b and c are optional by assigning a default value
-int Fn(int a, int b = 0, string c = "Hello")
+public int Fn(int a, int b = 0, string c = "Hello")
 {
   return b; // == 0
 }
 
-// must be called in order
+// optional arguments must be called in order if not named.
 Fn(0, 5, "foo");
 
 // or use named arguements, to skip some optional arguments.
@@ -513,7 +509,7 @@ send("I'm cheap", "4th class"); // == "I'm cheap was sent via 4th class"
   <synonym id="syn-named-parameters">
     <title>Named parameters</title>
     <code language="csharp"><![CDATA[
-string send(string msg, string rate = "First Class")
+public string send(string msg, string rate = "First Class")
 {
   return String.Format("{0} was sent via {1}", msg, rate);
 }
@@ -526,9 +522,11 @@ send("I'm cheap", "4th class"); // == "I'm cheap was sent via 4th class"
     <title>Variable number of arguments</title>
     <code language="csharp"><![CDATA[
 // Supports a params[] argument to take an arbitrary array of additional arguments.
-void WithParams(int i, params object[] extra)
+void WithParams(int someArg, params object[] extra)
 {
-  var l = extra.Length; // 4 when called from below
+  for (int i = 0; i < extra.length; i++){
+     Console.WriteLine(String.Format("There's no stopping {0}", extra[i]));
+  }
 }
 
 WithParams(5, "hi", -4, "you", true);
@@ -580,34 +578,17 @@ data.ToList()
   <synonym id="syn-closures-and-counters-in-loops">
     <title>Closures and counters in loops</title>
     <code language="csharp"><![CDATA[
-// C# requires assignment to locally scoped variable.
-delegate void SimpleCallback();
 void ClosuresInLoop()
 {
-    var callbacks = new List<SimpleCallback>();
-
-    for (var i = 0; i < 2; i++)
-    {
-        var x = i;
-        callbacks.Add(() => Console.WriteLine(x));
-    }
-
-    callbacks[0](); // == 0
-    callbacks[1](); // == 1
-}
-
-// Without the local assignment...
-void ClosuresInLoop()
-{
-    var callbacks = new List<SimpleCallback>();
+    var callbacks = new List<Action>();
 
     for (var i = 0; i < 2; i++)
     {
         callbacks.Add(() => Console.WriteLine(i));
     }
 
-    callbacks[0](); // == 2
-    callbacks[1](); // == 2
+    callbacks[0](); // == 0
+    callbacks[1](); // == 1
 }
 ]]></code>
   </synonym>
@@ -621,7 +602,7 @@ class Person
 {
   string name;
   
-  void Greet() 
+  public void Greet() 
   {
     return String.Format("Hello, {0}", name);
   }
@@ -635,7 +616,7 @@ class Person
 {
   string name;
   
-  Person(string name)
+  public Person(string name)
   {
     this.name = name;
   }
@@ -740,78 +721,80 @@ void OperatorOverload()
   <synonym id="syn-find-one-element-by-id">
     <title>Find one element by id</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+dynamic document = HtmlPage.Document;
+document.getElementById("main");
+
+document.querySelector("#main");
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-class">
     <title>Find one element by class</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+dynamic document = HtmlPage.Document;
+document.querySelector(".visible");
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-class">
     <title>Find many elements by class</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+dynamic document = HtmlPage.Document;
+document.querySelectorAll(".visible");
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-tag">
     <title>Find one element by tag</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+dynamic document = HtmlPage.Document;
+document.querySelector("div");
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-tag">
     <title>Find many elements by tag</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+dynamic document = HtmlPage.Document;
+document.querySelectorAll("div");
 ]]></code>
   </synonym>
   <synonym id="syn-find-one-element-by-name">
     <title>Find one element by name</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+dynamic document = HtmlPage.Document;
+document.querySelector(@"[name="form"]");
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-name">
     <title>Find many elements by name</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+dynamic document = HtmlPage.Document;
+document.querySelectorAll(@"[name="form"]");
 ]]></code>
   </synonym>
   <synonym id="syn-find-elements-by-combination-of-above">
     <title>Find elements by combination of above</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+dynamic document = HtmlPage.Document;
+document.querySelectorAll("#main div:first-of-type .visible");
 ]]></code>
   </synonym>
   <synonym id="syn-iterate-over-a-list-of-elements">
     <title>Iterate over a list of elements</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+for (dynamic el in els)
+{
+  DoSomethingWithEl(el);
+}
 ]]></code>
   </synonym>
   <synonym id="syn-access-the-first-child">
     <title>Access the first child</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// TODO (J Evans)
 ]]></code>
   </synonym>
   <synonym id="syn-find-out-whether-an-element-has-children-elements">
     <title>Find out whether an element has children elements</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// TODO (J Evans)
 ]]></code>
   </synonym>
 </theme>
@@ -820,8 +803,7 @@ void OperatorOverload()
   <synonym id="syn-create-an-element">
     <title>Create an element</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// TODO (J Evans)
 ]]></code>
   </synonym>
   <synonym id="syn-create-an-element-and-set-its-contents">
@@ -838,23 +820,16 @@ var element = new Element.html('<p>A quick brown <em>fox</em>.</p>');
   <synonym id="syn-add-an-element-to-a-parent">
     <title>Add an element to a parent</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
-]]></code>
-    <code language="dart"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// TODO (J Evans)
 ]]></code>
   </synonym>
   <synonym id="syn-remove-an-element-from-its-parent">
     <title>Remove an element from its parent</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// TODO (J Evans)
 ]]></code>
     <code language="dart"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// TODO (J Evans)
 ]]></code>
   </synonym>
 </theme>
@@ -893,13 +868,11 @@ throw new Exception("Intruder Alert!!");
     <title>Catch an exception</title>
     <code language="csharp"><![CDATA[
 try {
-  throw new Exception("fail!");
+   throw new Exception("fail!");
 } catch(Exception e) {
-  if (e is Exception) {
-    Console.WriteLine("You did something wrong.");
-  }
+   Console.WriteLine("You did something wrong.");
 } finally {
-  Console.WriteLine("This runs even if an exception is thrown");
+   Console.WriteLine("This runs even if an exception is thrown");
 }
 ]]></code>
   </synonym>
@@ -909,9 +882,9 @@ try {
   <synonym id="syn-attach-an-event-handler">
     <title>Attach an event handler</title>
     <code language="csharp"><![CDATA[
-// For DOM events:
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// For DOM events in Silverlight:
+dynamic document = HtmlPage.Document;
+document.addEventListener("click", handleOnClick, false);
 
 // For general-purpose events:
 
@@ -934,10 +907,8 @@ void Events()
   <synonym id="syn-remove-an-event-handler">
     <title>Remove an event handler</title>
     <code language="csharp"><![CDATA[
-element.removeEventListener('click', handleOnClick, false);
-]]></code>
-    <code language="dart"><![CDATA[
-element.on.click.remove(handleOnClick);
+dynamic document = HtmlPage.Document;
+document.removeEventListener("click", handleOnClick, false);
 ]]></code>
   </synonym>
 </theme>
@@ -947,7 +918,7 @@ element.on.click.remove(handleOnClick);
     <title>Schedule a future event</title>
     <code language="csharp"><![CDATA[
 // There are many ways to do this in C#.  This is one simple example:
-new Timer((Object state) => Console.WriteLine("Timer Fired!"), null, 500, 0);
+new Timer(state => Console.WriteLine("Timer Fired!"), null, 500, 0);
 ]]></code>
   </synonym>
   <synonym id="syn-measure-the-execution-time-of-a-function">
@@ -965,29 +936,29 @@ Console.WriteLine(String.Format("Ellapsed Time: {0}", sw.Elapsed));
   <synonym id="syn-get-html-attribute">
     <title>Get HTML attribute</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// In Silverlight.  Using C# dynamic type.
+element.getAttribute("href");
 ]]></code>
   </synonym>
   <synonym id="syn-set-html-attribute">
     <title>Set HTML attribute</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// In Silverlight.  Using C# dynamic type.
+element.setAttribute("playable", true);
 ]]></code>
   </synonym>
   <synonym id="syn-remove-html-attribute">
     <title>Remove HTML attribute</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// In Silverlight.  Using C# dynamic type.
+element.removeAttribute("playable");
 ]]></code>
   </synonym>
   <synonym id="syn-check-if-html-attribute-exists">
     <title>Check if HTML attribute exists</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// In Silverlight.  Using C# dynamic type.
+element.hasAttribute("href");
 ]]></code>
   </synonym>
 </theme>
@@ -996,15 +967,15 @@ Console.WriteLine(String.Format("Ellapsed Time: {0}", sw.Elapsed));
   <synonym id="syn-add-css-class">
     <title>Add CSS class</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// In Silverlight.  Using C# dynamic type.
+element.classList.add("new-class");
 ]]></code>
   </synonym>
   <synonym id="syn-remove-css-class">
     <title>Remove CSS class</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// In Silverlight.  Using C# dynamic type.
+element.classList.remove("new-class");
 ]]></code>
   </synonym>
 </theme>

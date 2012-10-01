@@ -76,9 +76,9 @@ namespace Animals
 // then expose a namespace from the library.
 using Animals;
 
-class Pound
+public class Pound
 {
-  Dog Fido = new Dog();
+  public Dog Fido = new Dog();
 }
 ]]></code>
   </synonym>
@@ -90,11 +90,11 @@ class Pound
     <code language="csharp"><![CDATA[
 // C# variables must be typed, except when declared in methods.
 
-class Foo
+public class Foo
 {
    Bar Something = new Bar();
    
-   void DoSomething()
+   public void DoSomething()
    {
       var myBar = new Bar();
    }
@@ -106,12 +106,12 @@ class Foo
     <code language="csharp"><![CDATA[
 // C# types may have different default values depending on the type.
 
-class Foo
+public class Foo
 {
   Foo isNull;
   bool isFalse;
   
-  void PrintIt()
+  public void PrintIt()
   {
     Console.WriteLine(String.Format("{0},{1}", foo == null, hasIt == false));
   }
@@ -126,7 +126,7 @@ class Foo
 // C# does not hoist variables.  The following
 // method will issue a compile time error:  "Cannot use
 // local variable name before it is declared".
-void Hoisting()
+public void Hoisting()
   {
     // compilation error here
     Console.WriteLine(String.Format("Hello, {0}", name));
@@ -140,9 +140,9 @@ void Hoisting()
     <code language="csharp"><![CDATA[
 // C# allows this at the field level with the 'readonly' keyword.
 // Use of 'readonly' is not supported in methods.
-class Foo
+public class Foo
 {
-  readonly Foo bar = new Foo();
+  public readonly Foo bar = new Foo();
 }
 ]]></code>
   </synonym>
@@ -432,12 +432,12 @@ v1 == v2; // True
     <title>Function definition</title>
     <code language="csharp"><![CDATA[
 // Return type of methods must be specified in C#, or void if no return.
-bool Fn()
+public bool Fn()
 {
   return True;
 }
 
-void VoidFn()
+public void VoidFn()
 {
   // no return
 }
@@ -447,18 +447,18 @@ void VoidFn()
     <title>Return value</title>
     <code language="csharp"><![CDATA[
 // Return Type must match method signature
-bool IsTrue()
+public bool IsTrue()
 {
   return "hi"; // error
 }
 
-MyClass MakeMyClass()
+public MyClass MakeMyClass()
 {
   return new MyClass(); // correct.
 }
 
 // void methods in C# do not return a value.
-void doNothing(){} // return to caller, but without a value.
+public void doNothing(){} // return to caller, but without a value.
 
 ]]></code>
   </synonym>
@@ -466,7 +466,7 @@ void doNothing(){} // return to caller, but without a value.
     <title>Assign a function to a variable</title>
     <code language="csharp"><![CDATA[
 
-void DemoAnonFunc()
+public void DemoAnonFunc()
 {
   // Use of 'var' not allowed in this case.
   // The variable must be strongly-typed.
@@ -496,7 +496,7 @@ Fn(0, c: "bar");
   <synonym id="syn-default-parameters">
     <title>Default parameters</title>
     <code language="csharp"><![CDATA[
-string send(string msg, string rate = "First Class")
+public string send(string msg, string rate = "First Class")
 {
   return String.Format("{0} was sent via {1}", msg, rate);
 }
@@ -522,7 +522,7 @@ send("I'm cheap", "4th class"); // == "I'm cheap was sent via 4th class"
     <title>Variable number of arguments</title>
     <code language="csharp"><![CDATA[
 // Supports a params[] argument to take an arbitrary array of additional arguments.
-void WithParams(int someArg, params object[] extra)
+public void WithParams(int someArg, params object[] extra)
 {
   for (int i = 0; i < extra.length; i++){
      Console.WriteLine(String.Format("There's no stopping {0}", extra[i]));
@@ -578,7 +578,7 @@ data.ToList()
   <synonym id="syn-closures-and-counters-in-loops">
     <title>Closures and counters in loops</title>
     <code language="csharp"><![CDATA[
-void ClosuresInLoop()
+public void ClosuresInLoop()
 {
     var callbacks = new List<Action>();
 
@@ -598,7 +598,7 @@ void ClosuresInLoop()
   <synonym id="syn-define">
     <title>Define</title>
     <code language="csharp"><![CDATA[
-class Person
+public class Person
 {
   string name;
   
@@ -612,7 +612,7 @@ class Person
   <synonym id="syn-constructor-with-parameter">
     <title>Constructor with parameter</title>
     <code language="csharp"><![CDATA[
-class Person
+public class Person
 {
   string name;
   
@@ -665,16 +665,16 @@ class Person
   }
 }
 
-class Employee : Person
+public class Employee : Person
 {
   double salary;
   
-  Employee(string name, double salary) : base(name)
+  public Employee(string name, double salary) : base(name)
   {
     this.salary = salary;
   }
   
-  void GrantRaise(double percent)
+  public void GrantRaise(double percent)
   {
     salary += salary * percent;
   }
@@ -706,7 +706,7 @@ public struct Point
 	}
 }
 
-void OperatorOverload()
+public void OperatorOverload()
 {
     var p1 = new Point(1, 1);
     var p2 = new Point(2, 2);
@@ -759,14 +759,14 @@ document.querySelectorAll("div");
     <title>Find one element by name</title>
     <code language="csharp"><![CDATA[
 dynamic document = HtmlPage.Document;
-document.querySelector(@"[name="form"]");
+document.querySelector("form");
 ]]></code>
   </synonym>
   <synonym id="syn-find-many-elements-by-name">
     <title>Find many elements by name</title>
     <code language="csharp"><![CDATA[
 dynamic document = HtmlPage.Document;
-document.querySelectorAll(@"[name="form"]");
+document.querySelectorAll("form");
 ]]></code>
   </synonym>
   <synonym id="syn-find-elements-by-combination-of-above">
@@ -779,7 +779,7 @@ document.querySelectorAll("#main div:first-of-type .visible");
   <synonym id="syn-iterate-over-a-list-of-elements">
     <title>Iterate over a list of elements</title>
     <code language="csharp"><![CDATA[
-for (dynamic el in els)
+foreach(dynamic el in els)
 {
   DoSomethingWithEl(el);
 }
@@ -788,13 +788,17 @@ for (dynamic el in els)
   <synonym id="syn-access-the-first-child">
     <title>Access the first child</title>
     <code language="csharp"><![CDATA[
-// TODO (J Evans)
+dynamic document = HtmlPage.Document;
+var element = document.querySelector("#main") as HtmlElement;
+var result = element.Children[0];
 ]]></code>
   </synonym>
   <synonym id="syn-find-out-whether-an-element-has-children-elements">
     <title>Find out whether an element has children elements</title>
     <code language="csharp"><![CDATA[
-// TODO (J Evans)
+dynamic document = HtmlPage.Document;
+var element = document.querySelector("#main") as HtmlElement;
+var result = element.Children.Any();
 ]]></code>
   </synonym>
 </theme>
@@ -803,33 +807,35 @@ for (dynamic el in els)
   <synonym id="syn-create-an-element">
     <title>Create an element</title>
     <code language="csharp"><![CDATA[
-// TODO (J Evans)
+var document = HtmlPage.Document as HtmlDocument;
+var newElement = document.CreateElement("div");
 ]]></code>
   </synonym>
   <synonym id="syn-create-an-element-and-set-its-contents">
     <title>Create an element and set its contents</title>
     <code language="csharp"><![CDATA[
-var element = document.createElement('p');
-
-element.innerHTML = 'A quick brown <em>fox</em>.';
-]]></code>
-    <code language="dart"><![CDATA[
-var element = new Element.html('<p>A quick brown <em>fox</em>.</p>');
+dynamic document = HtmlPage.Document as HtmlDocument;
+dynamic newElement = document.CreateElement("div");
+newElement.innerHTML = "A quick brown <em>fox</em>.";
 ]]></code>
   </synonym>
   <synonym id="syn-add-an-element-to-a-parent">
     <title>Add an element to a parent</title>
     <code language="csharp"><![CDATA[
-// TODO (J Evans)
+dynamic document = HtmlPage.Document as HtmlDocument;
+dynamic parentElement = document.CreateElement("div");
+dynamic childElement = document.CreateElement("div");
+parentElement.appendChild(childElement);
 ]]></code>
   </synonym>
   <synonym id="syn-remove-an-element-from-its-parent">
     <title>Remove an element from its parent</title>
     <code language="csharp"><![CDATA[
-// TODO (J Evans)
-]]></code>
-    <code language="dart"><![CDATA[
-// TODO (J Evans)
+dynamic document = HtmlPage.Document as HtmlDocument;
+dynamic parentElement = document.CreateElement("div");
+dynamic childElement = document.CreateElement("div");
+parentElement.appendChild(childElement);
+parentElement.removeChild(childElement);
 ]]></code>
   </synonym>
 </theme>
@@ -968,14 +974,14 @@ element.hasAttribute("href");
     <title>Add CSS class</title>
     <code language="csharp"><![CDATA[
 // In Silverlight.  Using C# dynamic type.
-element.classList.add("new-class");
+element.CssClass += " new-class";
 ]]></code>
   </synonym>
   <synonym id="syn-remove-css-class">
     <title>Remove CSS class</title>
     <code language="csharp"><![CDATA[
 // In Silverlight.  Using C# dynamic type.
-element.classList.remove("new-class");
+element.CssClass = element.CssClass.Replace("new-class", "");
 ]]></code>
   </synonym>
 </theme>
@@ -984,9 +990,21 @@ element.classList.remove("new-class");
   <synonym id="syn-request-data-via-xmlhttprequest">
     <title>Request data via XMLHttpRequest</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in typically use the WCF RIA Services API
-// which is quite extensive.  ASP.net apps typically use Ajax helpers, though this is within
-// the framework an not necessarily specific to the C# language.
+// In Silverlight...
+WebClient wc = new WebClient();
+
+wc.DownloadStringCompleted += (object sender, DownloadStringCompletedEventArgs e) => {
+	if (e.Error == null)
+	{
+		MessageBox.Show(e.Result);
+	}
+	else
+	{
+		// handle...
+	}
+};
+
+wc.DownloadStringAsync(new Uri("/data.json", UriKind.Relative));
 ]]></code>
   </synonym>
 </theme>
@@ -995,50 +1013,43 @@ element.classList.remove("new-class");
   <synonym id="syn-react-to-document-finishing-loading">
     <title>React to document finishing loading</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// C# Apps running in Silverlight may access jQuery via the DOM bridge API.
 ]]></code>
   </synonym>
   <synonym id="syn-node-lookup">
     <title>Node lookup</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// C# Apps running in Silverlight may access jQuery via the DOM bridge API.
 ]]></code>
   </synonym>
   <synonym id="syn-node-creation">
     <title>Node creation</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// C# Apps running in Silverlight may access jQuery via the DOM bridge API.
 ]]></code>
   </synonym>
   <synonym id="syn-event-handling">
     <title>Event handling</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// C# Apps running in Silverlight may access jQuery via the DOM bridge API.
 ]]></code>
   </synonym>
   <synonym id="syn-relative-nodes">
     <title>Relative nodes</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// C# Apps running in Silverlight may access jQuery via the DOM bridge API.
 ]]></code>
   </synonym>
   <synonym id="syn-children">
     <title>Children</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// C# Apps running in Silverlight may access jQuery via the DOM bridge API.
 ]]></code>
   </synonym>
   <synonym id="syn-clone">
     <title>Clone</title>
     <code language="csharp"><![CDATA[
-// Apps (C#, VB, etc) running in Silverlight plug-in may access some DOM features via the HtmlPage API.
-// There are certain restrictions in place when interacting with DOM and Javascript.
+// C# Apps running in Silverlight may access jQuery via the DOM bridge API.
 ]]></code>
   </synonym>
 </theme>

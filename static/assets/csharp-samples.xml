@@ -807,14 +807,14 @@ var result = element.Children.Any();
   <synonym id="syn-create-an-element">
     <title>Create an element</title>
     <code language="csharp"><![CDATA[
-var document = HtmlPage.Document as HtmlDocument;
+var document = HtmlPage.Document;
 var newElement = document.CreateElement("div");
 ]]></code>
   </synonym>
   <synonym id="syn-create-an-element-and-set-its-contents">
     <title>Create an element and set its contents</title>
     <code language="csharp"><![CDATA[
-dynamic document = HtmlPage.Document as HtmlDocument;
+dynamic document = HtmlPage.Document;
 dynamic newElement = document.CreateElement("div");
 newElement.innerHTML = "A quick brown <em>fox</em>.";
 ]]></code>
@@ -822,7 +822,7 @@ newElement.innerHTML = "A quick brown <em>fox</em>.";
   <synonym id="syn-add-an-element-to-a-parent">
     <title>Add an element to a parent</title>
     <code language="csharp"><![CDATA[
-dynamic document = HtmlPage.Document as HtmlDocument;
+dynamic document = HtmlPage.Document;
 dynamic parentElement = document.CreateElement("div");
 dynamic childElement = document.CreateElement("div");
 parentElement.appendChild(childElement);
@@ -831,7 +831,7 @@ parentElement.appendChild(childElement);
   <synonym id="syn-remove-an-element-from-its-parent">
     <title>Remove an element from its parent</title>
     <code language="csharp"><![CDATA[
-dynamic document = HtmlPage.Document as HtmlDocument;
+dynamic document = HtmlPage.Document;
 dynamic parentElement = document.CreateElement("div");
 dynamic childElement = document.CreateElement("div");
 parentElement.appendChild(childElement);
@@ -991,7 +991,7 @@ element.CssClass = element.CssClass.Replace("new-class", "");
     <title>Request data via XMLHttpRequest</title>
     <code language="csharp"><![CDATA[
 // In Silverlight...
-WebClient wc = new WebClient();
+var wc = new WebClient();
 
 wc.DownloadStringCompleted += (object sender, DownloadStringCompletedEventArgs e) => {
 	if (e.Error == null)

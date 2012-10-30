@@ -5,8 +5,9 @@
   <synonym id="syn-code-embedding">
     <title>Code embedding</title>
     <code language="dart"><![CDATA[
-// Note: This will only work in Dartium (a build of 
-// Chromium with Dart VM)
+// Use both script tags to reach all browsers
+
+// For browsers with the Dart VM
 <script type='application/dart' src='program.dart'></script>
 
 // The following will kickstart the Dart engine and 
@@ -56,7 +57,7 @@ window.alert('Clicked on the button.');
     <title>Define a library</title>
     <code language="dart"><![CDATA[
 // declares the following is in the animals library
-library 'animals';
+library animals;
 
 class Dog {
   noise() => 'BARK!';
@@ -66,11 +67,11 @@ class Dog {
   <synonym id="syn-use-a-library">
     <title>Use a library</title>
     <code language="dart"><![CDATA[
-import 'animals';
+import 'animals.dart';
 var fido = new Dog();
 
 // prefixes are supported to avoid namespace collisions
-import 'animals' as 'pets';
+import 'animals.dart' as 'pets';
 var fido = new pets.Dog();
 ]]></code>
   </synonym>
@@ -129,20 +130,14 @@ name = 'Alice';
     <code language="dart"><![CDATA[
 var a = new List();
 var a = [];
-var a = [1, 2, 3];
-]]></code>
-    <code language="dart"><![CDATA[
 var a = ['apple', 'banana', 'cherry'];
 
-// returns null
-a.add('donut');
-// == null
+a.add('orange');
 
-a.length
-// == 4
+a.length == 4;
 
-a.removeLast()
-// == 'donut'
+// In Dart you can use generics.
+var a = new List<String>();
 ]]></code>
   </synonym>
   <synonym id="syn-custom-sort">
@@ -164,11 +159,15 @@ var periodic = new Map();
   <synonym id="syn-appropriate-keys">
     <title>Appropriate keys</title>
     <code language="dart"><![CDATA[
-// Keys in Dart must be string literals
+// Map literals must use strings as keys
 var periodic = {
   'gold' : 'AU',
   'silver' : 'AG'
 };
+
+// Map constructors can use any object as a key
+var favoriteIceCream = new Map();
+favoriteIceCream[new Kid('Billy')] = 'vanilla';
 ]]></code>
   </synonym>
   <synonym id="syn-accessing-values">
@@ -179,6 +178,9 @@ var periodic = {
 periodic['gold'] // == 'AU'
 
 periodic['gold'] = 'Glitter';
+
+// You can set a key IFF it does not exist
+periodic.putIfAbsent('Xenon', 'XE');
 ]]></code>
   </synonym>
   <synonym id="syn-sets-collections-of-unique-items">
@@ -305,8 +307,8 @@ print('The build is $status');
     <code language="dart"><![CDATA[
 var emptyString = '';
 
-if (emptyString.isEmpty()) {
-  print('use isEmpty()');
+if (emptyString.isEmpty) {
+  print('use isEmpty');
 }
 ]]></code>
   </synonym>
@@ -335,7 +337,7 @@ if (myNull == null) {
     <code language="dart"><![CDATA[
 var myNaN = 0/0;
 
-if (myNaN.isNaN()) {
+if (myNaN.isNaN) {
   print('use isNaN to check if a number is NaN');
 }
 ]]></code>
@@ -351,15 +353,13 @@ if (myNaN.isNaN()) {
     <code language="dart"><![CDATA[
 /*
  * In Dart, == will check the following, in order:
- * 1) if x === y then return true (=== is identity). Otherwise
- * 2) if either x or y is null, return false. Otherwise
- * 3) return the result of x.==(y)
+ * 1) if either x or y is null, then return identical(x, y)
+ * 2) otherwise, return e.==(y)
  */
 
 /*
  * This means:
- * a) use x == null instead of x === null
- * b) there's almost no reason to every use === or !==
+ * a) use identical(a, b) instead of === (there is no ===)
  * c) when implementing ==() you don't have to worry about
  *    manually checking for null arg
  * d) you can't define your own type that considers itself
@@ -372,7 +372,7 @@ if (myNaN.isNaN()) {
 var letterA = 'A';
 var charA = new String.fromCharCodes([65]);
 
-// String defines equals() as 'same character codes in same order'
+// String defines equality as 'same character codes in same order'
 letterA == charA // == true
 
 // However, the following is different than JavaScript
@@ -381,6 +381,19 @@ var number5 = 5;
 var char5 = '5';
 
 number5 != char5 // == true, because of different types
+
+// You can implement == in your own class
+class Person {
+  String name;
+  String ssn;
+  Person(this.name, this.ssn);
+  
+  bool operator ==(Person other) {
+    return ssn == other.ssn;
+  }
+}
+
+new Person('Bob', '111') == new Person('Robert', '111');
 ]]></code>
   </synonym>
 </theme>
@@ -408,11 +421,17 @@ bool fn() {
     <code language="dart"><![CDATA[
 // Like JavaScript, use the 'return' keyword in a function
 // definition to return a value.
-fn() { return 'Hello'; }
+fn() {
+  return 'Hello';
+}
 fn(); // == 'Hello'
 
 // A function with no return value returns null.
-((){})(); // == returns null
+doNothing() {
+  // nothing
+}
+
+doNothing(); // == returns null
 
 // if the body of the function is returning a single expression,
 // this is the short form
@@ -441,7 +460,7 @@ fn('a'); // == null
 ]]></code>
   </synonym>
   <synonym id="syn-default-parameters">
-    <title>Default parameters</title>
+    <title>Parameters with default values</title>
     <code language="dart"><![CDATA[
 String send(msg, [rate='First Class']) {
   return '${msg} was sent via ${rate}';
@@ -454,7 +473,7 @@ send("I'm cheap", '4th class'); // == "I'm cheap was sent via 4th class"
   <synonym id="syn-named-parameters">
     <title>Named parameters</title>
     <code language="dart"><![CDATA[
-String send(msg, [rate='First Class']) {
+String send(msg, {rate: 'First Class'}) {
   return '${msg} was sent via ${rate}';
 }
 
@@ -479,9 +498,6 @@ var colors = ['red', 'orange', 'green'];
 for (var i = 0; i < colors.length; i++) {
   print(colors[i]);
 }
-
-// Alternatively, the forEach loop is a method on a List in Dart.
-colors.forEach((color) => print(color));
 ]]></code>
   </synonym>
   <synonym id="syn-for-in-loops">
@@ -502,7 +518,7 @@ for (var fruit in fruits) {
     <code language="dart"><![CDATA[
 var data = { … };
 
-for (var key in data.getKeys()) {
+for (var key in data.keys) {
   print('$key, ${data[key]}');
 }
 
@@ -569,8 +585,8 @@ var person = new Person();
   <synonym id="syn-reflection">
     <title>Reflection</title>
     <code language="dart"><![CDATA[
-// There currently is no way to get the class of an
-// object. Reflection support coming soon.
+var name = "Bob";
+name.runtimeType  // == String
 ]]></code>
   </synonym>
   <synonym id="syn-check-the-type">
@@ -700,7 +716,7 @@ elem.nodes[0];
     <code language="dart"><![CDATA[
 elem.hasChildNodes();
 
-!elem.nodes.isEmpty();
+!elem.nodes.isEmpty;
 ]]></code>
   </synonym>
 </theme>
@@ -759,15 +775,18 @@ var invalidEmail = 'f@il@example.com';
     <title>Throw an exception</title>
     <code language="dart"><![CDATA[
 throw new Exception("Intruder Alert!!");
+
+// You can also throw strings
+
+throw "Unexpected user input";
 ]]></code>
   </synonym>
   <synonym id="syn-catch-an-exception">
     <title>Catch an exception</title>
     <code language="dart"><![CDATA[
-import 'dart:math';
 main() {    
-try {
-    parseInt("three");
+  try {
+    int.parse("three");
   } on FormatException catch(fe) {
     print("Ouch! Detected: $fe");
   } catch(e) {
@@ -780,11 +799,19 @@ try {
   </synonym>
 </theme>
 <theme id="theme-event-handling">
-  <title>Event handling</title>
+  <title>DOM Event handling</title>
   <synonym id="syn-attach-an-event-handler">
     <title>Attach an event handler</title>
     <code language="dart"><![CDATA[
 element.on.click.add(handleOnClick);
+
+handleOnClick(Event e) {
+  // ...
+}
+
+// Or, if the handler does not take an event
+
+element.on.click.add((e) => subscribeToService());
 ]]></code>
   </synonym>
   <synonym id="syn-remove-an-event-handler">
@@ -800,16 +827,17 @@ element.on.click.remove(handleOnClick);
     <title>Schedule a future event</title>
     <code language="dart"><![CDATA[
 import 'dart:isolate';
-var timer = new Timer(500, () { … });
+var timer = new Timer(500, (timer) { … });
 ]]></code>
   </synonym>
   <synonym id="syn-measure-the-execution-time-of-a-function">
     <title>Measure the execution time of a function</title>
     <code language="dart"><![CDATA[
 int measure(fn) {
-  Stopwatch watch = new Stopwatch.start();
+  var watch = new Stopwatch();
+  watch.start();
   fn();
-  return watch.elapsedInMs();
+  return watch.elapsedMicroseconds;
 }
 ]]></code>
   </synonym>
@@ -892,10 +920,14 @@ pic.classes.add('avatar');
 pic.classes.toggle('main');
 
 pic.attributes['src'] = 'myPic.jpg';
+
 // Or:
+
 var pic = new ImageElement('myPic.jpg');
-pic.classes..add('avatar')
+pic.classes
+    ..add('avatar')
     ..toggle('main');
+    
 // Cascades (..) allow you to chain
 // multiple method calls on an object.
 
@@ -908,9 +940,6 @@ document.body.nodes.add(pic);
 queryAll('a.person').forEach((el) {
   el.on.click.add((e) => print('Person clicked'));
 });
-
-// coming soon!!
-queryAll('a.person').on.click.add((e) => print('Person clicked'));
 ]]></code>
   </synonym>
   <synonym id="syn-relative-nodes">
@@ -928,7 +957,7 @@ var next = myNode.nextNode;
     <code language="dart"><![CDATA[
 var myNode = query('div');
 
-if (!myNode.nodes.isEmpty()) {
+if (!myNode.nodes.isEmpty) {
   myNode.nodes.clear();
 }
 ]]></code>
@@ -964,12 +993,16 @@ var clonedElement = query('#about').clone(true);
     <title>Random</title>
     <code language="dart"><![CDATA[
 import 'dart:math';
+
 var rand = new Random();
+
 // Returns a random double greater than or equal to 0.0
 // and less than 1.0
 rand.nextDouble();
+
 // Returns a random boolean value.
 rand.nextBool();
+
 // Returns a positive random integer greater or equal
 // to 0 and less than 10
 rand.nextInt(10);
@@ -986,12 +1019,11 @@ cos(Math.PI) // == -1.0
   <synonym id="syn-convert-a-string-to-a-number">
     <title>Convert a String to a number</title>
     <code language="dart"><![CDATA[
-import 'dart:math';
-parseInt('3') // == 3
+int.parse('3') // == 3
 
-parseDouble('3.14') // == 3.14
+double.parse('3.14') // == 3.14
 
-parseInt('three') // ERROR: throws FormatException 
+int.parse('three') // ERROR: throws FormatException 
 ]]></code>
   </synonym>
 </theme>

@@ -79,16 +79,6 @@ pre {
   
   -webkit-transition: background 250ms;
 }
-pre.lang-js::after {
-  content: '»';
-  position: absolute;
-  right: 0;
-  top: 1px;
-  
-  font-family: 'Open Sans', Arial;
-  font-size: 48px;
-  color: rgba(255, 255, 255, .8);
-}
 
 #meat .row:hover pre {
   background: rgb(238, 238, 238);

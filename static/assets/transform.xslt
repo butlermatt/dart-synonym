@@ -21,7 +21,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <div class="row">
       <div class="span16"><h2 class="section"><xsl:value-of select="title"/></h2></div>
     </div>
-    <div class="row">
+    <div class="row codes">
       <xsl:apply-templates select="code"/>
     </div>
   </section>
@@ -29,7 +29,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:template match="code">
   <div class="span8">
-    <pre>
+    <pre class="{@language}">
       <xsl:if test="@language='javascript'">
         <xsl:attribute name="class">prettyprint lang-js</xsl:attribute>
       </xsl:if>

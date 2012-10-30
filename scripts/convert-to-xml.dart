@@ -1,6 +1,5 @@
-#import('../../Downloads/dart/dart-sdk/lib/json/json.dart');
-//#import('dart:json');
-#import('dart:io');
+import 'dart:json';
+import 'dart:io';
 
 Future readFile(String name) {
   var completer = new Completer();
@@ -18,8 +17,8 @@ Future readFile(String name) {
 String slugify(String title) {
   if (title == null) return '';
   // because string.replaceAll(regex) doesn't work in VM yet
-  final numOrLetter = new RegExp(@'[a-z0-9-]');
-  final space = new RegExp(@'\s');
+  final numOrLetter = new RegExp(r'[a-z0-9-]');
+  final space = new RegExp(r'\s');
   var buffer = new StringBuffer();
   var lower = title.toLowerCase();
   for (var i = 0; i < lower.length; i++) {
@@ -50,8 +49,8 @@ void main() {
   readFile('/Users/sethladd/Code/dart-rosetta-stone/static/assets/rosetta_stone.json').then((contents) {
   	final obj = JSON.parse(contents);
   	final data = obj['feed']['entry'];
-  	final rowNumRE = new RegExp(@'\d+');
-  	final columnLetterRE = new RegExp(@'^(\w)');
+  	final rowNumRE = new RegExp(r'\d+');
+  	final columnLetterRE = new RegExp(r'^(\w)');
 
   	var firstTheme = true;
   	var firstSynonym = true;
@@ -61,7 +60,7 @@ void main() {
 
   	data.forEach((row) {
   	  var cellId = row['title']['\$t'];
-  	  var rowNum = Math.parseInt(rowNumRE.firstMatch(cellId)[0]);
+  	  var rowNum = int.parseInt(rowNumRE.firstMatch(cellId)[0]);
   	  var columnLetter = columnLetterRE.firstMatch(cellId)[0];
   	  var content = row['content']['\$t'];
 
@@ -88,11 +87,11 @@ void main() {
   	  }
 
   	  if (columnLetter == 'C') {
-  	  	print('    ' + code('javascript', content));
+  	  	print('    ${code('javascript', content)}');
   	  }
 
   	  if (columnLetter == 'D') {
-  	  	print('    ' + code('dart', content));
+  	  	print('    ${code('dart', content)}');
   	  }
   	});
 

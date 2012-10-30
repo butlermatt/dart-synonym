@@ -14,45 +14,87 @@
    limitations under the License.
 */
 
-#import('dart:dom');
+import 'dart:html';
 
-getUrl(String url, Function onSuccess) {
-  var get = new XMLHttpRequest();
+typedef void OnSuccess(Document xmlContents);
+
+final Map<String, String> synonymsUrls = const {
+  'dart': 'assets/dart-samples.xml',
+  'js': 'assets/js-samples.xml',
+  'csharp': 'assets/csharp-samples.xml'
+};
+
+final Map<String, Document> synonymXmls = new Map<String, Document>();
+final Map<String, DocumentFragment> synonymHtmls = new Map<String, DocumentFragment>();
+
+const String transformUrl = "assets/transform.xslt";
+Document xsltContents;
+
+getUrl(String url, OnSuccess onSuccess) {
+  var get = new HttpRequest();
   get.open('GET', url);
-  get.addEventListener('readystatechange', (event) {
+  get.on.readyStateChange.add((event) {
     if (get.readyState == 4 && get.status == 200) {
-      onSuccess(get);
+      onSuccess(get.responseXML);
     }
   });
   get.send();
 }
 
+processXml() {
+  if (synonymXmls.length != 3 || xsltContents == null) return;
+  
+  var processor = new XSLTProcessor();
+  processor.importStylesheet(xsltContents);
+
+  for (String key in synonymXmls.keys) {
+    Document synonym = synonymXmls[key];
+    synonymHtmls[key] = processor.transformToFragment(synonym, document);
+  }
+  
+  print("all done");
+  
+  displaySynonyms();
+  
+//  var destination = query('#meat');
+//  destination.innerHTML = '';
+//  destination.nodes.add(result);
+//  window.postMessage('code:loaded', '*');
+}
+
+displaySynonyms() {
+  var destination = query('#meat');
+  var dartSynonyms = synonymHtmls['dart'];
+  var jsSynonyms = synonymHtmls['js'];
+  var dartSyns = dartSynonyms.queryAll('.synonym');
+  for (var syn in dartSyns) {
+    var id = syn.attributes['id'];
+    var code = jsSynonyms.query('.synonym[id="${id}"] .codes .span8');
+    if (code != null) {
+      syn.query('.codes').nodes.add(code);
+    } else {
+      print("did not find syn for $id");
+    }
+  }
+  
+  destination.innerHTML = '';
+  destination.nodes.add(dartSynonyms);
+  
+  print("done here");
+  
+  window.postMessage('code:loaded', '*');
+}
+
 main() {
-  var synonymsUrl = "/assets/synonyms.xml";
-  var transformUrl = "/assets/transform.xslt";
-
-  var xmlContents;
-  var xsltContents;
-
-  processXML() {
-    if (xmlContents == null || xsltContents == null) return;
-
-    var processor = new XSLTProcessor();
-    processor.importStylesheet(xsltContents);
-    var result = processor.transformToFragment(xmlContents, document);
-    var destination = document.getElementById('meat');
-    destination.innerHTML = '';
-    destination.appendChild(result);
-    window.postMessage('code:loaded', '*');
+  for (var lang in synonymsUrls.keys) {
+    getUrl(synonymsUrls[lang], (Document contents) {
+      synonymXmls[lang] = contents;
+      processXml();
+    });
   }
 
-  getUrl(synonymsUrl, (xhr) {
-    xmlContents = xhr.responseXML; 
-    processXML();
-  });
-
-  getUrl(transformUrl, (xhr) {
-    xsltContents = xhr.responseXML; 
-    processXML();
+  getUrl(transformUrl, (contents) {
+    xsltContents = contents; 
+    processXml();
   });
 }

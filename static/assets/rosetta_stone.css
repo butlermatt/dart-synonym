@@ -147,6 +147,15 @@ footer ul {
   display: none;
 }
 
+.language-choice {
+  margin-top: 15px;
+}
+
+.language-choice select {
+  font-size: 20px;
+  height: 35px;
+}
+
 /* Prettify section */
 
 .pln {

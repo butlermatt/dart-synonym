@@ -41,7 +41,7 @@ getUrl(String url, OnSuccess onSuccess) {
   get.send();
 }
 
-processXml() {
+processXml([String defaultLang = 'js']) {
   if (synonymXmls.length != 3 || xsltContents == null) return;
   
   var processor = new XSLTProcessor();
@@ -54,22 +54,17 @@ processXml() {
   
   print("all done");
   
-  displaySynonyms();
-  
-//  var destination = query('#meat');
-//  destination.innerHTML = '';
-//  destination.nodes.add(result);
-//  window.postMessage('code:loaded', '*');
+  displaySynonyms(defaultLang);
 }
 
-displaySynonyms() {
+displaySynonyms(String lang) {
   var destination = query('#meat');
   var dartSynonyms = synonymHtmls['dart'];
-  var jsSynonyms = synonymHtmls['js'];
+  var otherSynonyms = synonymHtmls[lang];
   var dartSyns = dartSynonyms.queryAll('.synonym');
   for (var syn in dartSyns) {
     var id = syn.attributes['id'];
-    var code = jsSynonyms.query('.synonym[id="${id}"] .codes .span8');
+    var code = otherSynonyms.query('.synonym[id="${id}"] .codes .span8');
     if (code != null) {
       syn.query('.codes').nodes.add(code);
     } else {
@@ -85,6 +80,11 @@ displaySynonyms() {
   window.postMessage('code:loaded', '*');
 }
 
+switchLanguage(Event e) {
+  var lang = (e.target as SelectElement).value;
+  processXml(lang);
+}
+
 main() {
   for (var lang in synonymsUrls.keys) {
     getUrl(synonymsUrls[lang], (Document contents) {
@@ -97,4 +97,11 @@ main() {
     xsltContents = contents; 
     processXml();
   });
+  
+  var select = query('.language-choice select');
+  if (select == null) {
+    print("did not find language choice");
+  } else {
+    select.on.change.add(switchLanguage);
+  }
 }

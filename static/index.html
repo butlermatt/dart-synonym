@@ -48,7 +48,7 @@
           <div class="row">
             <div class="span12">
               <h3>
-                <a href="#">Dart Synonym <small>Translations from JavaScript</small></a>
+                <a href="#">Dart Synonym <small>Translations from Dart</small></a>
               </h3>
             </div>
             <div class="span4 sharing">
@@ -63,14 +63,15 @@
           <div class="row">
             <div class="span8">
               <h1>
-                JavaScript
-              </h1>
-            </div>
-            <div class="span8">
-              <h1>
                 <img alt="Dart logo" src="assets/dart-logo-notext.png">
                 Dart
               </h1>
+            </div>
+            <div class="span8 language-choice">
+              <select>
+                <option value="js">JavaScript</option>
+                <option value="csharp">C#</option>
+              </select>
             </div>
           </div>
         </div>
@@ -115,7 +116,8 @@
 
   </body>
 
-  <script async type="text/javascript" charset="utf-8" src="assets/synonyms.dart.js"></script>
+  <script type="application/dart" src="assets/synonyms.dart"></script>
+  <script type="text/javascript" charset="utf-8" src="assets/dart.js"></script>
   
   <script type="text/javascript">
     window.addEventListener('message', function(e) {

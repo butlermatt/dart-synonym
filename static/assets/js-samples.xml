@@ -114,20 +114,11 @@ printName();
     <code language="javascript"><![CDATA[
 var a = new Array();
 var a = [];
-var a = [1, 2, 3];
-]]></code>
-    <code language="javascript"><![CDATA[
 var a = ['apple', 'banana', 'cherry'];
 
-// returns the new length of the array
-a.push('donut');
-// == 4
+a.add('orange');
 
-a.length
-// == 4
-
-a.pop()
-// == 'donut'
+a.length == 4;
 ]]></code>
   </synonym>
   <synonym id="syn-custom-sort">

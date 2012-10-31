@@ -14,45 +14,90 @@
    limitations under the License.
 */
 
-#import('dart:dom');
+import 'dart:html';
 
-getUrl(String url, Function onSuccess) {
-  var get = new XMLHttpRequest();
+typedef void OnSuccess(Document xmlContents);
+
+final Map<String, String> synonymsUrls = const {
+  'dart': 'assets/dart-samples.xml',
+  'js': 'assets/js-samples.xml',
+  'csharp': 'assets/csharp-samples.xml'
+};
+
+final Map<String, Document> synonymXmls = new Map<String, Document>();
+final Map<String, DocumentFragment> synonymHtmls = new Map<String, DocumentFragment>();
+
+const String transformUrl = "assets/transform.xslt";
+Document xsltContents;
+
+getUrl(String url, OnSuccess onSuccess) {
+  var get = new HttpRequest();
   get.open('GET', url);
-  get.addEventListener('readystatechange', (event) {
+  get.on.readyStateChange.add((event) {
     if (get.readyState == 4 && get.status == 200) {
-      onSuccess(get);
+      onSuccess(get.responseXML);
     }
   });
   get.send();
 }
 
-main() {
-  var synonymsUrl = "/assets/synonyms.xml";
-  var transformUrl = "/assets/transform.xslt";
+processXml([String defaultLang = 'js']) {
+  if (synonymXmls.length != 3 || xsltContents == null) return;
 
-  var xmlContents;
-  var xsltContents;
+  var processor = new XSLTProcessor();
+  processor.importStylesheet(xsltContents);
 
-  processXML() {
-    if (xmlContents == null || xsltContents == null) return;
-
-    var processor = new XSLTProcessor();
-    processor.importStylesheet(xsltContents);
-    var result = processor.transformToFragment(xmlContents, document);
-    var destination = document.getElementById('meat');
-    destination.innerHTML = '';
-    destination.appendChild(result);
-    window.postMessage('code:loaded', '*');
+  for (String key in synonymXmls.keys) {
+    Document synonym = synonymXmls[key];
+    synonymHtmls[key] = processor.transformToFragment(synonym, document);
   }
 
-  getUrl(synonymsUrl, (xhr) {
-    xmlContents = xhr.responseXML; 
-    processXML();
+  displaySynonyms(defaultLang);
+}
+
+displaySynonyms(String lang) {
+  var destination = query('#meat');
+  var dartSynonyms = synonymHtmls['dart'];
+  var otherSynonyms = synonymHtmls[lang];
+  var dartSyns = dartSynonyms.queryAll('.synonym');
+  for (var syn in dartSyns) {
+    var id = syn.attributes['id'];
+    var code = otherSynonyms.query('.synonym[id="${id}"] .codes .span8');
+    if (code != null) {
+      syn.query('.codes').nodes.add(code);
+    } else {
+      print("did not find syn for $id");
+    }
+  }
+
+  destination.innerHTML = '';
+  destination.nodes.add(dartSynonyms);
+
+  window.postMessage('code:loaded', '*');
+}
+
+switchLanguage(Event e) {
+  var lang = (e.target as SelectElement).value;
+  processXml(lang);
+}
+
+main() {
+  for (var lang in synonymsUrls.keys) {
+    getUrl(synonymsUrls[lang], (Document contents) {
+      synonymXmls[lang] = contents;
+      processXml();
+    });
+  }
+
+  getUrl(transformUrl, (contents) {
+    xsltContents = contents;
+    processXml();
   });
 
-  getUrl(transformUrl, (xhr) {
-    xsltContents = xhr.responseXML; 
-    processXML();
-  });
+  var select = query('.language-choice select');
+  if (select == null) {
+    print("did not find language choice");
+  } else {
+    select.on.change.add(switchLanguage);
+  }
 }

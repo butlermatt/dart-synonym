@@ -1,4 +1,4 @@
-Dart Rosetta Stone is an AppEngine site that displays one language's code
+Dart Synonyms is an AppEngine site that displays one language's code
 examples and their Dart equivalents side by side (e.g. Javascript and equivalent
 Dart).
 
@@ -10,7 +10,7 @@ Bootstrap for structure and styling.  The JS file is compiled from the dart file
 (assets/synonyms.dart).
 
 Upon loading the single HTML page, the code comparison content is lazy loaded.
-The comparison  content (assets/synonyms.xml) is loaded via XMLHttpRequest
+The comparison  content (XML files) is loaded via XMLHttpRequest
 and is transformed into HTML using an XSLT script.
 
 Maintenance

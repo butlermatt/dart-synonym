@@ -61,12 +61,17 @@ displaySynonyms(String lang) {
   var otherSynonyms = synonymHtmls[lang];
   var dartSyns = dartSynonyms.queryAll('.synonym');
   for (var syn in dartSyns) {
+    var destination = syn.query('.codes');
     var id = syn.attributes['id'];
     var code = otherSynonyms.query('.synonym[id="${id}"] .codes .span8');
     if (code != null) {
-      syn.query('.codes').nodes.add(code);
+      destination.nodes.add(code);
     } else {
-      print("did not find syn for $id");
+      var span8 = new DivElement()..classes.add('span8');
+      var pre = new PreElement();
+      pre.text = '// No equivalent synonym found.';
+      span8.nodes.add(pre);
+      destination.nodes.add(span8);
     }
   }
 

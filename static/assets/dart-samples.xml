@@ -236,6 +236,18 @@ var greetingPolish = 'My Polish name would be ${name}ski.';
 element.style.top = '${top + 20}px';
 ]]></code>
   </synonym>
+  <synonym id="syn-concatenation">
+    <title>Concatenation</title>
+    <code language="dart"><![CDATA[
+// Adjacent string literals concatenate.
+var longMessage = 'This is a very long line. '
+                  'It is concatenated into one string.';
+                  
+// Or use string interpolation.
+var name = 'Aaron';
+var greeting = 'My name is $name.';  
+]]></code>
+  </synonym>
   <synonym id="syn-substring">
     <title>Substring</title>
     <code language="dart"><![CDATA[

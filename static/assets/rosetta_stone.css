@@ -156,6 +156,14 @@ footer ul {
   height: 35px;
 }
 
+h1.language-name a {
+  color: black;
+}
+
+h1.language-name a:hover {
+  text-decoration: none;
+}
+
 /* Prettify section */
 
 .pln {

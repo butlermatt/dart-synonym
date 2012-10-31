@@ -179,7 +179,7 @@ periodic['gold'] // == 'AU'
 
 periodic['gold'] = 'Glitter';
 
-// You can set a key IFF it does not exist
+// You can set a key if it does not exist first
 periodic.putIfAbsent('Xenon', 'XE');
 ]]></code>
   </synonym>
@@ -354,7 +354,7 @@ if (myNaN.isNaN) {
 /*
  * In Dart, == will check the following, in order:
  * 1) if either x or y is null, then return identical(x, y)
- * 2) otherwise, return e.==(y)
+ * 2) otherwise, return x.==(y)
  */
 
 /*

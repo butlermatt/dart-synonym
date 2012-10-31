@@ -43,7 +43,7 @@ getUrl(String url, OnSuccess onSuccess) {
 
 processXml([String defaultLang = 'js']) {
   if (synonymXmls.length != 3 || xsltContents == null) return;
-  
+
   var processor = new XSLTProcessor();
   processor.importStylesheet(xsltContents);
 
@@ -51,9 +51,7 @@ processXml([String defaultLang = 'js']) {
     Document synonym = synonymXmls[key];
     synonymHtmls[key] = processor.transformToFragment(synonym, document);
   }
-  
-  print("all done");
-  
+
   displaySynonyms(defaultLang);
 }
 
@@ -71,12 +69,10 @@ displaySynonyms(String lang) {
       print("did not find syn for $id");
     }
   }
-  
+
   destination.innerHTML = '';
   destination.nodes.add(dartSynonyms);
-  
-  print("done here");
-  
+
   window.postMessage('code:loaded', '*');
 }
 
@@ -94,10 +90,10 @@ main() {
   }
 
   getUrl(transformUrl, (contents) {
-    xsltContents = contents; 
+    xsltContents = contents;
     processXml();
   });
-  
+
   var select = query('.language-choice select');
   if (select == null) {
     print("did not find language choice");

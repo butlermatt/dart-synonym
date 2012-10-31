@@ -208,6 +208,16 @@ element.style.top = (top + 20) + 'px';
 
 ]]></code>
   </synonym>
+  <synonym id="syn-concatenation">
+    <title>Concatenation</title>
+    <code language="javascript"><![CDATA[
+var longMessage = 'This is a very long line. ' +
+                  'It is concatenated into one string.';
+                  
+var name = 'Aaron';
+var greeting = 'My name is ' + name;  
+]]></code>
+  </synonym>
   <synonym id="syn-substring">
     <title>Substring</title>
     <code language="javascript"><![CDATA[

@@ -71,7 +71,7 @@ import 'animals.dart';
 var fido = new Dog();
 
 // prefixes are supported to avoid namespace collisions
-import 'animals.dart' as 'pets';
+import 'animals.dart' as pets;
 var fido = new pets.Dog();
 ]]></code>
   </synonym>
@@ -1023,7 +1023,7 @@ rand.nextInt(10);
   <synonym id="syn-sine-and-cosine">
     <title>Sine and Cosine</title>
     <code language="dart"><![CDATA[
-import 'dart:math' as 'Math';
+import 'dart:math' as Math;
 sin(Math.PI/2) // == 1.0
 cos(Math.PI) // == -1.0
 ]]></code>

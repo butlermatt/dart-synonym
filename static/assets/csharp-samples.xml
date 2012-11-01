@@ -113,7 +113,7 @@ public class Foo
   
   public void PrintIt()
   {
-    Console.WriteLine(String.Format("{0},{1}", foo == null, hasIt == false));
+    Console.WriteLine("{0},{1}", foo == null, hasIt == false);
   }
 }
 
@@ -129,7 +129,7 @@ public class Foo
 public void Hoisting()
   {
     // compilation error here
-    Console.WriteLine(String.Format("Hello, {0}", name));
+    Console.WriteLine("Hello, {0}", name);
     
 	var name = "Bob";
   }
@@ -215,10 +215,10 @@ var someOtherObject = myDict[someObject];
 var fruits = new HashSet<String>();
 fruits.Add("Oranges");
 fruits.Add("Apples");
-Console.WriteLine(String.Format("{0}", fruits.Count)); // == 2
+Console.WriteLine("{0}", fruits.Count); // == 2
 
 fruits.Add("Oranges");
-Console.WriteLine(String.Format("{0}", fruits.Count)); // == 2
+Console.WriteLine("{0}", fruits.Count); // == 2
 ]]></code>
   </synonym>
   <synonym id="syn-queues-fifo">
@@ -228,12 +228,12 @@ var queue = new Queue<String>();
 queue.Enqueue("event:32342");
 queue.Enqueue("event:49309");
 
-Console.WriteLine(String.Format("{0}", queue.Count)); // 2
+Console.WriteLine("{0}", queue.Count); // 2
 
 var eventId = queue.Dequeue();
 
-Console.WriteLine(String.Format("{0}", eventId == "event:32342")); // true
-Console.WriteLine(String.Format("{0}", queue.Count)); // 1
+Console.WriteLine("{0}", eventId == "event:32342"); // true
+Console.WriteLine("{0}", queue.Count); // 1
 ]]></code>
     <code language="csharp"><![CDATA[
 // C# also supports FILO Stack
@@ -241,12 +241,12 @@ var stack = new Stack<String>();
 stack.Push("event:32342");
 stack.Push("event:49309");
 
-Console.WriteLine(String.Format("{0}", stack.Count)); // 2
+Console.WriteLine({0}", stack.Count); // 2
 
 var eventId = stack.Pop();
 
-Console.WriteLine(String.Format("{0}", eventId == "event:49309")); // true
-Console.WriteLine(String.Format("{0}", stack.Count)); // 1
+Console.WriteLine("{0}", eventId == "event:49309"); // true
+Console.WriteLine("{0}", stack.Count); // 1
 ]]></code>
   </synonym>
 </theme>
@@ -258,7 +258,7 @@ Console.WriteLine(String.Format("{0}", stack.Count)); // 1
 var rawString = @"The following is not expanded to a tab \t";
 var escapedString = "The following is not expanded to a tab \\t";
 
-Console.WriteLine(String.Format("{0}", rawString == escapedString)); // True
+Console.WriteLine("{0}", rawString == escapedString); // True
 ]]></code>
   </synonym>
   <synonym id="syn-interpolation">
@@ -278,10 +278,10 @@ var someProperty = String.Format("{0}px", top + 20);
     <title>Substring</title>
     <code language="csharp"><![CDATA[
 // second arguement is a length value.
-Console.WriteLine(String.Format("{0}", "doghouses".Substring(3, 6))); // houses
+Console.WriteLine("{0}", "doghouses".Substring(3, 6)); // houses
 
 // single arguement means return the remainder of the string from that position.
-Console.WriteLine(String.Format("{0}", "doghouses".Substring(3))); // houses
+Console.WriteLine("{0}", "doghouses".Substring(3)); // houses
 ]]></code>
   </synonym>
   <synonym id="syn-replace-all-occurences">
@@ -341,7 +341,7 @@ if (bugNumbers.Length > 0)
     <code language="csharp"><![CDATA[
 var bugNumbers = new[] { 3234, 4542, 944, 124 };
 var status = bugNumbers.Length > 0 ? "RED" : "GREEN";
-Console.WriteLine(String.Format("The build is {0}", status));
+Console.WriteLine("The build is {0}", status);
 ]]></code>
   </synonym>
   <synonym id="syn-checking-for-empty-string">
@@ -525,7 +525,7 @@ send("I'm cheap", "4th class"); // == "I'm cheap was sent via 4th class"
 public void WithParams(int someArg, params object[] extra)
 {
   for (int i = 0; i < extra.length; i++){
-     Console.WriteLine(String.Format("There's no stopping {0}", extra[i]));
+     Console.WriteLine("There's no stopping {0}", extra[i]);
   }
 }
 
@@ -933,7 +933,7 @@ new Timer(state => Console.WriteLine("Timer Fired!"), null, 500, 0);
 var sw = Stopwatch.StartNew();
 Thread.Sleep(1000);
 sw.Stop();
-Console.WriteLine(String.Format("Ellapsed Time: {0}", sw.Elapsed));
+Console.WriteLine("Ellapsed Time: {0}", sw.Elapsed);
 ]]></code>
   </synonym>
 </theme>

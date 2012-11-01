@@ -11,7 +11,17 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:template match="theme">
   <section class="theme group" id="{@id}">
-    <div class="row"><div class="span16"><h1><xsl:value-of select="title" /></h1></div></div>
+    <div class="row"><div class="span16">
+      <h1>
+        <xsl:value-of select="title" />
+        
+        <xsl:if test="learn-more">
+          <small class="learn-more">
+            (<a href="{learn-more}" target="_blank">Learn more</a>)
+          </small>
+        </xsl:if>
+      </h1>
+    </div></div>
     <xsl:apply-templates select="synonym" />
   </section>
 </xsl:template>

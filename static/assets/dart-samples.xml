@@ -53,6 +53,7 @@ window.alert('Clicked on the button.');
 </theme>
 <theme id="theme-code-modularity">
   <title>Code modularity</title>
+  <learn-more>https://www.dartlang.org/docs/dart-up-and-running/ch02.html#libraries</learn-more>
   <synonym id="syn-define-a-library">
     <title>Define a library</title>
     <code language="dart"><![CDATA[
@@ -78,6 +79,7 @@ var fido = new pets.Dog();
 </theme>
 <theme id="theme-variables">
   <title>Variables</title>
+  <learn-more>https://www.dartlang.org/docs/dart-up-and-running/ch02.html#variables</learn-more>
   <synonym id="syn-create--assign-value">
     <title>Create + assign value</title>
     <code language="dart"><![CDATA[
@@ -125,6 +127,7 @@ name = 'Alice';
 </theme>
 <theme id="theme-collections">
   <title>Collections</title>
+  <learn-more>https://www.dartlang.org/docs/dart-up-and-running/ch03.html#ch03-collections</learn-more>
   <synonym id="syn-arrays--lists">
     <title>Arrays / Lists</title>
     <code language="dart"><![CDATA[
@@ -214,6 +217,7 @@ print(queue.length); // 1
 </theme>
 <theme id="theme-strings">
   <title>Strings</title>
+  <learn-more>https://www.dartlang.org/docs/dart-up-and-running/ch03.html#ch03-strings-and-regular-expressions</learn-more>
   <synonym id="syn-raw-strings">
     <title>Raw strings</title>
     <code language="dart"><![CDATA[
@@ -296,6 +300,7 @@ var individualAnimals = animals.split(', ');
 </theme>
 <theme id="theme-booleans">
   <title>Booleans</title>
+  <learn-more>https://www.dartlang.org/docs/dart-up-and-running/ch02.html#booleans</learn-more>
   <synonym id="syn-if-statements">
     <title>If statements</title>
     <code language="dart"><![CDATA[
@@ -411,6 +416,7 @@ new Person('Bob', '111') == new Person('Robert', '111');
 </theme>
 <theme id="theme-functions">
   <title>Functions</title>
+  <learn-more>https://www.dartlang.org/docs/dart-up-and-running/ch02.html#functions</learn-more>
   <synonym id="syn-function-definition">
     <title>Function definition</title>
     <code language="dart"><![CDATA[
@@ -502,6 +508,7 @@ send("I'm cheap", rate:'4th class'); // == "I'm cheap was sent via 4th class"
 </theme>
 <theme id="theme-iterators">
   <title>Iterators</title>
+  <learn-more>https://www.dartlang.org/docs/dart-up-and-running/ch02.html#control-flow-statements</learn-more>
   <synonym id="syn-for-loops-for-lists">
     <title>For loops for lists</title>
     <code language="dart"><![CDATA[
@@ -557,6 +564,7 @@ callbacks[0]() // == 0
 </theme>
 <theme id="theme-classes">
   <title>Classes</title>
+  <learn-more>https://www.dartlang.org/docs/dart-up-and-running/ch02.html#classes</learn-more>
   <synonym id="syn-define">
     <title>Define</title>
     <code language="dart"><![CDATA[

@@ -164,6 +164,14 @@ h1.language-name a:hover {
   text-decoration: none;
 }
 
+.learn-more {
+  margin-left: 20px;
+}
+
+.learn-more a {
+  color: rgb(20, 156, 135);
+}
+
 /* Prettify section */
 
 .pln {

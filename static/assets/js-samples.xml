@@ -116,7 +116,7 @@ var a = new Array();
 var a = [];
 var a = ['apple', 'banana', 'cherry'];
 
-a.add('orange');
+a.push('orange');
 
 a.length == 4;
 ]]></code>

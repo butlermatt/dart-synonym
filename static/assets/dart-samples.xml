@@ -13,7 +13,7 @@
 // The following will kickstart the Dart engine and 
 // try to automatically load the javascript version
 // of your app for non-Dartium browsers.
-<script src="http://dart.googlecode.com/svn/branches/bleeding_edge/dart/client/dart.js">
+<script src="packages/browser/dart.js">
 </script>
 ]]></code>
   </synonym>
@@ -182,8 +182,9 @@ periodic['gold'] // == 'AU'
 
 periodic['gold'] = 'Glitter';
 
-// You can set a key if it does not exist first
-periodic.putIfAbsent('Xenon', 'XE');
+// You can set a key if it does not exist first.
+// Runs a function to generate the value.
+periodic.putIfAbsent('Xenon', () => 'XE');
 ]]></code>
   </synonym>
   <synonym id="syn-sets-collections-of-unique-items">
@@ -543,7 +544,7 @@ for (var key in data.keys) {
 
 // Alternatively, the forEach loop is a method on a Map in Dart.
 
-data.forEach((key, value){
+data.forEach((key, value) {
   print('${key}, ${value}');
 });
 ]]></code>
@@ -726,16 +727,14 @@ for (var el in els) {
   <synonym id="syn-access-the-first-child">
     <title>Access the first child</title>
     <code language="dart"><![CDATA[
-elem.nodes.first;
+elem.children.first;
 
-elem.nodes[0];
+elem.children[0];
 ]]></code>
   </synonym>
   <synonym id="syn-find-out-whether-an-element-has-children-elements">
     <title>Find out whether an element has children elements</title>
     <code language="dart"><![CDATA[
-elem.hasChildNodes();
-
 !elem.nodes.isEmpty;
 ]]></code>
   </synonym>
@@ -762,7 +761,7 @@ var element = new Element.html('<p>A quick brown <em>fox</em>.</p>');
   <synonym id="syn-add-an-element-to-a-parent">
     <title>Add an element to a parent</title>
     <code language="dart"><![CDATA[
-element.nodes.add(newElement);
+element.children.add(newElement);
 ]]></code>
   </synonym>
   <synonym id="syn-remove-an-element-from-its-parent">
@@ -823,7 +822,7 @@ main() {
   <synonym id="syn-attach-an-event-handler">
     <title>Attach an event handler</title>
     <code language="dart"><![CDATA[
-element.on.click.add(handleOnClick);
+element.onClick.listen(handleOnClick);
 
 handleOnClick(Event e) {
   // ...
@@ -831,13 +830,14 @@ handleOnClick(Event e) {
 
 // Or, if the handler does not take an event
 
-element.on.click.add((e) => subscribeToService());
+element.onClick.listen((e) => subscribeToService());
 ]]></code>
   </synonym>
   <synonym id="syn-remove-an-event-handler">
     <title>Remove an event handler</title>
     <code language="dart"><![CDATA[
-element.on.click.remove(handleOnClick);
+var subscription = element.onClick.listen(handleOnClick);
+subscription.cancel();
 ]]></code>
   </synonym>
 </theme>
@@ -846,8 +846,8 @@ element.on.click.remove(handleOnClick);
   <synonym id="syn-schedule-a-future-event">
     <title>Schedule a future event</title>
     <code language="dart"><![CDATA[
-import 'dart:isolate';
-var timer = new Timer(500, (timer) { … });
+import 'dart:async';
+var timer = new Timer(new Duration(milliseconds:500, () { … });
 ]]></code>
   </synonym>
   <synonym id="syn-measure-the-execution-time-of-a-function">
@@ -909,7 +909,7 @@ element.classes.remove('new-class');
   <synonym id="syn-request-data-via-xmlhttprequest">
     <title>Request data via XMLHttpRequest</title>
     <code language="dart"><![CDATA[
-var hr = new HttpRequest.get("/data.json", (req) {
+HttpRequest.request("/data.json").then((req) {
   print("The contents of your data: ${req.responseText}");
 });
 ]]></code>
@@ -920,7 +920,7 @@ var hr = new HttpRequest.get("/data.json", (req) {
   <synonym id="syn-react-to-document-finishing-loading">
     <title>React to document finishing loading</title>
     <code language="dart"><![CDATA[
-window.on.contentLoaded.add((e) => print('Content is loaded'));
+window.onContentLoaded.listen((e) => print('Content is loaded'));
 
 // However, main() will normally run after DOMContentLoaded
 ]]></code>
@@ -951,14 +951,14 @@ pic.classes
 // Cascades (..) allow you to chain
 // multiple method calls on an object.
 
-document.body.nodes.add(pic);
+document.body.children.add(pic);
 ]]></code>
   </synonym>
   <synonym id="syn-event-handling">
     <title>Event handling</title>
     <code language="dart"><![CDATA[
 queryAll('a.person').forEach((el) {
-  el.on.click.add((e) => print('Person clicked'));
+  el.onClick.listen((e) => print('Person clicked'));
 });
 ]]></code>
   </synonym>
@@ -977,8 +977,8 @@ var next = myNode.nextNode;
     <code language="dart"><![CDATA[
 var myNode = query('div');
 
-if (!myNode.nodes.isEmpty) {
-  myNode.nodes.clear();
+if (!myNode.children.isEmpty) {
+  myNode.children.clear();
 }
 ]]></code>
   </synonym>

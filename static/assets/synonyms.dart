@@ -21,7 +21,8 @@ typedef void OnSuccess(Document xmlContents);
 final Map<String, String> synonymsUrls = const {
   'dart': 'assets/dart-samples.xml',
   'js': 'assets/js-samples.xml',
-  'csharp': 'assets/csharp-samples.xml'
+  'csharp': 'assets/csharp-samples.xml',
+  'python': 'assets/python-samples.xml'
 };
 
 final Map<String, Document> synonymXmls = new Map<String, Document>();
@@ -31,20 +32,22 @@ const String transformUrl = "assets/transform.xslt";
 Document xsltContents;
 
 getUrl(String url, OnSuccess onSuccess) {
-  var get = new HttpRequest();
-  get.open('GET', url);
-  get.on.readyStateChange.add((event) {
-    if (get.readyState == 4 && get.status == 200) {
-      onSuccess(get.responseXML);
+  var request = new HttpRequest();
+  request.open('GET', url);
+  request.onReadyStateChange.listen((_) {
+    if (request.readyState == HttpRequest.DONE &&
+        (request.status == 200 || request.status == 0)) {
+      onSuccess(request.responseXml);
     }
   });
-  get.send();
+  request.overrideMimeType('text/xml');
+  request.send();
 }
 
 processXml([String defaultLang = 'js']) {
-  if (synonymXmls.length != 3 || xsltContents == null) return;
+  if (synonymXmls.length != synonymsUrls.length || xsltContents == null) return;
 
-  var processor = new XSLTProcessor();
+  var processor = new XsltProcessor();
   processor.importStylesheet(xsltContents);
 
   for (String key in synonymXmls.keys) {
@@ -75,7 +78,7 @@ displaySynonyms(String lang) {
     }
   }
 
-  destination.innerHTML = '';
+  destination.innerHtml = '';
   destination.nodes.add(dartSynonyms);
 
   window.postMessage('code:loaded', '*');
@@ -103,6 +106,6 @@ main() {
   if (select == null) {
     print("did not find language choice");
   } else {
-    select.on.change.add(switchLanguage);
+    select.onChange.listen(switchLanguage);
   }
 }

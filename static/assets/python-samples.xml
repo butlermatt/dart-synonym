@@ -11,10 +11,11 @@
   <synonym id="syn-entry-point">
     <title>Entry point</title>
     <code language="python"><![CDATA[
-# required only if you run the script from the command line
+# Python executes any top level code even if the file is imported.
+# If you want your code to only run from the command line, this is a common pattern:
 
 if __name__ == '__main__':
-    # this is the entry point to the program
+    # This code is the entry point to the program
 ]]></code>
   </synonym>
   <synonym id="syn-detect-language-unavailability">
@@ -243,7 +244,7 @@ True
 # calculations can be performed in string interpolation
 >>> element.style.top = '%spx' % (top + 20)
 
-# Python 3 string formatting would be different
+# Python 3 string formatting
 >>> element.style.top = '{newtop}px'.format(newtop=top + 20)
 >>> element.style.top = '{0}px'.format(top + 20)
 ]]></code>
@@ -667,6 +668,7 @@ libraries and packages, to name the most widely used ...
 - xml.dom.minidom
 - BeautifulSoup
 - lxml
+- html5lib
 
 Which one to choose is dependent on the mindset and
 requirements of the Python programmer.

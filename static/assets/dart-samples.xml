@@ -847,7 +847,7 @@ subscription.cancel();
     <title>Schedule a future event</title>
     <code language="dart"><![CDATA[
 import 'dart:async';
-var timer = new Timer(new Duration(milliseconds:500, () { … });
+var timer = new Timer(new Duration(milliseconds:500), () { … });
 ]]></code>
   </synonym>
   <synonym id="syn-measure-the-execution-time-of-a-function">

@@ -948,6 +948,7 @@ parseInt('3') // == 3
 
 parseFloat('3.14') // == 3.14
 
+parseInt('3px') // == 3
 parseInt('three') // NaN
 ]]></code>
   </synonym>

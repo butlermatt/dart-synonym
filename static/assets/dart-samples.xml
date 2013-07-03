@@ -1043,6 +1043,7 @@ int.parse('3') // == 3
 
 double.parse('3.14') // == 3.14
 
+int.parse('3px') // ERROR: throws FormatException
 int.parse('three') // ERROR: throws FormatException 
 ]]></code>
   </synonym>
